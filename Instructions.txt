@@ -1,0 +1,41 @@
+Mostly works like the original heroselect with the method where you would modify its herostat.cfg and then select the Default option.
+Below is information on required files and usage:
+
+Running OpenHeroSelect:
+	- Make sure the required files are there and herostat.cfg is set up properly.
+	- Run OpenHeroSelect.exe and it should automatically create your herostat files and place them in the data folder as defined in herostat.cfg.
+	- To prevent issues with Windows 10 redirecting writes to the wrong location, make sure you right-click OpenHeroSelect.exe and run it as Administrator when you run it, instead of just double-clicking the file.
+	- If you run it through the command line, there are flags to note:
+		-d,--debug: Writes a herostat.xml file to the same directory, then stops instead of creating the xmlb files
+		-h,--help: print help text
+
+herostat.cfg:
+	- First line must be path to MUA install's data folder (you cannot put a comment before the path). Use double backslashes instead of single ones and make sure there's a double backslash at the end of the path, for example "C:\\blah\\MUA\\data\\" but no quotes
+	-Starting at second line, list the hero you want. Order in the menu is determined by the menulocations.cfg file (included files work from left to right).
+	- Needs to have "-----" without quotes on its own line between character names list section and stat definitions section. This tells the program to stop looking at names and to look at stats instead.
+	- Each stat needs to be name followed by the stat definition.
+	- Each name in the list must have a corresponding stat definition.
+	- Feel free to have as many names in the name list and stats in the stat list as you like, the program will limit itself to the first 27 (or 28, 33, etc. depending on menulocations.cfg), just reorder the names list and it'll automatically take care of it.
+	- You can add comments, they must be on their own line and the line must start with the '#' character. The first line of the file can't be a comment, it has to be the path.
+	- Use the included herostat.cfg as a template, it should be pretty easy to figure out.
+	
+menulocations.cfg:
+	- Typically no need to modify the menulocations files themselves.
+	- Pick the version with the number of characters you want and copy it with the name menulocations.cfg (the included default one is for the standard 27 characters, but you can replace it with the expanded roster hack versions if you use those).
+	- Default files are set up to work from left to right, so the first name in the herostat.cfg will be on the left for example.
+	- You can add comments, they must be on their own line and the line must start with the '#' character.
+	
+other requirements:
+	- xmlb-compile.exe must be in the folder with OpenHeroSelect.exe as well as the .cfg files
+	- If you run into errors, delete everything except OpenHeroSelect.exe, xmlb-compile.exe, and the .cfg files, and try again.
+	- If that doesn't work, try running the app as Administrator (right-click on OpenHeroSelect, Run as administrator)
+	
+Converting the original HeroSelect's herostat.cfg file into the OpenHeroSelect version:
+	- data folder path is exactly the same.
+	- Name list is slightly different.
+		- defaultman doesn't have to be at the beginning, OpenHeroSelect takes all the names from the first one down (extra names are just ignored like the old HeroSelect, so you can leave more names in after the ones that will be included if you want).
+		- endofffile should be removed, OpenHeroSelect takes care of it.
+	- The old HeroSelect left a blank line between the list of names and the list of stats, replace this blank line with a line that just has 5 hyphens (-----). This is the divider OpenHeroSelect uses to understand where the names end and stats begin.
+	- Stat list is slightly different.
+		- endofffile stat should be removed. OpenHeroSelect takes care of it.
+	- Remove the "EOF" from the end of the file. This is no longer necessary and could cause issues.
