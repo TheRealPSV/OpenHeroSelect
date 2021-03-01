@@ -10,11 +10,11 @@ from colorama import Fore, Style
 
 # Argument Variables & Help Texts ============================================
 unixOptions = "dhklv" # Concatenation of modes
-gnuOptions = ["debug","help", "keep", "list","verbose"] # List of modes
+gnuOptions = ["debug", "help", "keep", "list", "verbose"] # List of modes
 
 flagDebug = False   # If true, stop after writing XML file instead of generating xmlb
 flagKeep = False    # If true, keep the menupositions from the herostat file
-flagList = True    # If true, will print a list showing the rooster and heroes to be loaded
+flagList = False    # If true, will print a list showing the roster and heroes to be loaded
 flagVerbose = False # If true, write process information and hints during execution
 
 helpText =  ["USAGE:\n",
@@ -28,8 +28,9 @@ helpText =  ["USAGE:\n",
 knownXMLBErrors = {
             "Data folder not found": "The path to the game data folder in herostat.cfg could not be located.",
             "XML not found": "Something went wrong during the generation of the file (i.e. no write permissions) or the file was removed mid-process.",
+            "= parm ; expected": "One of the stat entries in the herostat.cfg file is likely malformated (i.e. missing a semicolon, value or equal sign).",
             "parm 1 or { [ ( expected": "A capricious error - can sometimes be solved by removing random empty spaces or characters from the herostat.cfg file.",
-            "Blank": "A blank error message can occur when having a race condition with xmlb-compiler (try rerunning OPH)"
+            "Blank": "A blank error message can occur when having a race condition with xmlb-compiler (try rerunning OHS)"
         }
 
 # Files and Binaries =========================================================
@@ -37,31 +38,6 @@ knownXMLBErrors = {
 dataPath = None
 herostatName = "herostat"
 herostatBinaryExts = [".xmlb", ".engb", ".itab", ".freb", ".gerb"]
-
-# Hero Menu ==================================================================
-heroPositions50 = [
-    "    54  51  48  01  45  46  05  16  17  40  19  42  11  50  58  61    ",
-    "    53  37  25  47  03  04  14  06  07  08  22  10  43  49  57  60    ",
-    "55  52  35  44  02  13  21  15  18  23  24  09  41  20  12  56  59  62"
-]
-
-heroPositions36 = [
-    "            48  01  45  46  05  16  17  40  19  42  11  50",
-    "            25  47  03  04  14  06  07  08  22  10  43  49",
-    "            44  02  13  21  15  18  23  24  09  41  20  12"
-]
-
-heroPositions27 = [
-    "                 25  03  04  14  06  23  24  09  12",
-    "                 01  13  21  15  16  17  26  19  11",
-    "                 02  96  05  18  07  08  22  10  20"
-]
-
-roosterPositions = {
-    "27": heroPositions27,
-    "36": heroPositions36,
-    "50": heroPositions50
-}
 
 # Hero Stat Dictionary Keys ==================================================
 
@@ -110,9 +86,9 @@ endLine = "}"
 def printHeader():
     title1 = "█▀█ █▀█ █▀▀ █▄ █   █ █ █▀▀ █▀█ █▀█   █▀ █▀▀ █   █▀▀ █▀▀ ▀█▀"
     title2 = "█▄█ █▀▀ ██▄ █ ▀█   █▀█ ██▄ █▀▄ █▄█   ▄█ ██▄ █▄▄ ██▄ █▄▄  █ (v2)"
-    page = "https://marvelmods.com/forum/"
+    page = "https://marvelmods.com/forum/index.php/topic,10597.0.html"
     print(f"{Fore.GREEN}{title1}\n{title2}")
-    print(f"{Fore.RED}\n\t\t{page}\n")
+    print(f"{Fore.RED}\n{page}\n")
 
 # Exit function wrapper
 def exit(status):
@@ -138,6 +114,34 @@ def getMenuLocations():
             if line and not line.startswith('#'):   # If not empty or commented
                 menuLocations.append(line)    
     return menuLocations
+
+# Generate select menu mapping from menulocations
+def generateSelectionMenuMap(menulocations):
+    rows = []
+    # This could be made moce concise through a list comprehension
+    # but this way the code is more readable for future tweaks
+    if len(menulocations) < 50:
+        bottomRow = menulocations[::3]
+        middleRow = menulocations[1::3]
+        topRow = menulocations[2::3]
+        rows.append(topRow)
+        rows.append(middleRow)
+        rows.append(bottomRow)
+    else: # The ordering logic is not consistent for the 50R mod
+        firstHalf = menulocations[:25]
+        secondHalf = menulocations[25:]
+        bottomRow = firstHalf[::3] + secondHalf[::3]
+        middleRow = firstHalf[2::3] + secondHalf[1::3]
+        topRow = firstHalf[1::3] + secondHalf[2::3]
+        rows.append(topRow)
+        rows.append(middleRow)
+        rows.append(bottomRow)
+
+    # Calculate the padding necessary for a print space of 70 chars
+    padding = lambda row: round((70 / 2 - (len(row) * 2 - 1)) / 4)
+    # Pad rows to be nicely centered in the print space
+    rows = [["  "] * padding(row) + row for row in rows]
+    return rows
 
 # Read herostat.cfg file
 def readHerostatCfg(maxCharacters):
@@ -172,9 +176,9 @@ def readHerostatCfg(maxCharacters):
                 # Ignore if character is repeated
                 if names.count(line) > 0:
                     if flagVerbose: printWarning(f"Multiple entries for hero {line} in namelist")                
-                # Ignore if rooster is full and entry is not defaultman
+                # Ignore if roster is full and entry is not defaultman
                 elif len(names) == maxCharacters and line != "defaultman":
-                    if flagVerbose: printWarning(f"Character namelist surpass rooster capacity - {line} will be ignored")
+                    if flagVerbose: printWarning(f"Character namelist surpass roster capacity - {line} will be ignored")
                 # Add to list if all is good
                 else:
                     names.append(line)                
@@ -238,7 +242,7 @@ def readHerostatCfg(maxCharacters):
 
 # Build the herostat.xml for the XMLB compiler
 def writeHerostatXML(dataDict, menuLocations):
-    # Note that despite the name (which was kept form the original version of OPH)
+    # Note that despite the name (which was kept form the original version of OHS)
     # the file generated is not really an XML file.
     # This is simply a file that the xmlb-compile.exe program from NBA2KSTUFF accepts
 
@@ -303,7 +307,7 @@ def generateHerostatBinary(destination_path):
             
             # Check whether the compiler is succesful
             if result.returncode == 1:
-                raise Exception(f"Message from xmlb-compile.exe: \"{Fore.RED + result.stdout.decode('UTF-8')[:-2] + Fore.WHITE}\"")
+                raise Exception(f"Message from xmlb-compile.exe: \"{Fore.RED + result.stdout.decode('UTF-8')[:-2]}\"{Fore.WHITE}")
             
             # If all went well, replace game data files
             os.replace(herostatFilename, destination_path + herostatFilename)
@@ -322,12 +326,12 @@ def generateHerostatBinary(destination_path):
     printSuccess("> Gamefiles succesfully updated!")
     return True
 
-# Print a visual representation of the hero rooster
-def showRoosterAndList(dataDict, menuLocations, roosterSize):
+# Print a visual representation of the hero roster
+def showRosterAndList(dataDict, menuLocations, rosterSize):
     # Print a map of the hero positions in the selection menu
-    menuMap = roosterPositions[str(roosterSize)]
+    menuMap = generateSelectionMenuMap(menuLocations)
     print("\n============= Selection menu positions (from 50R images) =============\n")
-    print(*menuMap, sep="\n\n")
+    print(*["  ".join(row) for row in menuMap], sep="\n\n")
     print("\n======================================================================\n")
         
     # Print a list of the parsed heroes along with their rows and positions
@@ -343,25 +347,25 @@ def showRoosterAndList(dataDict, menuLocations, roosterSize):
 
     numHeroes = len(dataDict[namesKey])
     if "defaultman" in dataDict[namesKey]: numHeroes = numHeroes - 1
-    if numHeroes < roosterSize:
-        printWarning(f"\nNot having a complete rooster of heroes can cause issues in savefiles ({numHeroes}/{roosterSize})\n")
+    if numHeroes < rosterSize:
+        printWarning(f"\nNot having a complete roster of heroes can cause issues in savefiles ({numHeroes}/{rosterSize})\n")
     else:
-        printSuccess(f"\n> Full rooster! ({numHeroes}/{roosterSize})")    
+        printSuccess(f"\n> Full roster! ({numHeroes}/{rosterSize})")    
 
 # Main function
 def main():
     # Get menu locations from menulocations file
     menuLocations = getMenuLocations()
-    roosterSize = len(menuLocations)
+    rosterSize = len(menuLocations)
     # Tell user to wait
-    print("> Generating herostat for [" + str(roosterSize) + "] characters...")
+    print("> Generating herostat for [" + str(rosterSize) + "] characters...")
     # Generate hero data dictionary
-    dataDict = readHerostatCfg(roosterSize)
+    dataDict = readHerostatCfg(rosterSize)
     # Generate the "XML" file for the for the compiler
     writeHerostatXML(dataDict, menuLocations)
     
-    # Print rooster information and size check if in list mode
-    if flagList: showRoosterAndList(dataDict, menuLocations, roosterSize)
+    # Print roster information and size check if in list mode
+    if flagList: showRosterAndList(dataDict, menuLocations, rosterSize)
     # If debug mode, stop here
     if flagDebug:
         printWarning("! Generated herostat.xml (game not modified)")
@@ -376,7 +380,10 @@ def main():
         # Notify user we are done
         printSuccess("\n> SUCCESS! Go ahead and launch MUA!")
     else:
-        print(f"\n{Fore.RED}> FAILURE! Something went wrong - try verbose mode to see what's going on!")
+        if not flagVerbose:
+            print(f"\n{Fore.RED}> FAILURE! Something went critically wrong - try verbose mode to see what's going on!")
+        else:
+            print(f"\n{Fore.RED}> FAILURE! Something went critically wrong! If verbose mode doesn't help, try debug mode and using xmlb-compile.exe with the -b flag")
 
 # Entry point for program
 if __name__ == '__main__':

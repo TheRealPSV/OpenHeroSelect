@@ -1,21 +1,21 @@
-OpenHeroSelect (OPH) works mostly like the original HeroSelect where you would modify a herostat.cfg file and then select the Default option.
+OpenHeroSelect (OHS) works mostly like the original HeroSelect where you would modify a herostat.cfg file and then select the Default option.
 Below is information on required files and usage:
 
 Running OpenHeroSelect:
-	- To run OPH you must must have the OpenHeroSelect.exe or OpenHeroSelect.py files, the menulocation.cfg file, a herostat.cfg file and the xmlb-compile.exe file in a same folder.
+	- To run OHS you must must have the OpenHeroSelect.exe or OpenHeroSelect.py files, the menulocation.cfg file, a herostat.cfg file and the xmlb-compile.exe file in a same folder.
 	- Make sure the required files are there, that the herostat.cfg file is set up properly and that the menulocation.cfg file matches the amout of characters you want (more information on this below).
-	- Once everything is in place, OPH can be run in two different ways:
+	- Once everything is in place, OHS can be run in two different ways:
 		1) By executing its .exe file (hands-off execution).
 		2) By executing its .exe or .py files from a command-line interface (more customizable).
 	
-	1) Running OPH from its Executable:
+	1) Running OHS from its Executable:
 	- To prevent issues with Windows 10 redirecting writes to the wrong location, make sure you right-click OpenHeroSelect.exe and run it as Administrator instead of just double-clicking the file.
 	- OpenHeroSelect.exe will read the herostat.cfg file in its same folder, attempt to create the compiled herostat files for the game and place them in the data folder that was specified in the herostat.cfg file.
 	- If everything works out well, you will be prompted by a success message and you should see your chosen heroes in-game.
 	- If any issues arise you will be notified by a failure message and you might need to do some troubleshooting through the command-line methods.
 	
-	2) Running OPH from the Command-Line:
-	- To run OPH from the command-line in Windows, open a shell such as CMD or PowerShell at the directory with the OPH files.
+	2) Running OHS from the Command-Line:
+	- To run OHS from the command-line in Windows, open a shell such as CMD or PowerShell at the directory with the OHS files.
 	- From there, execute the .exe file following by optional flags you may want to to achieve different results.
 	- Alternatively, you can also execute the .py files if you have Python in your system.
 	
@@ -27,16 +27,16 @@ Running OpenHeroSelect:
 			-v, --verbose: Write extensive process information, will show warnings, print error messages & hints on possible solutions when available.
 		
 		Examples:
-			- ".\OpenHeroSelect.exe -h" (without the quotes) - this will run the .exe OPH file and display the help menu.
-			- ".\OpenHeroSelect.exe -v -l" (without the quotes) - this will run the .exe OPH file in verbose mode, and list the character positions.
-			- "python .\OpenHeroSelect.py -h" (without the quotes) - this will run the Python OPH file and display the help menu.
-			- "python .\OpenHeroSelect.py -v -d" (without the quotes) - this will run the Python OPH file and stop after generating the "XML" file.
+			- ".\OpenHeroSelect.exe -h" (without the quotes) - this will run the .exe OHS file and display the help menu.
+			- ".\OpenHeroSelect.exe -v -l" (without the quotes) - this will run the .exe OHS file in verbose mode, and list the character positions.
+			- "python .\OpenHeroSelect.py -h" (without the quotes) - this will run the Python OHS file and display the help menu.
+			- "python .\OpenHeroSelect.py -v -d" (without the quotes) - this will run the Python OHS file and stop after generating the "XML" file.
 	
 	
 Making a herostat.cfg:
-	- The herostat.cfg file is the place were you tell OPH the location of your game data directory, list the characters to be loaded and define their respective herostats.
+	- The herostat.cfg file is the place were you tell OHS the location of your game data directory, list the characters to be loaded and define their respective herostats.
 	- An example herostat.cfg file is provided which can be used as a template.
-	- Lines that start with a "#" sign are comments - they are ignored by OPH and you can use to write down notes or other remarks.
+	- Lines that start with a "#" sign are comments - they are ignored by OHS and you can use to write down notes or other remarks.
 	- The first non-commented line must be a path to your MUA install's data folder. Use double backslashes instead of single ones and make sure there's a double backslash at the end of the path, for example "C:\\blah\\MUA\\data\\" (without the quotes).
 	- The following sequence of non-commented lines will be treated as the list of the characters you want. The order of this characters in the selectio menu will be determined by the menulocations.cfg file (included files work from left to right).
 	- After the character namelist there needs to be a line with "-----" (without quotes). This line indicates where the namelist section ends and the stat definition section begins.
@@ -45,9 +45,9 @@ Making a herostat.cfg:
 	- Feel free to have as many names in the namelist and stats in the stat list as you want, the program will limit itself to the first 27/38/50/etc. depending on menulocations.cfg.
 	
 	Notes:
-	- Spaces between stat entries and indentation consistency don't really matter - OPH makes use of regular expressions and other techniques to allow for some leeway.
-	- If you want to rearrange the characters, you can either reorder the namelist and it'll automatically take care of it, or manually define their position and use OPH with the keep flag.
-	- Defaultman is a placeholder entry - in v2.0 of OPH you can either include it in the namelist/stat entries or not - the program will automatically detect it and include it in the "XML" file anyways.
+	- Spaces between stat entries and indentation consistency don't really matter - OHS makes use of regular expressions and other techniques to allow for some leeway.
+	- If you want to rearrange the characters, you can either reorder the namelist and it'll automatically take care of it, or manually define their position and use OHS with the keep flag.
+	- Defaultman is a placeholder entry - in v2.0 of OHS you can either include it in the namelist/stat entries or not - the program will automatically detect it and include it in the "XML" file anyways.
 	- If any issues arise, run the program in verbose/debug mode to track the issues down, or check the forums.
 
 Setting up menulocations.cfg:
@@ -60,7 +60,7 @@ Setting up menulocations.cfg:
 	- If you want 50 heroes, then either copy the contents of the "menulocations - 50..." file into menulocations.cfg or swap their names.
 	- There is typically no need to modify the contents of the menulocations files themselves, unless you want to rearrange the positions of the characters that way.
 	- You can add comments, they must be on their own line and the line must start with the '#' character.
-	- A great way of visualizing what is going on is to run OPH with the list flag.
+	- A great way of visualizing what is going on is to run OHS with the list flag.
 	
 Troubleshooting:
 	- The xmlb-compile.exe file is a third-party file written by NBA2KSTUFF which does the actual compiling from an intermediate "XML" format into the binary files for the game.
