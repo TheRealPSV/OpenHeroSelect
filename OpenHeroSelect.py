@@ -9,9 +9,10 @@ import colorama
 from colorama import Fore, Style
 
 # Argument Variables & Help Texts ============================================
-unixOptions = "dhklv" # Concatenation of modes
-gnuOptions = ["debug", "help", "keep", "list", "verbose"] # List of modes
+unixOptions = "adehklv" # Concatenation of modes
+gnuOptions = ["autostart", "debug", "help", "keep", "list", "verbose"] # List of modes
 
+flagAuto = False    # If true, start MUA.exe upon successful execution of OHS
 flagDebug = False   # If true, stop after writing XML file instead of generating xmlb
 flagKeep = False    # If true, keep the menupositions from the herostat file
 flagList = False    # If true, will print a list showing the roster and heroes to be loaded
@@ -19,6 +20,7 @@ flagVerbose = False # If true, write process information and hints during execut
 
 helpText =  ["USAGE:\n",
             "-h, --help: Display this help text.\n",
+            "-a, --autostart: Automatically start MUA.exe upon successful execution of OHS.\n",
             "-d, --debug: Stop after writing the xml file. Will not compile or replace gamefiles.\n",
             "-k, --keep: Keeps the menupositions indicated in the herostat.cfg file.\n",
             "-l, --list: Show the list of characters loaded and their positions in the hero select menu.\n",
@@ -54,29 +56,29 @@ headerLine = "XMLB characters {\n"
 statBegin = "stats {\n"
 statEnd = "}"
 defaultmanEntry = "stats {\n\
-   autospend = support_heavy ;\n\
-   body = 1 ;\n\
-   characteranims = 00_testguy ;\n\
-   charactername = defaultman ;\n\
+autospend = support_heavy ;\n\
+body = 1 ;\n\
+characteranims = 00_testguy ;\n\
+charactername = defaultman ;\n\
+level = 1 ;\n\
+menulocation = 0 ;\n\
+mind = 1 ;\n\
+name = default ;\n\
+skin = 0002 ;\n\
+strength = 1 ;\n\
+team = enemy ;\n\
+   talent {\n\
    level = 1 ;\n\
-   menulocation = 0 ;\n\
-   mind = 1 ;\n\
-   name = default ;\n\
-   skin = 0002 ;\n\
-   strength = 1 ;\n\
-   team = enemy ;\n\
-      talent {\n\
-      level = 1 ;\n\
-      name = fightstyle_default ;\n\
-      }\n\
-   }\n\n"
+   name = fightstyle_default ;\n\
+   }\n\
+}\n\n"
 myTeamEntry = "stats {\n\
-   autospend = support ;\n\
-   isteam = true ;\n\
-   name = team_character ;\n\
-   skin = 0002 ;\n\
-   xpexempt = true ;\n\
-   }\n\n"
+autospend = support ;\n\
+isteam = true ;\n\
+name = team_character ;\n\
+skin = 0002 ;\n\
+xpexempt = true ;\n\
+}\n\n"
 indentation = "   "
 endLine = "}"
 
@@ -89,11 +91,18 @@ def printHeader():
     page = "https://marvelmods.com/forum/index.php/topic,10597.0.html"
     print(f"{Fore.GREEN}{title1}\n{title2}")
     print(f"{Fore.RED}\n{page}\n")
+    modes = []
+    if flagAuto: modes.append("AUTO-START")
+    if flagDebug: modes.append("DEBUG")
+    if flagKeep: modes.append("KEEP-POSITIONS")
+    if flagList: modes.append("LIST-ROSTER")
+    if flagVerbose: modes.append("VERBOSE")
+    print (f"> MODES: {', '.join(modes)}")
 
 # Exit function wrapper
-def exit(status):
+def exit(status, keypress=True):
     # Require keypress to avoid fast-closing consoles
-    input('\n> Press enter to exit <')
+    if keypress: input('\n> Press enter to exit <')
     sys.exit(status)
 
 # Print green colored sucess messages
@@ -166,12 +175,9 @@ def readHerostatCfg(maxCharacters):
         names = []
         while True:
             line = cfg.readline().strip()
-            if line == fileDivider:
-                break
-            elif not line:
-                continue
-            elif line[:1] == '#':
-                continue
+            if line == fileDivider: break
+            elif not line: continue
+            elif line[:1] == '#': continue
             else:
                 # Ignore if character is repeated
                 if names.count(line) > 0:
@@ -186,38 +192,52 @@ def readHerostatCfg(maxCharacters):
         # Read all the stats until the end of the file
         stats = {}
         singleStat = []
-        singleStatName = ""
+        singleStatName = None
         # This var is used when encountering braces to make sure we don't accidentally close the stat too early (0 means we're on the stat definition level)
         braceLevel = 0
         # This var is to make sure we're inside a stat
+        inCharacter = False
         inStat = False
+
+        # The order of the checks matters - if you make changes double-check you are handling all cases correctly
         while True:
+            # Read in a line
             line = cfg.readline()
+            
             # Empty line means end of file, finished
-            if not line:
-                break
+            if not line: break
+
             # Blank line, useless
-            if not line.strip():
-                continue
+            elif not line.strip(): continue
+
             # Comment line, skip
-            if line.strip().startswith('#'):
-                continue
-            # Encountering a closing brace that isn't ending the stat definition
-            if '}' in line and inStat and braceLevel > 0:
-                singleStat.append(line)
-                braceLevel -= 1
-            # Encountering an opening brace that isn't starting the stat definition
-            elif '{' in line and inStat:
-                singleStat.append(line)
-                braceLevel += 1
-            # Character's name found, start reading into a stat
+            elif line.strip().startswith('#'): continue
+            
+            # Relevant character name found, start reading into a stat
             elif line.strip() in names:
                 singleStatName = line.strip()
+                inCharacter = True
+            
+            # Ignore irrelevant character names or entries without a name header
+            elif not inCharacter:
+                continue
+
             # Beginning line of a stat definition found
             elif re.sub(r'\s+', ' ', line).strip() == statBegin.strip():
                 singleStat.append(f"{indentation}{statBegin}")
                 inStat = True
                 braceLevel = 0
+            
+            # Encountering an opening brace that isn't starting the stat definition
+            elif inStat and '{' in line:
+                singleStat.append(line)
+                braceLevel += 1
+            
+            # Encountering a closing brace that isn't ending the stat definition
+            elif '}' in line and inStat and braceLevel > 0:
+                singleStat.append(line)
+                braceLevel -= 1               
+
             # Ending line of a stat definition found, add to stats, then set the singleStatName (current character) to blank so we don't override the existing one
             elif line.strip() == statEnd and inStat and braceLevel == 0:
                 singleStat.append(f"{indentation}{statEnd}")
@@ -225,11 +245,15 @@ def readHerostatCfg(maxCharacters):
                 singleStat = []
                 singleStatName = ""
                 inStat = False
-            elif "menulocation" in line and not flagKeep:
-                singleStat.append(f"{indentation*2}{menuLocationBegin}[menulocation];\n")
+                inCharacter = False
+
             # Not a special line, should just be something inside a stat definition
             elif inStat:
-                singleStat.append(f"{indentation}{line}")
+                # If the stat is menulocation and we want to automatically assign locations            
+                if "menulocation" in line and not flagKeep:
+                    line = f"{indentation}{menuLocationBegin}[menulocation] ;\n"
+                singleStat.append(line)
+
 
         # Put everything into a dictionary to return
         dataDict = {
@@ -249,12 +273,19 @@ def writeHerostatXML(dataDict, menuLocations):
     with open(herostatName + ".xml", "w") as xml:
         # Write the mandatory opening line
         xml.write(headerLine)
+        # Write entry for myteam features
+        xml.writelines([indentation + line for line in myTeamEntry.splitlines(True)])
+        # Append defaultman at end if defaultman was omitted in herostat.cfg
+        if "defaultman" not in dataDict[namesKey]: xml.writelines([indentation + line for line in defaultmanEntry.splitlines(True)])
         # For each character up to the number of menulocations
         for character, menuLocation in zip(dataDict[namesKey], menuLocations):
             # Check that the stat entry is present
             if character not in dataDict[statsKey]:
                 printError(f"Stats entry for hero: {character} could not be found")
-                if flagVerbose: print("> Likely Causes:\n\t - Missing stats entry \n\t - Missing name above stats entry \n\t - Name missmatch between list and stats entry (i.e. typos or caps)")
+                if flagVerbose: print("> Likely Causes:\n\
+                    \t- Missing stats herostat entry \n\
+                    \t- Missing name above herostat entry \n\
+                    \t- Name missmatch between list and herostat entry (i.e. typos or caps)")
                 continue
             
             if flagKeep:
@@ -346,9 +377,9 @@ def showRosterAndList(dataDict, menuLocations, rosterSize):
             print(f"\t{'-':<3s} {character.capitalize():<20s}")
 
     numHeroes = len(dataDict[namesKey])
-    if "defaultman" in dataDict[namesKey]: numHeroes = numHeroes - 1
+    if "defaultman" in dataDict[namesKey]: numHeroes = numHeroes - 1 # Don't count defaultman when notifying
     if numHeroes < rosterSize:
-        printWarning(f"\nNot having a complete roster of heroes can cause issues in savefiles ({numHeroes}/{rosterSize})\n")
+        printWarning(f"Not having a complete roster of heroes can cause issues in savefiles ({numHeroes}/{rosterSize})\n")
     else:
         printSuccess(f"\n> Full roster! ({numHeroes}/{rosterSize})")    
 
@@ -368,7 +399,7 @@ def main():
     if flagList: showRosterAndList(dataDict, menuLocations, rosterSize)
     # If debug mode, stop here
     if flagDebug:
-        printWarning("! Generated herostat.xml (game not modified)")
+        printWarning("Generated herostat.xml (GAME NOT MODIFIED)")
         exit(0)
 
     # Attempt compiling and updating the game herostat binary files
@@ -378,12 +409,17 @@ def main():
 
     if success:
         # Notify user we are done
-        printSuccess("\n> SUCCESS! Go ahead and launch MUA!")
+        if flagAuto:
+            printSuccess("\n> STARTING MUA...")
+            executable = dataPath[:-6] + "MUA.exe"
+            subprocess.Popen(executable)
+        else:            
+            printSuccess("\n> Go ahead and launch MUA...")
     else:
         if not flagVerbose:
-            print(f"\n{Fore.RED}> FAILURE! Something went critically wrong - try verbose mode to see what's going on!")
+            print(f"\n{Fore.RED}> FAILURE! Something went critically wrong! (Try verbose mode)")
         else:
-            print(f"\n{Fore.RED}> FAILURE! Something went critically wrong! If verbose mode doesn't help, try debug mode and using xmlb-compile.exe with the -b flag")
+            print(f"\n{Fore.RED}> FAILURE! Something went critically wrong! (If verbose mode doesn't help, try debug mode & xmlb-compile)")            
 
 # Entry point for program
 if __name__ == '__main__':
@@ -396,22 +432,15 @@ if __name__ == '__main__':
 
         # Set mode flags from args
         for currentArgument, currentValue in arguments:
-            if currentArgument in ("-d", "--debug"):
-                print("DEBUG MODE")
-                flagDebug = True
+            if currentArgument in ("-a", "--auto"): flagAuto = True
+            elif currentArgument in ("-d", "--debug"): flagDebug = True
+            elif currentArgument in ("-k","--keep"): flagKeep = True
+            elif currentArgument in ("-l","--list"): flagList = True
+            elif currentArgument in ("-v","--verbose"): flagVerbose = True
             elif currentArgument in ("-h","--help"):
                 printHeader()
                 print(*helpText)
                 exit(0)
-            elif currentArgument in ("-k","--keep"):
-                print("KEEP LOCATION MODE")
-                flagKeep = True
-            elif currentArgument in ("-l","--list"):
-                print("LIST MODE")
-                flagList = True
-            elif currentArgument in ("-v","--verbose"):
-                print("VERBOSE MODE")
-                flagVerbose = True
     
     # Handle incorrect args
     except getopt.error as err:
