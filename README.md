@@ -9,3 +9,6 @@ Extendable HeroSelect script for Marvel Ultimate Alliance
 
 ## MarvelMods thread
 https://marvelmods.com/forum/index.php/topic,10597.0.html
+
+## Special Thanks
+Sagap - Various improvements
