@@ -1,6 +1,9 @@
 Basic usage:
     Usage is very simple, just run OpenHeroSelect.exe, and answer the questions it asks.
-    defaultman isn't required unless your roster has fewer characters included than your roster layout (for example if you're using the 27 roster layout, but your roster only has 20 characters listed)
+    defaultman works like below:
+        - If you're using the basic 27 character roster type, and you have 27 or more characters in the chosen roster, don't include defaultman
+        - If you're using a roster hack with more character slots and you have enough characters to fill all the slots (for example if you have the 50 character roster hack and you have 50 or more characters in your roster), you can include defaultman, but it's not required
+        - For any roster size (default 27 or a roster hack), if you have less than the full number of characters, you must include defaultman
     team_character should typically be included
     When pasting in your path to MUA, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
         For example, if your game is at "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance\Game.exe", then you would just paste in "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance" without the quotes.
