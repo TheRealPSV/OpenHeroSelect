@@ -2,13 +2,30 @@
 Extendable HeroSelect script for Marvel Ultimate Alliance
 
 ## Usage instructions
-[Instructions](Instructions.txt)
+[Instructions](help_files/)
 
-## Build instructions
-[Build Instructions](Build%20Instructions.txt)
+## Developing/Building instructions
+* Requires python/pip (min Python 3.8) and nodejs/npm (min v14) to be installed
+* Recommended to use `eslint --fix` with provided `.eslintrc.js` to reformat code
+* The build script should automatically add the icon and version info to the generated exes, version info is based on what's set in `package.json`
+* Don't forget to run `npm i` to bring in the required dependencies, before doing anything else
+
+### `npm` commands
+* `npm run pipsetup`: Sets up python dependencies (assumes pip is in your path)
+* `npm run clean`: Clean out build and cache files
+* `npm run build`: Builds the entire project to the build/ directory
+* `npm run distpackage`: Cleans out the build/cache files, rebuilds the project, and packages it for distribution inside the `dist/` folder.
+* `npm run buildohs`: Build only OpenHeroSelect.exe
+* `npm run buildxml2json`: Build only xml2json.exe
+* `npm run buildjson2xmlb`: Build only json2xmlb.exe
+* `npm run buildsplitter`: Build only OldConfigSplitter.exe 
+* `npm run buildcopyfiles`: Copy supporting files to build/ directory
+
 
 ## MarvelMods thread
 https://marvelmods.com/forum/index.php/topic,10597.0.html
 
 ## Special Thanks
-Sagap - Various improvements
+* Sagap @ MarvelMods - Various improvements
+* BaconWizard17 @ MarvelMods - xml to json conversion Python script
+* nikita488 @ MarvelMods - json to xmlb conversion Python script

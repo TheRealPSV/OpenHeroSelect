@@ -1,0 +1,14 @@
+Menulocations (roster layout) files should be placed in the menulocations folder, and should end with ".cfg".
+You shouldn't need to modify these files unless new roster hacks become available. The included ones should cover existing roster hacks/sizes.
+Menulocation files are named based on the size of the roster and version of the roster hack, if applicable.
+The provided menulocations are ordered left-to-right, ignoring whether the character is in the front or back. This means you should order your roster in the order you want your characters, left to right.
+
+Individual rosters can be placed in the rosters folder, and should end with ".cfg". (roster.cfg, bigroster.cfg, etc.)
+Each name in the roster file should match a stats file in either the json or xml folder.
+It's completely fine to have more characters in your roster file than in the menulocations file that you pick. OHS will only include the first n number of characters.
+    For example, if your roster has 55 characters, but you're only using the default 27 size roster/menulocations file, your generated herostat will only include the first 27 characters from your roster.
+
+Stats can be in either "xml" files (not real xml files, but the format the game uses) or json files. Each stat entry should be in its own file.
+If a json file and xml file are found with the same name, OHS will use the json file.
+
+The default distribution includes a roster file, stats, and menulocations that will work for all roster hacks, including the default 27, as long as you have the latest Official Characters Pack installed.

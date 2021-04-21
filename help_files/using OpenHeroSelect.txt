@@ -1,0 +1,28 @@
+Basic usage:
+    Usage is very simple, just run OpenHeroSelect.exe, and answer the questions it asks.
+    defaultman isn't required unless your roster has fewer characters included than your roster layout (for example if you're using the 27 roster layout, but your roster only has 20 characters listed)
+    team_character should typically be included
+    When pasting in your path to MUA, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
+        For example, if your game is at "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance\Game.exe", then you would just paste in "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance" without the quotes.
+    OpenHeroSelect will ask you to save temp files, but you don't need to unless you're experiencing issues and need to save them for debugging purposes.
+    You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
+
+Troubleshooting:
+    If your roster isn't being updated in the game, it's possible OHS can't put the herostat files in your game's directory because of file permissions. To work around this you can try right-clicking OpenHeroSelect.exe and running it as an Administrator.
+    Make sure you're starting a new game any time you update your roster; changing your roster and using an existing save can cause problems.
+
+Advanced usage:
+    You can automate the OpenHeroSelect process.
+    If you pass the -a flag to OpenHeroSelect, it will automatically look for and attempt to use the options from the saved config (If the saved config is not found or is malformed, it will exit with an error.)
+    You can create that JSON file, called "config.ini", next to OpenHeroSelect.exe with your preferred options. You can also run OpenHeroSelect normally once and opt to save the config for it to generate it for you.
+    Note that unlike in the interactive prompt, you do have to escape the special characters in config.ini.
+    Example config.ini:
+        {
+            "menulocationsValue": "27",
+            "rosterValue": "roster",
+            "defaultmanIncluded": true,
+            "teamcharacterIncluded": true,
+            "muaPath": "C:\\Program Files (x86)\\Activision\\Marvel - Ultimate Alliance",
+            "launchGame": false,
+            "saveTempFiles": false
+        }

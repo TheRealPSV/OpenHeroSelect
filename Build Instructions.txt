@@ -1,7 +1,0 @@
-Requires Python 3.7.3 or higher to run
-Requires auto-py-to-exe (installable with pip) to compile to exe
-	- In auto-py-to-exe's interface, set script location to OpenHeroSelect.py
-	- Select One File
-	- Select Console-based
-	- Under Icon, set it to the included MUA icon
-	- Hit CONVERT .PY TO .EXE

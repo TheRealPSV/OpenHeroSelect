@@ -1,0 +1,50 @@
+stats {
+ailevel = 1 ;
+autospend = bruiser ;
+body = 7 ;
+characteranims = 195_cannonball ;
+charactername = Cannonball ;
+level = 1 ;
+menulocation = XX ;
+mind = 12 ;
+moveset1 = moveset_flying ;
+name = Cannonball ;
+playable = true ;
+powerstyle = ps_cannonball ;
+scriptlevel = 3 ;
+skin = 19501 ;
+skin_01_name = Uncanny ;
+skin_02 = 02 ;
+skin_02_name = X-Force ;
+skin_03 = 03 ;
+skin_03_name = Classic ;
+skin_04 = 04 ;
+skin_04_name = Modern ;
+sounddir = humant_m ;
+strength = 6 ;
+talent {
+level = 1 ;
+name = can_rocket ;
+}
+talent {
+level = 1 ;
+name = block ;
+}
+talent {
+level = 1 ;
+name = flight ;
+}
+talent {
+level = 1 ;
+name = melee_moves ;
+}
+talent {
+level = 1 ;
+name = fightstyle_default ;
+}
+StatEffect {
+anim = flying ;
+effect = char/cannon/ability_fly_legs ;
+fxlevel = 1 ;
+}
+}

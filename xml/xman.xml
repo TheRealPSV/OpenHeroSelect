@@ -1,0 +1,65 @@
+stats {
+ailevel = 1 ;
+autospend = support ;
+body = 5 ;
+characteranims = 214_xman ;
+charactername = X-Man ;
+level = 1 ;
+menulocation = XX ;
+mind = 10 ;
+moveset1 = moveset_flying ;
+name = XMan ;
+playable = true ;
+powerstyle = ps_xman ;
+scriptlevel = 3 ;
+skin = 21401 ;
+skin_01_name = Age of Apocalypse ;
+skin_02 = 03 ;
+skin_02_name = X-Factor ;
+skin_03 = 02 ;
+skin_03_name = Stryfe ;
+skin_04 = 04 ;
+skin_04_name = Shaman ;
+sounddir = xman_m ;
+strength = 6 ;
+team = hero ;
+talent {
+level = 1 ;
+name = xman_bolt ;
+}
+talent {
+level = 1 ;
+name = melee_moves ;
+}
+talent {
+level = 1 ;
+name = block ;
+}
+talent {
+level = 1 ;
+name = flight ;
+}
+talent {
+level = 1 ;
+name = fightstyle_default ;
+}
+StatEffect {
+bolt = Bip01 Head ;
+effect = char/xman/special_aura ;
+fxlevel = 1 ;
+menuonly = false ;
+zoneonly = true ;
+}
+StatEffect {
+anim = flying ;
+bolt = Bip01 L Hand ;
+effect = char/xman/ability_fly_hand ;
+fxlevel = 1 ;
+}
+StatEffect {
+anim = flying ;
+bolt = Bip01 R Hand ;
+effect = char/xman/ability_fly_hand ;
+fxlevel = 1 ;
+}
+}

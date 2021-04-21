@@ -1,0 +1,50 @@
+stats {
+ailevel = 1 ;
+autospend = support ;
+body = 5 ;
+characteranims = 123_phoenix ;
+charactername = Jean Grey ;
+level = 1 ;
+menulocation = 60 ;
+mind = 12 ;
+moveset1 = moveset_flying ;
+name = Phoenix ;
+playable = true ;
+powerstyle = ps_phoenix ;
+scriptlevel = 3 ;
+skin = 12302 ;
+skin_01_name = Phoenix ;
+skin_02 = 03 ;
+skin_02_name = Original ;
+skin_03 = 04 ;
+skin_03_name = Age of Apocalypse ;
+skin_04 = 05 ;
+skin_04_name = Ultimate ;
+sounddir = phoenx_m ;
+strength = 4 ;
+team = hero ;
+talent {
+level = 1 ;
+name = pho_telek ;
+}
+talent {
+level = 1 ;
+name = pho_psionic ;
+}
+talent {
+level = 1 ;
+name = block ;
+}
+talent {
+level = 1 ;
+name = flight ;
+}
+talent {
+level = 1 ;
+name = fightstyle_default ;
+}
+talent {
+level = 1 ;
+name = melee_moves ;
+}
+}
