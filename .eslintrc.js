@@ -9,7 +9,7 @@ module.exports = {
     ecmaVersion: 12
   },
   rules: {
-    indent: ["error", 2],
+    indent: ["error", 2, { SwitchCase: 1 }],
     "linebreak-style": "off",
     "max-len": "off",
     "operator-linebreak": ["error", "before", { overrides: { "=": "after" } }],
