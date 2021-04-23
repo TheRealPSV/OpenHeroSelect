@@ -67,7 +67,7 @@ const main = async () => {
   if (!args.t || args.t.includes("ohs")) {
     console.log("building ohs");
     const description = "The main OpenHeroSelect program.";
-    await runPkg("index.js", MAIN_ICON_FILE_NAME, description, MAIN_AUTHOR_STRING, "OpenHeroSelect.exe");
+    await runPkg("index.js", MAIN_ICON_FILE_NAME, description, MAIN_AUTHOR_STRING, "OpenHeroSelect.exe", true);
   }
 
   //xml2json
@@ -114,10 +114,10 @@ function streamToPromise(stream) {
   });
 }
 
-async function runPkg(SourceJSFileName, iconFileName, fileDescription, author, exeOutputFileName) {
+async function runPkg(SourceJSFileName, iconFileName, fileDescription, author, exeOutputFileName, requireAdmin) {
   const pkgTarget = 'latest-win-x64';
   const cacheExe = await downloadCache(pkgTarget);
-  await editNodeJSExeData(cacheExe, iconFileName, fileDescription, author, true);
+  await editNodeJSExeData(cacheExe, iconFileName, fileDescription, author, requireAdmin);
   await pkg.exec([path.resolve("js_source", SourceJSFileName), "--public", "--targets", pkgTarget, "--output", path.resolve("build", exeOutputFileName)]);
 }
 
