@@ -1,5 +1,5 @@
 # OpenHeroSelect
-Extendable HeroSelect script for Marvel Ultimate Alliance
+Extendable HeroSelect script for Marvel Ultimate Alliance and X-Men Legends II
 
 ## Usage instructions
 [Instructions](help_files/)
