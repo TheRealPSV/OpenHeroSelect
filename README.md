@@ -27,5 +27,5 @@ https://marvelmods.com/forum/index.php/topic,10597.0.html
 
 ## Special Thanks
 * Sagap @ MarvelMods - Various improvements
-* BaconWizard17 @ MarvelMods - xml to json conversion Python script
+* BaconWizard17 @ MarvelMods - xml to json conversion Python script, testing for X-Men Legends II support
 * nikita488 @ MarvelMods - json to xmlb conversion Python script
