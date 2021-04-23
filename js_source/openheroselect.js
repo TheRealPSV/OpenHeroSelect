@@ -184,20 +184,18 @@ const main = async (automatic = false, xml2 = false) => {
           initial: "C:\\Program Files (x86)\\Marvel - Ultimate Alliance"
         }).run()
         ).trim());
-      options.exeName = path.resolve(
-        (await new enquirer.Input({
-          name: 'exename',
-          message: `The filename of your game's exe (the default is usually fine unless using a modpack)`,
-          initial: xml2 ? "XMen2.exe" : "Game.exe"
-        }).run()
-        ).trim());
-      options.herostatName = path.resolve(
-        (await new enquirer.Input({
-          name: 'herostatname',
-          message: `Path to your installation of ${xml2 ? XML2_NAME : MUA_NAME} (you can just paste this in, right-click to paste)`,
-          initial: "herostat.engb"
-        }).run()
-        ).trim());
+      options.exeName = (await new enquirer.Input({
+        name: 'exename',
+        message: `The filename of your game's exe (the default is usually fine unless using a modpack)`,
+        initial: xml2 ? "XMen2.exe" : "Game.exe"
+      }).run()
+      ).trim();
+      options.herostatName = (await new enquirer.Input({
+        name: 'herostatname',
+        message: `The filename of your game's herostat (the default is usually fine unless using a modpack)`,
+        initial: "herostat.engb"
+      }).run()
+      ).trim();
       options.launchGame = await new enquirer.Confirm({
         name: 'launchgame',
         message: 'Launch the game when done?',
