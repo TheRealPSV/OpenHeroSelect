@@ -117,7 +117,7 @@ function streamToPromise(stream) {
 async function runPkg(SourceJSFileName, iconFileName, fileDescription, author, exeOutputFileName) {
   const pkgTarget = 'latest-win-x64';
   const cacheExe = await downloadCache(pkgTarget);
-  await editNodeJSExeData(cacheExe, iconFileName, fileDescription, author);
+  await editNodeJSExeData(cacheExe, iconFileName, fileDescription, author, true);
   await pkg.exec([path.resolve("js_source", SourceJSFileName), "--public", "--targets", pkgTarget, "--output", path.resolve("build", exeOutputFileName)]);
 }
 
@@ -152,7 +152,7 @@ async function downloadCache(pkgTarget) {
 }
 
 //only works for the nodejs files, not the python files
-async function editNodeJSExeData(exePath, iconFileName, fileDescription, author) {
+async function editNodeJSExeData(exePath, iconFileName, fileDescription, author, requireAdmin) {
   const packageVersion = JSON.parse(fs.readFileSync(path.resolve("package.json"))).version;
   await rcedit(path.resolve(exePath), {
     'product-version': packageVersion,
@@ -164,7 +164,8 @@ async function editNodeJSExeData(exePath, iconFileName, fileDescription, author)
       CompanyName: author,
       LegalCopyright: "",
       OriginalFilename: ""
-    }
+    },
+    'requested-execution-level': requireAdmin ? 'requireAdministrator' : 'asInvoker'
   });
 }
 
