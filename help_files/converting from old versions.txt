@@ -1,14 +1,18 @@
-Converting your old herostat.cfg into a roster cfg file and separate xml files is easy.
+Converting OHS v3 MUA rosters to OHS v4:
+    This is really easy, since v3 only supported MUA and not XML2, just move your menulocations, rosters, xml, and json folders from v3 into the mua folder of v4 and overwrite any files.
+    That's it!
+
+Converting your old herostat.cfg from OpenHeroSelect v1/v2 into a roster cfg file and separate xml files is easy.
     1. Make sure herostat.cfg is in the right format for the old versions of OpenHeroSelect (see below instructions if converting from the original HeroSelect).
-    2. Place the old herostat.cfg in the main folder, next to OldConfigSplitter.exe
-    3. Run OldConfigSplitter.exe
+    2. Place the old herostat.cfg in the main folder, next to OpenHeroSelect.exe
+    3. Run OpenHeroSelect.exe and select "Splitter for Old OHS Config Files"
     4. You should see a folder appear when the program finishes, called splitter_output. That folder will contain an outstats folder and a roster.cfg.
-    5. Rename the roster.cfg file to <preferred roster name>.cfg and copy it out to the rosters folder that's in the main OHS folder.
-    6. Copy the "xml" files from the outstats folder into the xml folder that's in the main OHS folder.
+    5. Rename the roster.cfg file to <preferred roster name>.cfg and copy it out to the rosters folder that's in the mua folder.
+    6. Copy the "xml" files from the outstats folder into the xml folder that's in the mua folder.
     7. If you have a character you want to use different stat files for in different rosters, you can rename the xml file, and change the character name to match inside the roster cfg file.
     8. Run OpenHeroSelect with your new roster and make sure it works. Then you can delete your old herostat.cfg.
 
-Converting the original HeroSelect's herostat.cfg file into the old OpenHeroSelect version:
+Converting the original HeroSelect's herostat.cfg file into the old OpenHeroSelect v1/v2 version:
 	- data folder path is exactly the same (but you can put anything there, since it's no longer used)
 	- name list is slightly different: defaultman, team_character, and endoffile should be removed, OpenHeroSelect takes care of them.
 	- The old HeroSelect left a blank line between the list of names and the list of stats, replace this blank line with a line that just has 5 hyphens (-----). This is the divider OpenHeroSelect used to understand where the names end and stats begin.

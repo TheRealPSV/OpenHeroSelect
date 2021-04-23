@@ -1,30 +1,29 @@
 {
   "name": "openheroselect",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Open Source HeroSelect for Marvel Ultimate Alliance (2006)",
   "main": "index.js",
   "scripts": {
     "pipsetup": "pip install auto-py-to-exe",
     "clean": "npm i; node ./_build.js -c",
+    "fullclean": "npm i; node ./_build.js -f",
     "build": "node ./_build.js",
-    "distpackage": "npm run clean;npm run build;node ./_build.js -p",
+    "distpackage": "npm run fullclean;npm run build;node ./_build.js -p",
     "buildohs": "node ./_build.js -t ohs",
     "buildxml2json": "node ./_build.js -t xml2json",
     "buildjson2xmlb": "node ./_build.js -t json2xmlb",
-    "buildsplitter": "node ./_build.js -t splitter",
     "buildcopyfiles": "node ./_build.js -t copyfiles"
   },
   "bin": {
-    "OpenHeroSelect": "./index.js",
-    "Splitter": "./splitter.js"
+    "index": "./index.js"
   },
   "keywords": [],
   "author": "Tony Stark @ MarvelMods (TheRealPSV @ GitHub)",
   "dependencies": {
     "cross-spawn": "^7.0.3",
+    "enquirer": "^2.3.6",
     "fs-extra": "^9.1.0",
     "minimist": "^1.2.5",
-    "prompt-sync": "^4.2.0",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {

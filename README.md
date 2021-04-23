@@ -12,13 +12,13 @@ Extendable HeroSelect script for Marvel Ultimate Alliance
 
 ### `npm` commands
 * `npm run pipsetup`: Sets up python dependencies (assumes pip is in your path)
-* `npm run clean`: Clean out build and cache files
+* `npm run clean`: Clean out build files
+* `npm run fullclean`: Clean out build and cache files
 * `npm run build`: Builds the entire project to the build/ directory
 * `npm run distpackage`: Cleans out the build/cache files, rebuilds the project, and packages it for distribution inside the `dist/` folder.
 * `npm run buildohs`: Build only OpenHeroSelect.exe
 * `npm run buildxml2json`: Build only xml2json.exe
 * `npm run buildjson2xmlb`: Build only json2xmlb.exe
-* `npm run buildsplitter`: Build only OldConfigSplitter.exe 
 * `npm run buildcopyfiles`: Copy supporting files to build/ directory
 
 

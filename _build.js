@@ -28,6 +28,13 @@ const main = async () => {
   if (args.c) {
     fs.removeSync(path.resolve("build"));
     fs.removeSync(path.resolve("dist"));
+    exit(0);
+  }
+
+  //fullclean
+  if (args.f) {
+    fs.removeSync(path.resolve("build"));
+    fs.removeSync(path.resolve("dist"));
     fs.removeSync(path.resolve("temp"));
     fs.removeSync(path.resolve(".pkg-cache"));
     fs.removeSync(path.resolve("python_source", "__pycache__"));
@@ -56,13 +63,6 @@ const main = async () => {
     console.log("building all targets");
   }
 
-  //splitter
-  if (!args.t || args.t.includes("splitter")) {
-    console.log("building splitter");
-    const description = "Splits herostat.cfg from old versions of OpenHeroSelect into a roster.cfg and individual xml stats files.";
-    await runPkg("splitter.js", MAIN_ICON_FILE_NAME, description, MAIN_AUTHOR_STRING, "OldConfigSplitter.exe");
-  }
-
   //ohs
   if (!args.t || args.t.includes("ohs")) {
     console.log("building ohs");
@@ -87,12 +87,22 @@ const main = async () => {
   //copyfiles
   if (!args.t || args.t.includes("copyfiles")) {
     console.log("building copyfiles");
-    fs.ensureDirSync(path.resolve("xml"));
-    fs.copySync(path.resolve("xml"), path.resolve("build", "xml"), { recursive: true });
-    fs.ensureDirSync(path.resolve("json"));
-    fs.copySync(path.resolve("json"), path.resolve("build", "json"), { recursive: true });
-    fs.copySync(path.resolve("rosters"), path.resolve("build", "rosters"), { recursive: true });
-    fs.copySync(path.resolve("menulocations"), path.resolve("build", "menulocations"), { recursive: true });
+    //mua resources
+    fs.ensureDirSync(path.resolve("mua", "xml"));
+    fs.ensureDirSync(path.resolve("mua", "json"));
+    fs.ensureDirSync(path.resolve("build", "mua"));
+    fs.copySync(path.resolve("mua", "xml"), path.resolve("build", "mua", "xml"), { recursive: true });
+    fs.copySync(path.resolve("mua", "json"), path.resolve("build", "mua", "json"), { recursive: true });
+    fs.copySync(path.resolve("mua", "rosters"), path.resolve("build", "mua", "rosters"), { recursive: true });
+    fs.copySync(path.resolve("mua", "menulocations"), path.resolve("build", "mua", "menulocations"), { recursive: true });
+    //xml2 resources
+    fs.ensureDirSync(path.resolve("xml2", "xml"));
+    fs.ensureDirSync(path.resolve("xml2", "json"));
+    fs.ensureDirSync(path.resolve("build", "xml2"));
+    fs.copySync(path.resolve("xml2", "xml"), path.resolve("build", "xml2", "xml"), { recursive: true });
+    fs.copySync(path.resolve("xml2", "json"), path.resolve("build", "xml2", "json"), { recursive: true });
+    fs.copySync(path.resolve("xml2", "rosters"), path.resolve("build", "xml2", "rosters"), { recursive: true });
+    //documentation
     fs.copySync(path.resolve("help_files"), path.resolve("build", "help_files"), { recursive: true });
   }
 };

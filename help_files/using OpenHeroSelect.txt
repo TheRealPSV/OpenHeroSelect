@@ -1,14 +1,30 @@
 Basic usage:
-    Usage is very simple, just run OpenHeroSelect.exe, and answer the questions it asks.
-    defaultman works like below:
-        - If you're using the basic 27 character roster type, and you have 27 or more characters in the chosen roster, don't include defaultman
-        - If you're using a roster hack with more character slots and you have enough characters to fill all the slots (for example if you have the 50 character roster hack and you have 50 or more characters in your roster), you can include defaultman, but it's not required
-        - For any roster size (default 27 or a roster hack), if you have less than the full number of characters, you must include defaultman
-    team_character should typically be included
-    When pasting in your path to MUA, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
-        For example, if your game is at "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance\Game.exe", then you would just paste in "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance" without the quotes.
-    OpenHeroSelect will ask you to save temp files, but you don't need to unless you're experiencing issues and need to save them for debugging purposes.
-    You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
+    Usage is very simple, just run OpenHeroSelect.exe, select the function you need, and answer the questions it asks.
+    
+    Generate Herostat for Marvel: Ultimate Alliance:
+        defaultman works like below:
+            - If you're using the basic 27 character roster type, and you have 27 or more characters in the chosen roster, don't include defaultman
+            - If you're using a roster hack with more character slots and you have enough characters to fill all the slots (for example if you have the 50 character roster hack and you have 50 or more characters in your roster), you can include defaultman, but it's not required
+            - For any roster size (default 27 or a roster hack), if you have less than the full number of characters, you must include defaultman
+        team_character should typically be included
+        When pasting in your path to MUA, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
+            For example, if your game is at "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance\Game.exe", then you would just paste in "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance" without the quotes.
+        OpenHeroSelect will ask you to save temp files, but you don't need to unless you're experiencing issues and need to save them for debugging purposes.
+        You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
+    
+    Generate Herostat for X-Men Legends II:
+        defaultman and team_character are handled for you
+        When pasting in your path to XML2, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
+            For example, if your game is at "D:\Program Files (x86)\Activision\X-Men Legends 2\Game.exe", then you would just paste in "D:\Program Files (x86)\Activision\X-Men Legends 2" without the quotes.
+        OpenHeroSelect will ask you to save temp files, but you don't need to unless you're experiencing issues and need to save them for debugging purposes.
+        You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
+    
+    Splitter for Old OHS Config Files:
+        See the "converting from old versions" file, you only need this if you're converting a roster from OHS v1/v2 to the current format
+
+    Fix File Extensions:
+        This converts any files with incorrect extensions you have inside the mua or xml2 folders (your json/xml stats, rosters, and menulocations) to use the proper extension so OHS can find them.
+        See the "rosters, stats, menulocations" file for more information
 
 Troubleshooting:
     If your roster isn't being updated in the game, it's possible OHS can't put the herostat files in your game's directory because of file permissions. To work around this you can try right-clicking OpenHeroSelect.exe and running it as an Administrator.
@@ -16,16 +32,24 @@ Troubleshooting:
 
 Advanced usage:
     You can automate the OpenHeroSelect process.
-    If you pass the -a flag to OpenHeroSelect, it will automatically look for and attempt to use the options from the saved config (If the saved config is not found or is malformed, it will exit with an error.)
-    You can create that JSON file, called "config.ini", next to OpenHeroSelect.exe with your preferred options. You can also run OpenHeroSelect normally once and opt to save the config for it to generate it for you.
+    If you pass the -a flag to OpenHeroSelect, it will automatically run the MUA generator and look for and attempt to use the options from the saved config (If the saved config is not found or is malformed, it will exit with an error.)
+    If you pass both the -a and -x flags, it will do the same but for XML2.
+    You can create that JSON file, called "config.ini", inside the mua folder with your preferred options (create it inside the xml2 folder for the XML2 version). You can also run OpenHeroSelect normally once and opt to save the config for it to generate it for you.
     Note that unlike in the interactive prompt, you do have to escape the special characters in config.ini.
-    Example config.ini:
+    Example config.ini for MUA:
         {
             "menulocationsValue": "27",
             "rosterValue": "roster",
             "defaultmanIncluded": true,
             "teamcharacterIncluded": true,
-            "muaPath": "C:\\Program Files (x86)\\Activision\\Marvel - Ultimate Alliance",
+            "gameInstallPath": "C:\\Program Files (x86)\\Activision\\Marvel - Ultimate Alliance",
+            "launchGame": false,
+            "saveTempFiles": false
+        }
+    Example config.ini for XML2:
+        {
+            "rosterValue": "roster",
+            "gameInstallPath": "C:\\Program Files (x86)\\Activision\\X-Men Legends 2",
             "launchGame": false,
             "saveTempFiles": false
         }
