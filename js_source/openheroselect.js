@@ -89,6 +89,8 @@ const main = async (automatic = false, xml2 = false) => {
     options = {
       rosterValue: null,
       gameInstallPath: null,
+      exeName: null,
+      herostatName: null,
       launchGame: null,
       saveTempFiles: null
     };
@@ -96,9 +98,9 @@ const main = async (automatic = false, xml2 = false) => {
     options = {
       menulocationsValue: null,
       rosterValue: null,
-      defaultmanIncluded: null,
-      teamcharacterIncluded: null,
       gameInstallPath: null,
+      exeName: null,
+      herostatName: null,
       launchGame: null,
       saveTempFiles: null
     };
@@ -175,23 +177,25 @@ const main = async (automatic = false, xml2 = false) => {
         throw new Error("ERROR: Invalid roster");
       }
 
-      if (!xml2) {
-        options.defaultmanIncluded = await new enquirer.Confirm({
-          name: 'defaultmanincluded',
-          message: 'Include defaultman?',
-          initial: true
-        }).run();
-        options.teamcharacterIncluded = await new enquirer.Confirm({
-          name: 'teamcharacterincluded',
-          message: 'Include team_character?',
-          initial: true
-        }).run();
-      }
       options.gameInstallPath = path.resolve(
         (await new enquirer.Input({
           name: 'installpath',
-          message: `Path to your installation of ${xml2 ? XML2_NAME : MUA_NAME} (you can just paste this in)`,
+          message: `Path to your installation of ${xml2 ? XML2_NAME : MUA_NAME} (you can just paste this in, right-click to paste)`,
           initial: "C:\\Program Files (x86)\\Marvel - Ultimate Alliance"
+        }).run()
+        ).trim());
+      options.exeName = path.resolve(
+        (await new enquirer.Input({
+          name: 'exename',
+          message: `The filename of your game's exe (the default is usually fine unless using a modpack)`,
+          initial: xml2 ? "XMen2.exe" : "Game.exe"
+        }).run()
+        ).trim());
+      options.herostatName = path.resolve(
+        (await new enquirer.Input({
+          name: 'herostatname',
+          message: `Path to your installation of ${xml2 ? XML2_NAME : MUA_NAME} (you can just paste this in, right-click to paste)`,
+          initial: "herostat.engb"
         }).run()
         ).trim());
       options.launchGame = await new enquirer.Confirm({
@@ -267,22 +271,22 @@ const main = async (automatic = false, xml2 = false) => {
     characters.push(fileData);
   });
 
+  //workaround for herostat loop since xml2 doesn't use menulocations, and has fixed 21 chars
+  if (xml2) {
+    menulocations = new Array(21);
+  }
+
   //begin generating herostat
   let herostat = CHARACTERS_START;
   if (xml2) {
+    //xml2 always has defaultman
     herostat += DEFAULTMAN_XML2 + ",\n";
   } else {
-    if (options.defaultmanIncluded) {
+    //mua always has team_character, and add defaultman only if fewer chars than menulocations
+    if (characters.length < menulocations.length) {
       herostat += DEFAULTMAN + ",\n";
     }
-    if (options.teamcharacterIncluded) {
-      herostat += TEAM_CHARACTER + ",\n";
-    }
-  }
-
-  //workaround for herostat loop since xml2 doesn't use menulocations, and has fixed 20 chars
-  if (xml2) {
-    menulocations = new Array(20);
+    herostat += TEAM_CHARACTER + ",\n";
   }
 
   //adapt and add each character's stats to herostat
@@ -330,23 +334,7 @@ const main = async (automatic = false, xml2 = false) => {
   //copy converted herostat to game data directory
   fs.copyFileSync(
     herostatOutputPath,
-    path.resolve(options.gameInstallPath, "data", "herostat.xmlb")
-  );
-  fs.copyFileSync(
-    herostatOutputPath,
-    path.resolve(options.gameInstallPath, "data", "herostat.engb")
-  );
-  fs.copyFileSync(
-    herostatOutputPath,
-    path.resolve(options.gameInstallPath, "data", "herostat.freb")
-  );
-  fs.copyFileSync(
-    herostatOutputPath,
-    path.resolve(options.gameInstallPath, "data", "herostat.gerb")
-  );
-  fs.copyFileSync(
-    herostatOutputPath,
-    path.resolve(options.gameInstallPath, "data", "herostat.itab")
+    path.resolve(options.gameInstallPath, "data", options.herostatName)
   );
 
   //clear temp folder if not saving temp files
@@ -356,7 +344,7 @@ const main = async (automatic = false, xml2 = false) => {
 
   //launch game if desired
   if (options.launchGame) {
-    const gameProc = cspawn(path.resolve(options.gameInstallPath, "Game.exe"), {
+    const gameProc = cspawn(path.resolve(options.gameInstallPath, options.exeName), {
       detached: true
     });
     gameProc.unref();

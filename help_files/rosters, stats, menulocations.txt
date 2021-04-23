@@ -7,6 +7,8 @@ File Types for both games:
     Instead, you can just place the file in its corresponding folder, and run the "Fix File Extensions" option in OHS to automatically rename all the files to have the correct extension so OHS can find it.
     One important thing to note, if 2 files exist in the same folder with different extensions (like if you have spiderman.xml and spiderman.txt both in the xml folder) one of the files will get renamed by the extension fixer, so make sure to update your rosters if you have duplicate files.
 
+    Warning: you cannot have extra data in any of these files. Comments or extra lines outside the stats/menulocations/rosters data inside their files are not supported.
+
 Marvel: Ultimate Alliance:
     All these folders and files are found in the mua folder.
 

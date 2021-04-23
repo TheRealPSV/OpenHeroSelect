@@ -1,21 +1,20 @@
 Basic usage:
     Usage is very simple, just run OpenHeroSelect.exe, select the function you need, and answer the questions it asks.
+    OpenHeroSelect does require Admin permissions so it can put your herostat in the right place when it's done.
     
     Generate Herostat for Marvel: Ultimate Alliance:
-        defaultman works like below:
-            - If you're using the basic 27 character roster type, and you have 27 or more characters in the chosen roster, don't include defaultman
-            - If you're using a roster hack with more character slots and you have enough characters to fill all the slots (for example if you have the 50 character roster hack and you have 50 or more characters in your roster), you can include defaultman, but it's not required
-            - For any roster size (default 27 or a roster hack), if you have less than the full number of characters, you must include defaultman
-        team_character should typically be included
+        defaultman and team_character are handled for you
         When pasting in your path to MUA, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
             For example, if your game is at "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance\Game.exe", then you would just paste in "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance" without the quotes.
+        You'll be asked for the filename of your game's exe and herostat file, but the default should be fine unless you're using a special modpack with a different exe/herostat.
         OpenHeroSelect will ask you to save temp files, but you don't need to unless you're experiencing issues and need to save them for debugging purposes.
         You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
     
     Generate Herostat for X-Men Legends II:
-        defaultman and team_character are handled for you
+        defaultman is handled for you, and XML2 doesn't have a team_character
         When pasting in your path to XML2, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
-            For example, if your game is at "D:\Program Files (x86)\Activision\X-Men Legends 2\Game.exe", then you would just paste in "D:\Program Files (x86)\Activision\X-Men Legends 2" without the quotes.
+            For example, if your game is at "D:\Program Files (x86)\Activision\X-Men Legends 2\XMen2.exe", then you would just paste in "D:\Program Files (x86)\Activision\X-Men Legends 2" without the quotes.
+        You'll be asked for the filename of your game's exe and herostat file, but the default should be fine unless you're using a special modpack with a different exe/herostat.
         OpenHeroSelect will ask you to save temp files, but you don't need to unless you're experiencing issues and need to save them for debugging purposes.
         You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
     
