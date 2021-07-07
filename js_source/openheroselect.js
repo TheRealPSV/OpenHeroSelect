@@ -184,7 +184,7 @@ const main = async (automatic = false, xml2 = false) => {
         (await new enquirer.Input({
           name: 'installpath',
           message: `Path to your installation of ${xml2 ? XML2_NAME : MUA_NAME} (you can just paste this in, right-click to paste)`,
-          initial: "C:\\Program Files (x86)\\Marvel - Ultimate Alliance"
+          initial: "C:\\Program Files (x86)\\Activision\\Marvel - Ultimate Alliance"
         }).run()
         ).trim());
       options.exeName = (await new enquirer.Input({
