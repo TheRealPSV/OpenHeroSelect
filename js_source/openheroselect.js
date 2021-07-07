@@ -67,6 +67,9 @@ const TEAM_CHARACTER = `"stats": {
   "xpexempt": true
 }`;
 
+// CONSTANT VALUES
+const DEFAULT_HEROLIMIT = 27;
+
 // PATHS
 const INI_PATH = "config.ini";
 const MUA_RESOURCES = "mua";
@@ -280,8 +283,8 @@ const main = async (automatic = false, xml2 = false) => {
     //xml2 always has defaultman
     herostat += DEFAULTMAN_XML2 + ",\n";
   } else {
-    //mua always has team_character, and add defaultman only if fewer chars than menulocations
-    if (characters.length < menulocations.length) {
+    //mua always has team_character, and add defaultman unless menulocations has 27 locations (no roster hack) and is being filled up
+    if (menulocations.length !== DEFAULT_HEROLIMIT || characters.length < menulocations.length) {
       herostat += DEFAULTMAN + ",\n";
     }
     herostat += TEAM_CHARACTER + ",\n";
