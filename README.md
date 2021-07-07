@@ -26,6 +26,6 @@ Extendable HeroSelect script for Marvel Ultimate Alliance and X-Men Legends II
 https://marvelmods.com/forum/index.php/topic,10597.0.html
 
 ## Special Thanks
-* Sagap @ MarvelMods - Various improvements
+* Sagap @ MarvelMods - Various improvements in v2
 * BaconWizard17 @ MarvelMods - xml to json conversion Python script, testing for X-Men Legends II support
 * nikita488 @ MarvelMods - json to xmlb conversion Python script
