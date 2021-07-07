@@ -1,14 +1,14 @@
 {
   "name": "openheroselect",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Open Source HeroSelect for Marvel Ultimate Alliance (2006)",
   "main": "index.js",
   "scripts": {
     "pipsetup": "pip install auto-py-to-exe",
-    "clean": "npm i; node ./_build.js -c",
-    "fullclean": "npm i; node ./_build.js -f",
+    "clean": "npm i && node ./_build.js -c",
+    "fullclean": "npm i && node ./_build.js -f",
     "build": "node ./_build.js",
-    "distpackage": "npm run fullclean;npm run build;node ./_build.js -p",
+    "distpackage": "npm run fullclean && npm run build && node ./_build.js -p",
     "buildohs": "node ./_build.js -t ohs",
     "buildxml2json": "node ./_build.js -t xml2json",
     "buildjson2xmlb": "node ./_build.js -t json2xmlb",
