@@ -47,6 +47,8 @@ const main = async () => {
     fs.mkdirSync(path.resolve("temp"));
     fs.copySync(path.resolve("build"), path.resolve("temp", "OpenHeroSelect"), { recursive: true });
     fs.mkdirSync("dist");
+    fs.copyFileSync(path.resolve("LICENSE"), path.resolve("temp", "OpenHeroSelect", "LICENSE.txt"));
+    fs.writeFile(path.resolve("temp", "OpenHeroSelect", "Source Code.txt"), "Source code available at https://github.com/TheRealPSV/OpenHeroSelect");
     const zipStream = node7z.add(path.resolve("dist", "OpenHeroSelect.7z"), path.resolve("temp", "OpenHeroSelect"),
       {
         recursive: true,
