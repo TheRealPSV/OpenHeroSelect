@@ -150,7 +150,12 @@ async function downloadCache(pkgTarget) {
   await pkgFetch.need({ nodeRange, platform, arch });
   const cacheExe = glob.sync(`${process.env.PKG_CACHE_PATH}/**/fetched*`);
   if (cacheExe.length < 1) throw new Error('Error downloading PKG cache');
-  return cacheExe[0];
+  const pathToFile = path.resolve(cacheExe[0]);
+  const filename = path.basename(pathToFile);
+  const newname = filename.replace("fetched", "built");
+  const newPath = path.resolve(pathToFile.substring(0, pathToFile.length - filename.length) + newname);
+  fs.renameSync(pathToFile, newPath);
+  return newPath;
 }
 
 //only works for the nodejs files, not the python files
