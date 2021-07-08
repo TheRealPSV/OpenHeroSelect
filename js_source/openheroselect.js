@@ -290,7 +290,7 @@ const main = async (automatic = false, xml2 = false) => {
   if (xml2) {
     //xml2 always has defaultman
     herostat += DEFAULTMAN_XML2 + ",\n";
-  } else if (options.rosterHack || characters.length < DEFAULT_HEROLIMIT) {
+  } else if (options.rosterHack || characters.length < DEFAULT_HEROLIMIT || menulocations.length < DEFAULT_HEROLIMIT) {
     //mua add defaultman unless no roster hack is installed and all 27 character slots are filled
     herostat += DEFAULTMAN + ",\n";
   }
