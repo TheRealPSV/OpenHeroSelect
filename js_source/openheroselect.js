@@ -65,7 +65,8 @@ const TEAM_CHARACTER = `"stats": {
   "name": "team_character",
   "skin": "0002",
   "xpexempt": true
-}`;
+}
+`;
 
 // CONSTANT VALUES
 const DEFAULT_HEROLIMIT = 27;
@@ -100,6 +101,7 @@ const main = async (automatic = false, xml2 = false) => {
   } else {
     options = {
       menulocationsValue: null,
+      rosterHack: null,
       rosterValue: null,
       gameInstallPath: null,
       exeName: null,
@@ -150,6 +152,12 @@ const main = async (automatic = false, xml2 = false) => {
       //if config.ini not found, or decided to change options, prompt
 
       if (!xml2) {
+        options.rosterHack = await new enquirer.Confirm({
+          name: 'rosterhack',
+          message: 'Do you have a roster size hack installed?',
+          initial: false
+        }).run();
+
         const menulocationOptions = fs.readdirSync(path.resolve(resourcePath, "menulocations"))
           .filter((item) => item.toLowerCase().endsWith(".cfg"))
           .map((item) => item.slice(0, item.length - 4));
@@ -282,12 +290,9 @@ const main = async (automatic = false, xml2 = false) => {
   if (xml2) {
     //xml2 always has defaultman
     herostat += DEFAULTMAN_XML2 + ",\n";
-  } else {
-    //mua always has team_character, and add defaultman unless menulocations has 27 locations (no roster hack) and is being filled up
-    if (menulocations.length !== DEFAULT_HEROLIMIT || characters.length < menulocations.length) {
-      herostat += DEFAULTMAN + ",\n";
-    }
-    herostat += TEAM_CHARACTER + ",\n";
+  } else if (options.rosterHack || characters.length < DEFAULT_HEROLIMIT) {
+    //mua add defaultman unless no roster hack is installed and all 27 character slots are filled
+    herostat += DEFAULTMAN + ",\n";
   }
 
   //adapt and add each character's stats to herostat
@@ -300,12 +305,13 @@ const main = async (automatic = false, xml2 = false) => {
         `$1${menulocations[index]}$2`
       );
     }
-    //append to herostat
-    herostat += heroValue;
-    //add a trailing comma and newline unless final character
-    if (index < menulocations.length - 1 && index < characters.length - 1) {
-      herostat += ",\n";
-    }
+    //append to herostat with comma and newline
+    herostat += heroValue + ",\n";
+  }
+
+  //add team_character for mua
+  if (!xml2) {
+    herostat += TEAM_CHARACTER;
   }
 
   //finish writing herostat
