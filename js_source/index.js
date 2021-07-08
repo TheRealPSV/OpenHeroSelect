@@ -10,6 +10,9 @@ const openheroselect = require("./openheroselect");
 const splitter = require("./splitter");
 const extensionfixer = require("./extensionfixer");
 
+//DO NOT MESS WITH PATH; this path.join must be exactly like this for pkg to pick it up at build time
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
+
 const main = async () => {
   //display banner and marvelmods topic link
   console.log(`
@@ -20,6 +23,7 @@ const main = async () => {
  ╚█████╔╝██║░░░░░███████╗██║░╚███║██║░░██║███████╗██║░░██║╚█████╔╝██████╔╝███████╗███████╗███████╗╚█████╔╝░░░██║░░░
  ░╚════╝░╚═╝░░░░░╚══════╝╚═╝░░╚══╝╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝░╚════╝░╚═════╝░╚══════╝╚══════╝╚══════╝░╚════╝░░░░╚═╝░░░
 `);
+  console.log(` VERSION ${process.env.PACKAGE_VERSION}`);
   console.log(" https://marvelmods.com/forum/index.php/topic,10597.0.html\n");
 
   try {

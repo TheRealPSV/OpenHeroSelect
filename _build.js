@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
+const packageinfo = require('./package.json');
+
 const fs = require("fs-extra");
 const path = require("path");
-const glob = require("glob");
 const cspawn = require("cross-spawn");
 const minimist = require("minimist");
 const sevenBin = require("7zip-bin");
@@ -23,6 +24,12 @@ const MAIN_AUTHOR_STRING = "TheRealPSV @ GitHub/Tony Stark @ MarvelMods";
 
 const main = async () => {
   const args = minimist(process.argv.slice(2));
+
+  //generate .env file
+  if (args.e) {
+    fs.writeFileSync(".env", `PACKAGE_VERSION=${packageinfo.version}`);
+    exit(0);
+  }
 
   //clean
   if (args.c) {
@@ -45,11 +52,12 @@ const main = async () => {
   //package existing build folder
   if (args.p) {
     fs.mkdirSync(path.resolve("temp"));
-    fs.copySync(path.resolve("build"), path.resolve("temp", "OpenHeroSelect"), { recursive: true });
+    const packageFolder = `OpenHeroSelect-v${packageinfo.version}`;
+    fs.copySync(path.resolve("build"), path.resolve("temp", packageFolder), { recursive: true });
     fs.mkdirSync("dist");
-    fs.copyFileSync(path.resolve("LICENSE"), path.resolve("temp", "OpenHeroSelect", "LICENSE.txt"));
-    fs.writeFile(path.resolve("temp", "OpenHeroSelect", "Source Code.txt"), "Source code available at https://github.com/TheRealPSV/OpenHeroSelect");
-    const zipStream = node7z.add(path.resolve("dist", "OpenHeroSelect.7z"), path.resolve("temp", "OpenHeroSelect"),
+    fs.copyFileSync(path.resolve("LICENSE"), path.resolve("temp", packageFolder, "LICENSE.txt"));
+    fs.writeFile(path.resolve("temp", packageFolder, "Source Code.txt"), "Source code available at https://github.com/TheRealPSV/OpenHeroSelect");
+    const zipStream = node7z.add(path.resolve("dist", "OpenHeroSelect.7z"), path.resolve("temp", packageFolder),
       {
         recursive: true,
         $bin: PATH_TO_7ZIP
@@ -120,7 +128,10 @@ async function runPkg(SourceJSFileName, iconFileName, fileDescription, author, e
   const pkgTarget = 'latest-win-x64';
   const cacheExe = await downloadCache(pkgTarget);
   await editNodeJSExeData(cacheExe, iconFileName, fileDescription, author, requireAdmin);
-  await pkg.exec([path.resolve("js_source", SourceJSFileName), "--public", "--targets", pkgTarget, "--output", path.resolve("build", exeOutputFileName)]);
+  const commands = [path.resolve("js_source", SourceJSFileName), "--public",
+    "--targets", pkgTarget, "--compress", "Brotli",
+    "--output", path.resolve("build", exeOutputFileName)];
+  await pkg.exec(commands);
 }
 
 async function runPyInstaller(sourcePyFileName, iconFileName, fileDescription, author, exeOutputFileName) {
@@ -147,14 +158,17 @@ function pythonPathResolve(...strings) {
 //needed to work around an issue with rcedit not being able to modify exported nodejs exe
 async function downloadCache(pkgTarget) {
   const [nodeRange, platform, arch] = pkgTarget.split('-');
-  await pkgFetch.need({ nodeRange, platform, arch });
-  const cacheExe = glob.sync(`${process.env.PKG_CACHE_PATH}/**/fetched*`);
-  if (cacheExe.length < 1) throw new Error('Error downloading PKG cache');
-  const pathToFile = path.resolve(cacheExe[0]);
+  const pathToFile = await pkgFetch.need({ nodeRange, platform, arch });
+  if (!pathToFile) {
+    throw new Error('Error downloading PKG cache');
+  }
+  let newPath = pathToFile;
   const filename = path.basename(pathToFile);
-  const newname = filename.replace("fetched", "built");
-  const newPath = path.resolve(pathToFile.substring(0, pathToFile.length - filename.length) + newname);
-  fs.renameSync(pathToFile, newPath);
+  if (filename.startsWith("fetched")) {
+    const newname = filename.replace("fetched", "built");
+    newPath = path.resolve(pathToFile.substring(0, pathToFile.length - filename.length) + newname);
+    fs.renameSync(pathToFile, newPath);
+  }
   return newPath;
 }
 

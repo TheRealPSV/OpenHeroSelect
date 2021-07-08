@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "pipsetup": "pip install auto-py-to-exe",
-    "clean": "npm i && node ./_build.js -c",
-    "fullclean": "npm i && node ./_build.js -f",
-    "build": "node ./_build.js",
+    "envsetup": "node ./_build.js -e",
+    "clean": "npm i && npm run envsetup && node ./_build.js -c",
+    "fullclean": "npm i && npm run envsetup && node ./_build.js -f",
+    "build": "npm run envsetup && node ./_build.js",
     "distpackage": "npm run fullclean && npm run build && node ./_build.js -p",
-    "buildohs": "node ./_build.js -t ohs",
+    "buildohs": "npm run envsetup && node ./_build.js -t ohs",
     "buildxml2json": "node ./_build.js -t xml2json",
     "buildjson2xmlb": "node ./_build.js -t json2xmlb",
     "buildcopyfiles": "node ./_build.js -t copyfiles"
@@ -21,6 +22,7 @@
   "author": "Tony Stark @ MarvelMods (TheRealPSV @ GitHub)",
   "dependencies": {
     "cross-spawn": "^7.0.3",
+    "dotenv": "^10.0.0",
     "enquirer": "^2.3.6",
     "fs-extra": "^10.0.0",
     "minimist": "^1.2.5",
@@ -33,7 +35,6 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
-    "glob": "^7.1.7",
     "node-7z": "^2.1.2",
     "pkg": "^5.3.0",
     "rcedit": "^3.0.0"
