@@ -6,7 +6,6 @@ with open(file_name, mode='r') as file:
     # format B does not have blank lines, so they can be removed right away
     for line in file:
         if line.isspace() == False:
-        # if line != '\n':
             line_fixed = line.strip('\n')
             lines_original.append(line_fixed)
 
