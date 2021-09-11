@@ -52,9 +52,17 @@ indent = 8
 # these are the lines that will be written to the new file
 lines_output = []
 
+code_begun = False
+
 # begin performing conversion
 for line in lines_original:
     working_line = space_remover(line)
+    if not code_begun:
+        # check if we're at the actual beginning of a file, if not then skip lines until we hit it
+        if (working_line[0:4] != 'XMLB') and (working_line[-1] == '{'):
+            continue
+        else:
+            code_begun = True
     if working_line[0:4] == 'XMLB':
         # this is for the header
         lines_output.append('{')
