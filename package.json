@@ -1,6 +1,6 @@
 {
   "name": "openheroselect",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "Open Source HeroSelect for Marvel Ultimate Alliance (2006)",
   "main": "index.js",
   "scripts": {
