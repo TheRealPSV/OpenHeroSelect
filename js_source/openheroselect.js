@@ -224,6 +224,9 @@ const main = async (automatic = false, xml2 = false) => {
       }).run();
     }
 
+    //begin writing progress
+    writeProgress(0);
+
     //write options to config if desired
     if (saveOptions) {
       fs.writeFileSync(configPath, JSON.stringify(options, null, 2));
@@ -246,7 +249,13 @@ const main = async (automatic = false, xml2 = false) => {
       .split(WHITESPACE_REGEX)
       .filter((item) => item.trim().length)
       .map((item) => parseInt(item.trim()));
+  } else {
+    //workaround for herostat loop since xml2 doesn't use menulocations, and has fixed 21 chars
+    menulocations = new Array(21);
   }
+
+  let operations = rosterList.length + menulocations.length + 7;
+  let progressPoints = 0;
 
   //load stat data for each character in roster
   const characters = [];
@@ -278,11 +287,11 @@ const main = async (automatic = false, xml2 = false) => {
     fileData = fileData.slice(0, fileData.length - 1); //removes trailing comma from json
 
     characters.push(fileData);
+    writeProgress(((++progressPoints) / operations) * 100);
   });
 
-  //workaround for herostat loop since xml2 doesn't use menulocations, and has fixed 21 chars
-  if (xml2) {
-    menulocations = new Array(21);
+  if (characters.length < menulocations.length) {
+    operations = operations - menulocations.length + characters.length;
   }
 
   //begin generating herostat
@@ -294,6 +303,7 @@ const main = async (automatic = false, xml2 = false) => {
     //mua add defaultman unless no roster hack is installed and all 27 character slots are filled
     herostat += DEFAULTMAN + ",\n";
   }
+  writeProgress(((++progressPoints) / operations) * 100);
 
   //adapt and add each character's stats to herostat
   for (let index = 0; index < menulocations.length && index < characters.length; ++index) {
@@ -307,6 +317,7 @@ const main = async (automatic = false, xml2 = false) => {
     }
     //append to herostat with comma and newline
     herostat += heroValue + ",\n";
+    writeProgress(((++progressPoints) / operations) * 100);
   }
 
   //add team_character for mua
@@ -316,15 +327,18 @@ const main = async (automatic = false, xml2 = false) => {
 
   //finish writing herostat
   herostat += CHARACTERS_END;
+  writeProgress(((++progressPoints) / operations) * 100);
 
   //clear temp folder if not saving temp files
   if (!options.saveTempFiles) {
     fs.removeSync("temp");
     fs.mkdirSync("temp", { recursive: true });
   }
+  writeProgress(((++progressPoints) / operations) * 100);
 
   //write herostat json to disk
   fs.writeFileSync(path.resolve("temp", "herostat.json"), herostat);
+  writeProgress(((++progressPoints) / operations) * 100);
 
   const herostatJsonPath = path.resolve("temp", "herostat.json");
   const herostatOutputPath = path.resolve("temp", "herostat.xmlb");
@@ -337,17 +351,20 @@ const main = async (automatic = false, xml2 = false) => {
   if (child.error) {
     throw child.stderr.toString('utf8');
   }
+  writeProgress(((++progressPoints) / operations) * 100);
 
   //copy converted herostat to game data directory
   fs.copyFileSync(
     herostatOutputPath,
     path.resolve(options.gameInstallPath, "data", options.herostatName)
   );
+  writeProgress(((++progressPoints) / operations) * 100);
 
   //clear temp folder if not saving temp files
   if (!options.saveTempFiles) {
     fs.removeSync("temp");
   }
+  writeProgress(((++progressPoints) / operations) * 100);
 
   //launch game if desired
   if (options.launchGame) {
@@ -356,6 +373,13 @@ const main = async (automatic = false, xml2 = false) => {
     });
     gameProc.unref();
   }
+  writeProgress(100);
 };
+
+function writeProgress(percent) {
+  process.stdout.clearLine();
+  process.stdout.cursorTo(0);
+  process.stdout.write(percent === 100 ? "Done\n" : `Working, please wait... (${percent.toFixed(1)}%)`);
+}
 
 module.exports = main;
