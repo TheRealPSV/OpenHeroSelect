@@ -316,7 +316,12 @@ const main = async (automatic = false, xml2 = false) => {
       );
     }
     //append to herostat with comma and newline
-    herostat += heroValue + ",\n";
+    herostat += heroValue;
+    //skip the last comma for xml2 since there's no TEAM_CHARACTER
+    if (!xml2 || (index + 1 >= menulocations.length || index + 1 >= characters.length)) {
+      herostat += ",";
+    };
+    herostat += "\n";
     writeProgress(((++progressPoints) / operations) * 100);
   }
 
