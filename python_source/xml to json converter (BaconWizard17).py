@@ -59,7 +59,7 @@ for line in lines_original:
     working_line = space_remover(line)
     if not code_begun:
         # check if we're at the actual beginning of a file, if not then skip lines until we hit it
-        if (working_line[0:4] != 'XMLB') and (working_line[-1] == '{'):
+        if (working_line[0:4] != 'XMLB') and (working_line[-1] != '{'):
             continue
         else:
             code_begun = True
