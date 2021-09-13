@@ -79,6 +79,9 @@ const XML2_RESOURCES = "xml2";
 const MUA_NAME = "Marvel Ultimate Alliance";
 const XML2_NAME = "X-Men Legends 2";
 
+// OPTIONS
+const XML2_ROSTER_SIZES = new Map([["PC (21)", 21], ["Console (19)", 19], ["PSP (23)", 23]]);
+
 const main = async (automatic = false, xml2 = false) => {
   const resourcePath = xml2 ? XML2_RESOURCES : MUA_RESOURCES;
   //clear temp folder
@@ -91,6 +94,7 @@ const main = async (automatic = false, xml2 = false) => {
   let options = {};
   if (xml2) {
     options = {
+      rosterSize: null,
       rosterValue: null,
       gameInstallPath: null,
       exeName: null,
@@ -173,6 +177,14 @@ const main = async (automatic = false, xml2 = false) => {
           console.error("ERROR: Invalid roster layout");
           throw new Error("ERROR: Invalid roster layout");
         }
+      } else {
+        const rosterSizeChoices = Array.from(XML2_ROSTER_SIZES.keys());
+        options.rosterSize = XML2_ROSTER_SIZES.get(await new enquirer.Select({
+          name: 'rostersize',
+          message: 'Select a roster size (platform)',
+          choices: rosterSizeChoices,
+          initial: rosterSizeChoices[0]
+        }).run());
       }
 
       const rosterOptions = fs.readdirSync(path.resolve(resourcePath, "rosters"))
@@ -250,8 +262,8 @@ const main = async (automatic = false, xml2 = false) => {
       .filter((item) => item.trim().length)
       .map((item) => parseInt(item.trim()));
   } else {
-    //workaround for herostat loop since xml2 doesn't use menulocations, and has fixed 21 chars
-    menulocations = new Array(21);
+    //workaround for herostat loop since xml2 doesn't use menulocations
+    menulocations = new Array(options.rosterSize);
   }
 
   let operations = rosterList.length + menulocations.length + 7;
@@ -318,7 +330,7 @@ const main = async (automatic = false, xml2 = false) => {
     //append to herostat with comma and newline
     herostat += heroValue;
     //skip the last comma for xml2 since there's no TEAM_CHARACTER
-    if (!xml2 || (index + 1 >= menulocations.length || index + 1 >= characters.length)) {
+    if (!xml2 || (index + 1 < menulocations.length && index + 1 < characters.length)) {
       herostat += ",";
     };
     herostat += "\n";
