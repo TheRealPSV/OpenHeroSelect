@@ -30,7 +30,7 @@ Marvel: Ultimate Alliance:
 X-Men Legends II:
     All these folders and files are found in the xml2 folder.
 
-    The game has a fixed roster layout, so there are no menulocations.
+    The game has a fixed roster layout, so there are no menulocations. You will be asked to select a roster size, which is based on the platform you're compiling for.
 
     Individual rosters can be placed in the rosters folder, and should end with ".cfg". (roster.cfg, bigroster.cfg, etc.)
     Each name in the roster file should match a stats file in either the json or xml folder.
