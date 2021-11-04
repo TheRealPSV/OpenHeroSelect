@@ -8,7 +8,7 @@ const cspawn = require("cross-spawn");
 const enquirer = require('enquirer');
 
 // REGEXES
-const WHITESPACE_REGEX = /\s+/m;
+const NEWLINE_REGEX = /\n+/m;
 const MENULOCATION_REGEX = /(^\s*"menulocation":\s*)"?\w+"?(,\s*$)/m;
 
 // CONSTANT HEROSTAT PIECES
@@ -249,7 +249,7 @@ const main = async (automatic = false, xml2 = false) => {
   const rosterFile = path.resolve(resourcePath, "rosters", `${options.rosterValue}.cfg`);
   const rosterData = fs.readFileSync(path.resolve(rosterFile), "utf8");
   const rosterList = rosterData
-    .split(WHITESPACE_REGEX)
+    .split(NEWLINE_REGEX)
     .filter((item) => item.trim().length)
     .map((item) => item.trim());
 
@@ -258,7 +258,7 @@ const main = async (automatic = false, xml2 = false) => {
     const menulocationsFile = path.resolve(resourcePath, "menulocations", `${options.menulocationsValue}.cfg`);
     const menulocationsData = fs.readFileSync(menulocationsFile, "utf8");
     menulocations = menulocationsData
-      .split(WHITESPACE_REGEX)
+      .split(NEWLINE_REGEX)
       .filter((item) => item.trim().length)
       .map((item) => parseInt(item.trim()));
   } else {
