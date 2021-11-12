@@ -29,3 +29,4 @@ https://marvelmods.com/forum/index.php/topic,10597.0.html
 * Sagap @ MarvelMods - Various improvements in v2
 * BaconWizard17 @ MarvelMods - xml to json conversion Python script, testing for X-Men Legends II support
 * nikita488 @ MarvelMods - json to xmlb conversion Python script
+* ak2yny @ MarvelMods - OCP v2.4 character stats and roster
