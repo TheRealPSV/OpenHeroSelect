@@ -2,35 +2,37 @@
    ailevel = 1 ;
    autospend = support ;
    body = 5 ;
-   characteranims = 04_storm ;
-   charactername = Storm ;
+   characteranims = 80_silver_surfer ;
+   charactername = Silver Surfer ;
    level = 1 ;
-   menulocation = 5 ;
+   menulocation = 48 ;
    mind = 12 ;
    moveset1 = moveset_flying ;
-   name = Storm ;
+   name = SilverSurfer ;
    playable = true ;
-   powerstyle = ps_storm ;
+   powerstyle = ps_silversurfer ;
    scriptlevel = 3 ;
-   skin = 0401 ;
-   skin_01_name = Astonishing ;
+   skin = 8001 ;
+   skin_01_name = Classic ;
    skin_02 = 02 ;
-   skin_02_name = Retro ;
+   skin_02_name = Captain Universe ;
    skin_03 = 03 ;
-   skin_03_name = Ultimate ;
+   skin_03_name = The Keeper ;
    skin_04 = 04 ;
-   skin_04_name = Classic ;
-   sounddir = storm_m ;
+   skin_04_name = Silver Savage ;
+   sounddir = silver_m ;
    strength = 4 ;
    team = hero ;
-      talent {
-      level = 1 ;
-      name = storm_strike ;
+      BoltOn {
+      bolt = Bip01 R Toe0 ;
+      menuonly = true ;
+      model = models/bolton/silver_surfer_surfboard ;
+      slot = ebolton_clawleft ;
       }
 
       talent {
       level = 1 ;
-      name = storm_resist ;
+      name = silver_p1 ;
       }
 
       talent {
@@ -40,7 +42,7 @@
 
       talent {
       level = 1 ;
-      name = leadership ;
+      name = might ;
       }
 
       talent {

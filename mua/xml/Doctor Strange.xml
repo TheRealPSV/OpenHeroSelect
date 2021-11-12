@@ -2,34 +2,40 @@
    ailevel = 1 ;
    autospend = support ;
    body = 5 ;
-   characteranims = 213_magma ;
-   charactername = Magma ;
+   characteranims = 16_dr_strange ;
+   charactername = Doctor Strange ;
    level = 1 ;
-   menulocation = 61 ;
+   menulocation = 46 ;
    mind = 12 ;
-   name = Magma ;
+   moveset1 = moveset_flying ;
+   name = DrStrange ;
    playable = true ;
-   powerstyle = ps_magma ;
+   powerstyle = ps_drstrange ;
    scriptlevel = 3 ;
-   skin = 21301 ;
-   skin_01_name = Ultimate ;
+   skin = 1601 ;
+   skin_01_name = Classic ;
    skin_02 = 02 ;
-   skin_02_name = Training ;
+   skin_02_name = Royal Seer ;
    skin_03 = 03 ;
-   skin_03_name = Civilian ;
+   skin_03_name = Blue Mage ;
    skin_04 = 04 ;
-   skin_04_name = Future ;
-   sounddir = magma_m ;
+   skin_04_name = Ultimate ;
+   sounddir = drstr_m ;
    strength = 4 ;
    team = hero ;
       talent {
       level = 1 ;
-      name = magma_p1 ;
+      name = drstr_p1 ;
       }
 
       talent {
       level = 1 ;
-      name = magma_resist ;
+      name = drstr_teleport ;
+      }
+
+      talent {
+      level = 1 ;
+      name = flight ;
       }
 
       talent {

@@ -2,34 +2,30 @@
    ailevel = 1 ;
    autospend = support ;
    body = 5 ;
-   characteranims = 213_magma ;
-   charactername = Magma ;
+   canthrowally = true ;
+   characteranims = 198_frost ;
+   charactername = Emma Frost ;
    level = 1 ;
-   menulocation = 61 ;
+   menulocation = 59 ;
    mind = 12 ;
-   name = Magma ;
+   name = Emma_Frost_Hero ;
    playable = true ;
-   powerstyle = ps_magma ;
+   powerstyle = ps_frost ;
    scriptlevel = 3 ;
-   skin = 21301 ;
-   skin_01_name = Ultimate ;
+   skin = 19803 ;
+   skin_01_name = New X-Men ;
    skin_02 = 02 ;
-   skin_02_name = Training ;
-   skin_03 = 03 ;
-   skin_03_name = Civilian ;
+   skin_02_name = Future ;
+   skin_03 = 01 ;
+   skin_03_name = Phoenix Five ;
    skin_04 = 04 ;
-   skin_04_name = Future ;
-   sounddir = magma_m ;
+   skin_04_name = Generation X ;
+   sounddir = emmaf_m ;
    strength = 4 ;
    team = hero ;
       talent {
       level = 1 ;
-      name = magma_p1 ;
-      }
-
-      talent {
-      level = 1 ;
-      name = magma_resist ;
+      name = frost_p1 ;
       }
 
       talent {

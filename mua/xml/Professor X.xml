@@ -1,0 +1,40 @@
+   stats {
+   ailevel = 1 ;
+   autospend = support ;
+   body = 5 ;
+   characteranims = 39_professorx_hero ;
+   charactername = Professor X ;
+   level = 1 ;
+   menulocation = 51 ;
+   mind = 12 ;
+   name = ProfessorX ;
+   playable = true ;
+   powerstyle = ps_professorx ;
+   scriptlevel = 3 ;
+   skin = 3902 ;
+   skin_01_name = New X-Men ;
+   skin_02 = 03 ;
+   skin_02_name = Astral ;
+   skin_03 = 04 ;
+   skin_03_name = Classic ;
+   skin_04 = 05 ;
+   skin_04_name = Astral Gladiator ;
+   sounddir = profx_m ;
+   strength = 4 ;
+   team = hero ;
+      talent {
+      level = 1 ;
+      name = prof_cleave ;
+      }
+
+      talent {
+      level = 1 ;
+      name = fightstyle_default ;
+      }
+
+      talent {
+      level = 1 ;
+      name = melee_moves ;
+      }
+
+   }

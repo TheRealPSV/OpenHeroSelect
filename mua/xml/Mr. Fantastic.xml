@@ -1,36 +1,35 @@
    stats {
    ailevel = 1 ;
-   autospend = bruiser ;
+   autospend = bruiser_light ;
    body = 7 ;
-   canthrowally = true ;
-   characteranims = 190_beast ;
-   charactername = Beast ;
+   characteranims = 20_mrfantastic ;
+   charactername = Mr. Fantastic ;
    level = 1 ;
-   menulocation = 58 ;
-   mind = 4 ;
-   name = Beast ;
+   menulocation = 21 ;
+   mind = 8 ;
+   name = MrFantastic ;
    playable = true ;
-   powerstyle = ps_beast ;
+   powerstyle = ps_mrfantastic ;
    scriptlevel = 3 ;
-   skin = 19001 ;
+   skin = 2001 ;
    skin_01_name = Ultimate ;
    skin_02 = 02 ;
    skin_02_name = Original ;
    skin_03 = 03 ;
-   skin_03_name = Future ;
+   skin_03_name = New Marvel ;
    skin_04 = 04 ;
    skin_04_name = Classic ;
-   sounddir = beast_m ;
-   strength = 10 ;
+   sounddir = mrfan_m ;
+   strength = 6 ;
    team = hero ;
       talent {
       level = 1 ;
-      name = beast_pinball ;
+      name = mrfan_p3 ;
       }
 
       talent {
       level = 1 ;
-      name = fightstyle_default ;
+      name = leadership ;
       }
 
       talent {
@@ -40,7 +39,7 @@
 
       talent {
       level = 1 ;
-      name = might ;
+      name = fightstyle_default ;
       }
 
    }

@@ -2,34 +2,29 @@
    ailevel = 1 ;
    autospend = support ;
    body = 5 ;
-   characteranims = 213_magma ;
-   charactername = Magma ;
+   characteranims = 22_invisiblewoman ;
+   charactername = Invisible Woman ;
    level = 1 ;
-   menulocation = 61 ;
+   menulocation = 15 ;
    mind = 12 ;
-   name = Magma ;
+   name = InvisibleWoman ;
    playable = true ;
-   powerstyle = ps_magma ;
+   powerstyle = ps_invisiblewoman ;
    scriptlevel = 3 ;
-   skin = 21301 ;
+   skin = 2201 ;
    skin_01_name = Ultimate ;
    skin_02 = 02 ;
-   skin_02_name = Training ;
+   skin_02_name = Original ;
    skin_03 = 03 ;
-   skin_03_name = Civilian ;
+   skin_03_name = New Marvel ;
    skin_04 = 04 ;
-   skin_04_name = Future ;
-   sounddir = magma_m ;
+   skin_04_name = Classic ;
+   sounddir = invisw_m ;
    strength = 4 ;
    team = hero ;
       talent {
       level = 1 ;
-      name = magma_p1 ;
-      }
-
-      talent {
-      level = 1 ;
-      name = magma_resist ;
+      name = inviswm_p1 ;
       }
 
       talent {

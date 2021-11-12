@@ -2,30 +2,30 @@
    ailevel = 1 ;
    autospend = bruiser_light ;
    body = 7 ;
-   characteranims = 208_rogue ;
-   charactername = Rogue ;
+   characteranims = 15_ironman ;
+   charactername = Iron Man ;
    level = 1 ;
-   menulocation = 35 ;
-   mind = 4 ;
+   menulocation = 7 ;
+   mind = 8 ;
    moveset1 = moveset_flying ;
-   name = Rogue ;
+   name = Ironman ;
    playable = true ;
-   powerstyle = ps_rogue ;
+   powerstyle = ps_ironman ;
    scriptlevel = 3 ;
-   skin = 20801 ;
-   skin_01_name = Astonishing ;
-   skin_02 = 02 ;
-   skin_02_name = Ultimate ;
+   skin = 1502 ;
+   skin_01_name = New Avenger ;
+   skin_02 = 05 ;
+   skin_02_name = Classic ;
    skin_03 = 03 ;
-   skin_03_name = Age of Apocalypse ;
+   skin_03_name = War Machine ;
    skin_04 = 04 ;
-   skin_04_name = Original ;
-   sounddir = vogue_m ;
-   strength = 10 ;
+   skin_04_name = Ultimate ;
+   sounddir = iron_m ;
+   strength = 6 ;
    team = hero ;
       talent {
       level = 1 ;
-      name = rogue_smash ;
+      name = ironman_p1 ;
       }
 
       talent {
@@ -40,12 +40,12 @@
 
       talent {
       level = 1 ;
-      name = fightstyle_default ;
+      name = melee_moves ;
       }
 
       talent {
       level = 1 ;
-      name = melee_moves ;
+      name = fightstyle_default ;
       }
 
    }

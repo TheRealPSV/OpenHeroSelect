@@ -2,50 +2,40 @@
    ailevel = 1 ;
    autospend = support ;
    body = 5 ;
-   characteranims = 04_storm ;
-   charactername = Storm ;
+   characteranims = 205_scarletwitch ;
+   charactername = Scarlet Witch ;
    level = 1 ;
-   menulocation = 5 ;
+   menulocation = 56 ;
    mind = 12 ;
    moveset1 = moveset_flying ;
-   name = Storm ;
+   name = ScarletWitch ;
    playable = true ;
-   powerstyle = ps_storm ;
+   powerstyle = ps_scarletwitch ;
    scriptlevel = 3 ;
-   skin = 0401 ;
-   skin_01_name = Astonishing ;
+   skin = 20501 ;
+   skin_01_name = Force Works ;
    skin_02 = 02 ;
-   skin_02_name = Retro ;
+   skin_02_name = Gypsy ;
    skin_03 = 03 ;
    skin_03_name = Ultimate ;
    skin_04 = 04 ;
    skin_04_name = Classic ;
-   sounddir = storm_m ;
+   sounddir = switch_m ;
    strength = 4 ;
    team = hero ;
       talent {
       level = 1 ;
-      name = storm_strike ;
-      }
-
-      talent {
-      level = 1 ;
-      name = storm_resist ;
-      }
-
-      talent {
-      level = 1 ;
-      name = flight ;
-      }
-
-      talent {
-      level = 1 ;
-      name = leadership ;
+      name = scar_hex_locked ;
       }
 
       talent {
       level = 1 ;
       name = fightstyle_default ;
+      }
+
+      talent {
+      level = 1 ;
+      name = flight ;
       }
 
       talent {

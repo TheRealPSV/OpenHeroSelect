@@ -3,37 +3,37 @@
    autospend = bruiser ;
    body = 7 ;
    canthrowally = true ;
-   characteranims = 170_Hulk ;
-   characteranimsclass = humanoid_large ;
-   charactername = Hulk ;
+   characteranims = 157_luke_cage ;
+   charactername = Luke Cage ;
    ignoreboundsscaling = true ;
    level = 1 ;
-   menulocation = 19 ;
+   menulocation = 14 ;
    mind = 4 ;
-   name = Hulk ;
+   name = LukeCage ;
    playable = true ;
-   powerstyle = ps_hulk ;
-   scale_factor = 1.3 ;
+   powerstyle = ps_lukecage ;
+   scale_factor = 1.15 ;
+   scaleattacks = true ;
    scriptlevel = 3 ;
-   skin = 17001 ;
-   skin_01_name = Classic ;
+   skin = 15701 ;
+   skin_01_name = New Avengers ;
    skin_02 = 02 ;
-   skin_02_name = Original ;
+   skin_02_name = Hero for Hire ;
    skin_03 = 03 ;
-   skin_03_name = Planet Hulk ;
+   skin_03_name = Street ;
    skin_04 = 04 ;
-   skin_04_name = Joe Fixit ;
-   sounddir = hulk_m ;
-   strength = 12 ;
+   skin_04_name = Modern ;
+   sounddir = lukeca_m ;
+   strength = 10 ;
    team = hero ;
       talent {
       level = 1 ;
-      name = hulk_power1 ;
+      name = lukec_p1 ;
       }
 
       talent {
       level = 1 ;
-      name = healing_factor ;
+      name = lukec_grabsma ;
       }
 
       talent {

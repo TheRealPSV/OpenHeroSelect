@@ -2,30 +2,31 @@
    ailevel = 1 ;
    autospend = bruiser_light ;
    body = 7 ;
-   characteranims = 208_rogue ;
-   charactername = Rogue ;
+   characteranims = 19_doomdlc ;
+   charactername = Doctor Doom ;
    level = 1 ;
-   menulocation = 35 ;
-   mind = 4 ;
+   menulocation = 1 ;
+   mind = 8 ;
    moveset1 = moveset_flying ;
-   name = Rogue ;
+   name = DoomDLC ;
    playable = true ;
-   powerstyle = ps_rogue ;
+   powerstyle = ps_doomdlc ;
+   scale_factor = 1.1 ;
    scriptlevel = 3 ;
-   skin = 20801 ;
-   skin_01_name = Astonishing ;
+   skin = 1905 ;
+   skin_01_name = Classic ;
    skin_02 = 02 ;
-   skin_02_name = Ultimate ;
+   skin_02_name = Secret Wars ;
    skin_03 = 03 ;
-   skin_03_name = Age of Apocalypse ;
+   skin_03_name = Kristoff ;
    skin_04 = 04 ;
-   skin_04_name = Original ;
-   sounddir = vogue_m ;
-   strength = 10 ;
+   skin_04_name = Ultimate ;
+   sounddir = doom_m ;
+   strength = 7 ;
    team = hero ;
       talent {
       level = 1 ;
-      name = rogue_smash ;
+      name = doom_power1 ;
       }
 
       talent {
@@ -40,12 +41,12 @@
 
       talent {
       level = 1 ;
-      name = fightstyle_default ;
+      name = melee_moves ;
       }
 
       talent {
       level = 1 ;
-      name = melee_moves ;
+      name = fightstyle_default ;
       }
 
    }

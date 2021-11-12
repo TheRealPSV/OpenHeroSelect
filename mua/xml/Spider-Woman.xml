@@ -2,40 +2,35 @@
    ailevel = 1 ;
    autospend = bruiser_light ;
    body = 7 ;
-   characteranims = 208_rogue ;
-   charactername = Rogue ;
+   characteranims = 38_spider_woman ;
+   charactername = Spider-Woman ;
    level = 1 ;
-   menulocation = 35 ;
-   mind = 4 ;
+   menulocation = 12 ;
+   mind = 8 ;
    moveset1 = moveset_flying ;
-   name = Rogue ;
+   name = SpiderWoman ;
    playable = true ;
-   powerstyle = ps_rogue ;
+   powerstyle = ps_spiderwoman ;
    scriptlevel = 3 ;
-   skin = 20801 ;
-   skin_01_name = Astonishing ;
+   skin = 3801 ;
+   skin_01_name = Classic ;
    skin_02 = 02 ;
-   skin_02_name = Ultimate ;
+   skin_02_name = Agent of S.H.I.E.L.D. ;
    skin_03 = 03 ;
-   skin_03_name = Age of Apocalypse ;
+   skin_03_name = Secret Wars ;
    skin_04 = 04 ;
-   skin_04_name = Original ;
-   sounddir = vogue_m ;
-   strength = 10 ;
+   skin_04_name = Spider-Girl ;
+   sounddir = spidwm_m ;
+   strength = 6 ;
    team = hero ;
       talent {
       level = 1 ;
-      name = rogue_smash ;
+      name = spdwm_power1 ;
       }
 
       talent {
       level = 1 ;
       name = flight ;
-      }
-
-      talent {
-      level = 1 ;
-      name = might ;
       }
 
       talent {
