@@ -1,13 +1,13 @@
 import glob
 from pathlib import Path
 from argparse import ArgumentParser
-import textwrap
 
 # this is used in the space_remover function so that needed spaces are kept
 special_chars = ';={}'
 
 # need a function to remove all spaces from lines. This makes working with the file easier
 def space_remover(old_line):
+    old_line = old_line.strip() # remove leading and trailing spaces (removes indent)
     new_line = ''
     i = 0
     while i < len(old_line):
@@ -61,8 +61,7 @@ def convert(file_name: Path):
 
     # begin performing conversion
     for line in lines_original:
-        working_line = textwrap.dedent(line)
-        working_line = space_remover(working_line)
+        working_line = space_remover(line)
         if (working_line[0:4] == 'XMLB') and (working_line[-1] == '{'):
             # this is for the header
             lines_output.append('{')
