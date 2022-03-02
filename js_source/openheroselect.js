@@ -279,16 +279,9 @@ const main = async (automatic = false, xml2 = false) => {
     } else if (fs.existsSync(path.resolve(resourcePath, "xml", `${item}.xml`))) {
       //if json file doesn't exist but xml does, convert to json and load it
       const filePath = path.resolve(resourcePath, "xml", `${item}.xml`);
-      fs.copyFileSync(filePath, path.resolve("temp", `${item}.xml`));
-      const tempFilePath = path.resolve("temp", `${item}.xml`);
-      cspawn.sync(path.resolve("xml2json.exe"), [], {
-        input: tempFilePath
-      });
-      if (!options.saveTempFiles) {
-        //delete intermediate xml file from temp dir if not saving temp files
-        fs.removeSync(tempFilePath);
-      }
-      fileData = fs.readFileSync(path.resolve("temp", `${item}.json`), "utf8");
+      const tempFilePath = path.resolve("temp", `${item}.json`);
+      cspawn.sync(path.resolve("xml2json.exe"), [filePath, tempFilePath], {});
+      fileData = fs.readFileSync(tempFilePath, "utf8");
     } else {
       console.error(`ERROR: no json or xml found for ${item}`);
       throw new Error(`ERROR: no json or xml found for ${item}`);
