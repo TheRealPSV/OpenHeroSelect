@@ -9,64 +9,6 @@ const enquirer = require('enquirer');
 
 // REGEXES
 const NEWLINE_REGEX = /\n+/m;
-const MENULOCATION_REGEX = /(^\s*"menulocation":\s*)"?\w+"?(,\s*$)/m;
-
-// CONSTANT HEROSTAT PIECES
-const CHARACTERS_START = `{
-  "characters": {
-`;
-const CHARACTERS_END = `
-  }
-}
-`;
-const DEFAULTMAN = `"stats": {
-  "autospend": "support_heavy",
-  "body": 1,
-  "characteranims": "00_testguy",
-  "charactername": "defaultman",
-  "level": 1,
-  "menulocation": 0,
-  "mind": 1,
-  "name": "default",
-  "skin": "0002",
-  "strength": 1,
-  "team": "enemy",
-  "talent": {
-      "level": 1,
-      "name": "fightstyle_default"
-  }
-}`;
-
-const DEFAULTMAN_XML2 = `"stats": {
-  "autospend": "support_heavy",
-  "body": "1",
-  "characteranims": "00_testguy",
-  "charactername": "defaultman",
-  "level": "1",
-  "mind": "1",
-  "name": "default",
-  "skin": "0002",
-  "speed": "1",
-  "strength": "1",
-  "Race": {
-      "name": "Mutant"
-  },
-  "Race": {
-      "name": "XMen"
-  },
-  "talent": {
-      "level": "1",
-      "name": "fightstyle_hero"
-  }
-}`;
-const TEAM_CHARACTER = `"stats": {
-  "autospend": "support",
-  "isteam": true,
-  "name": "team_character",
-  "skin": "0002",
-  "xpexempt": true
-}
-`;
 
 // CONSTANT VALUES
 const DEFAULT_HEROLIMIT = 27;
@@ -269,11 +211,130 @@ const main = async (automatic = false, xml2 = false) => {
   let operations = rosterList.length + menulocations.length + 7;
   let progressPoints = 0;
 
+  //check if json herostat exists
+  xmlfmt = true
+  rosterList.forEach((item) => {
+    if (fs.existsSync(path.resolve(resourcePath, "json", `${item}.json`))) {
+      xmlfmt = false;
+    }
+  });
+
+  // CONSTANT HEROSTAT PIECES
+  const CHARACTERS_START = xmlfmt ? `XMLB characters {
+` : `{
+  "characters": {
+`;
+  const CHARACTERS_END = xmlfmt ? `
+}
+` : `
+  }
+}
+`;
+  const DEFAULTMAN = xmlfmt ? `   stats {
+   autospend = support_heavy ;
+   body = 1 ;
+   characteranims = 00_testguy ;
+   charactername = defaultman ;
+   level = 1 ;
+   menulocation = 0 ;
+   mind = 1 ;
+   name = default ;
+   skin = 0002 ;
+   strength = 1 ;
+   team = enemy ;
+      talent {
+      level = 1 ;
+      name = fightstyle_default ;
+      }
+
+   }` : `"stats": {
+  "autospend": "support_heavy",
+  "body": 1,
+  "characteranims": "00_testguy",
+  "charactername": "defaultman",
+  "level": 1,
+  "menulocation": 0,
+  "mind": 1,
+  "name": "default",
+  "skin": "0002",
+  "strength": 1,
+  "team": "enemy",
+  "talent": {
+      "level": 1,
+      "name": "fightstyle_default"
+  }
+}`;
+  const DEFAULTMAN_XML2 = xmlfmt ? `   stats {
+   autospend = support_heavy ;
+   body = 1 ;
+   characteranims = 00_testguy ;
+   charactername = defaultman ;
+   level = 1 ;
+   mind = 1 ;
+   name = default ;
+   skin = 0002 ;
+   strength = 1 ;
+      Race {
+      name = Mutant ;
+      }
+
+      Race {
+      name = XMen ;
+      }
+
+      talent {
+      level = 1 ;
+      name = fightstyle_default ;
+      }
+
+   }` : `"stats": {
+  "autospend": "support_heavy",
+  "body": "1",
+  "characteranims": "00_testguy",
+  "charactername": "defaultman",
+  "level": "1",
+  "mind": "1",
+  "name": "default",
+  "skin": "0002",
+  "speed": "1",
+  "strength": "1",
+  "Race": {
+      "name": "Mutant"
+  },
+  "Race": {
+      "name": "XMen"
+  },
+  "talent": {
+      "level": "1",
+      "name": "fightstyle_hero"
+  }
+}`;
+  const TEAM_CHARACTER = xmlfmt ? `   stats {
+   autospend = support ;
+   isteam = true ;
+   name = team_character ;
+   skin = 0002 ;
+   xpexempt = true ;
+   }
+` : `"stats": {
+  "autospend": "support",
+  "isteam": true,
+  "name": "team_character",
+  "skin": "0002",
+  "xpexempt": true
+}
+`;
+  const MENULOCATION_REGEX = xmlfmt ? /(^\s*menulocation\s*=\s*)\w+(\s*;\s*$)/m : /(^\s*"menulocation":\s*)"?\w+"?(,\s*$)/m;
+  const STATS_REGEX = xmlfmt ? /^.*stats\s*{[\s\S]*}(?![\s\S]*})/m : /^.*"stats":\s*{[\s\S]*}(?![\s\S]*})/m;
+
   //load stat data for each character in roster
   const characters = [];
   rosterList.forEach((item) => {
     let fileData = "";
-    if (fs.existsSync(path.resolve(resourcePath, "json", `${item}.json`))) {
+    if (xmlfmt) {
+      //if no json herostat exists for the whole roster, load xml files
+      fileData = fs.readFileSync(path.resolve(resourcePath, "xml", `${item}.xml`), "utf8");
+    } else if (fs.existsSync(path.resolve(resourcePath, "json", `${item}.json`))) {
       //if json stats file exists, load that (json has priority)
       fileData = fs.readFileSync(path.resolve(resourcePath, "json", `${item}.json`), "utf8");
     } else if (fs.existsSync(path.resolve(resourcePath, "xml", `${item}.xml`))) {
@@ -287,9 +348,8 @@ const main = async (automatic = false, xml2 = false) => {
       throw new Error(`ERROR: no json or xml found for ${item}`);
     }
 
-    //clean up loaded json file and push to list of loaded character stats
-    fileData = fileData.trim();
-    fileData = fileData.slice(0, fileData.length - 1); //removes trailing comma from json
+    //clean up loaded file and push to list of loaded character stats
+    fileData = fileData.match(STATS_REGEX).join();
 
     characters.push(fileData);
     writeProgress(((++progressPoints) / operations) * 100);
@@ -301,12 +361,13 @@ const main = async (automatic = false, xml2 = false) => {
 
   //begin generating herostat
   let herostat = CHARACTERS_START;
+  const comma = xmlfmt ? "\n" : ","; //no comma for xml format
   if (xml2) {
     //xml2 always has defaultman
-    herostat += DEFAULTMAN_XML2 + ",\n";
+    herostat += DEFAULTMAN_XML2 + comma + "\n";
   } else if (options.rosterHack || characters.length < DEFAULT_HEROLIMIT || menulocations.length < DEFAULT_HEROLIMIT) {
     //mua add defaultman unless no roster hack is installed and all 27 character slots are filled
-    herostat += DEFAULTMAN + ",\n";
+    herostat += DEFAULTMAN + comma + "\n";
   }
   writeProgress(((++progressPoints) / operations) * 100);
 
@@ -324,7 +385,7 @@ const main = async (automatic = false, xml2 = false) => {
     herostat += heroValue;
     //skip the last comma for xml2 since there's no TEAM_CHARACTER
     if (!xml2 || (index + 1 < menulocations.length && index + 1 < characters.length)) {
-      herostat += ",";
+      herostat += comma;
     };
     herostat += "\n";
     writeProgress(((++progressPoints) / operations) * 100);
@@ -347,10 +408,15 @@ const main = async (automatic = false, xml2 = false) => {
   writeProgress(((++progressPoints) / operations) * 100);
 
   //write herostat json to disk
-  fs.writeFileSync(path.resolve("temp", "herostat.json"), herostat);
+  const ext = xmlfmt ? `xml` : `json`;
+  const herostatXmlPath = path.resolve("temp", "herostat.xml");
+  const herostatJsonPath = path.resolve("temp", "herostat.json");
+  fs.writeFileSync(path.resolve("temp", `herostat.${ext}`), herostat);
+  if (xmlfmt) {
+    cspawn.sync(path.resolve("xml2json.exe"), [herostatXmlPath, herostatJsonPath], {});
+  }
   writeProgress(((++progressPoints) / operations) * 100);
 
-  const herostatJsonPath = path.resolve("temp", "herostat.json");
   const herostatOutputPath = path.resolve("temp", "herostat.xmlb");
   //generate herostat xmlb file
   const child = cspawn.sync(
@@ -383,7 +449,6 @@ const main = async (automatic = false, xml2 = false) => {
     });
     gameProc.unref();
   }
-  writeProgress(100);
 };
 
 function writeProgress(percent) {
