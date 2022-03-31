@@ -24,6 +24,9 @@ const XML2_NAME = "X-Men Legends 2";
 // OPTIONS
 const XML2_ROSTER_SIZES = new Map([["PC (21)", 21], ["Console (19)", 19], ["PSP (23)", 23]]);
 
+// Shared Options Object
+let options = {};
+
 const main = async (automatic = false, xml2 = false) => {
   const resourcePath = xml2 ? XML2_RESOURCES : MUA_RESOURCES;
   //clear temp folder
@@ -33,7 +36,6 @@ const main = async (automatic = false, xml2 = false) => {
   //find config file
   const configPath = path.resolve(resourcePath, INI_PATH);
 
-  let options = {};
   if (xml2) {
     options = {
       rosterSize: null,
@@ -42,7 +44,8 @@ const main = async (automatic = false, xml2 = false) => {
       exeName: null,
       herostatName: null,
       launchGame: null,
-      saveTempFiles: null
+      saveTempFiles: null,
+      showProgress: null
     };
   } else {
     options = {
@@ -53,7 +56,8 @@ const main = async (automatic = false, xml2 = false) => {
       exeName: null,
       herostatName: null,
       launchGame: null,
-      saveTempFiles: null
+      saveTempFiles: null,
+      showProgress: null
     };
   }
 
@@ -65,7 +69,12 @@ const main = async (automatic = false, xml2 = false) => {
   if (fs.existsSync(configPath)) {
     try {
       readOptions = JSON.parse(fs.readFileSync(configPath, "utf8"));
-      options = readOptions;
+      //verify each options value is valid and only load valid keys
+      Object.keys(options).forEach(item => {
+        options[item] = (readOptions[item] !== undefined && readOptions[item] !== null)
+          ? readOptions[item]
+          : options[item];
+      });
     } catch (e) {
       console.error("Found malformed config.ini file");
       readOptions = null;
@@ -171,6 +180,11 @@ const main = async (automatic = false, xml2 = false) => {
         message: 'Save the intermediate temp files?',
         initial: false
       }).run();
+      options.showProgress = await new enquirer.Confirm({
+        name: 'showprogress',
+        message: 'Show progress? (Leaving this disabled provides a performance boost.)',
+        initial: false
+      }).run();
       saveOptions = await new enquirer.Confirm({
         name: 'teamcharacterincluded',
         message: 'Save these options to config.ini file?',
@@ -211,26 +225,31 @@ const main = async (automatic = false, xml2 = false) => {
   let operations = rosterList.length + menulocations.length + 7;
   let progressPoints = 0;
 
-  //check if json herostat exists
-  xmlfmt = true
+  //check if any json herostat exists
+  let useXMLFormatOnly = true;
   rosterList.forEach((item) => {
     if (fs.existsSync(path.resolve(resourcePath, "json", `${item}.json`))) {
-      xmlfmt = false;
+      useXMLFormatOnly = false;
     }
   });
 
   // CONSTANT HEROSTAT PIECES
-  const CHARACTERS_START = xmlfmt ? `XMLB characters {
-` : `{
+  const CHARACTERS_START = useXMLFormatOnly
+    ? `XMLB characters {
+`
+    : `{
   "characters": {
 `;
-  const CHARACTERS_END = xmlfmt ? `
+  const CHARACTERS_END = useXMLFormatOnly
+    ? `
 }
-` : `
+`
+    : `
   }
 }
 `;
-  const DEFAULTMAN = xmlfmt ? `   stats {
+  const DEFAULTMAN = useXMLFormatOnly
+    ? `   stats {
    autospend = support_heavy ;
    body = 1 ;
    characteranims = 00_testguy ;
@@ -247,7 +266,8 @@ const main = async (automatic = false, xml2 = false) => {
       name = fightstyle_default ;
       }
 
-   }` : `"stats": {
+   }`
+    : `"stats": {
   "autospend": "support_heavy",
   "body": 1,
   "characteranims": "00_testguy",
@@ -264,7 +284,8 @@ const main = async (automatic = false, xml2 = false) => {
       "name": "fightstyle_default"
   }
 }`;
-  const DEFAULTMAN_XML2 = xmlfmt ? `   stats {
+  const DEFAULTMAN_XML2 = useXMLFormatOnly
+    ? `   stats {
    autospend = support_heavy ;
    body = 1 ;
    characteranims = 00_testguy ;
@@ -287,7 +308,8 @@ const main = async (automatic = false, xml2 = false) => {
       name = fightstyle_default ;
       }
 
-   }` : `"stats": {
+   }`
+    : `"stats": {
   "autospend": "support_heavy",
   "body": "1",
   "characteranims": "00_testguy",
@@ -309,14 +331,16 @@ const main = async (automatic = false, xml2 = false) => {
       "name": "fightstyle_hero"
   }
 }`;
-  const TEAM_CHARACTER = xmlfmt ? `   stats {
+  const TEAM_CHARACTER = useXMLFormatOnly
+    ? `   stats {
    autospend = support ;
    isteam = true ;
    name = team_character ;
    skin = 0002 ;
    xpexempt = true ;
    }
-` : `"stats": {
+`
+    : `"stats": {
   "autospend": "support",
   "isteam": true,
   "name": "team_character",
@@ -324,14 +348,16 @@ const main = async (automatic = false, xml2 = false) => {
   "xpexempt": true
 }
 `;
-  const MENULOCATION_REGEX = xmlfmt ? /(^\s*menulocation\s*=\s*)\w+(\s*;\s*$)/m : /(^\s*"menulocation":\s*)"?\w+"?(,\s*$)/m;
-  const STATS_REGEX = xmlfmt ? /^.*stats\s*{[\s\S]*}(?![\s\S]*})/m : /^.*"stats":\s*{[\s\S]*}(?![\s\S]*})/m;
+
+  //dynamic regexes
+  const MENULOCATION_REGEX = useXMLFormatOnly ? /(^\s*menulocation\s*=\s*)\w+(\s*;\s*$)/m : /(^\s*"menulocation":\s*)"?\w+"?(,\s*$)/m;
+  const STATS_REGEX = useXMLFormatOnly ? /^.*stats\s*{[\s\S]*}(?![\s\S]*})/m : /^.*"stats":\s*{[\s\S]*}(?![\s\S]*})/m;
 
   //load stat data for each character in roster
   const characters = [];
   rosterList.forEach((item) => {
     let fileData = "";
-    if (xmlfmt) {
+    if (useXMLFormatOnly) {
       //if no json herostat exists for the whole roster, load xml files
       fileData = fs.readFileSync(path.resolve(resourcePath, "xml", `${item}.xml`), "utf8");
     } else if (fs.existsSync(path.resolve(resourcePath, "json", `${item}.json`))) {
@@ -361,7 +387,7 @@ const main = async (automatic = false, xml2 = false) => {
 
   //begin generating herostat
   let herostat = CHARACTERS_START;
-  const comma = xmlfmt ? "\n" : ","; //no comma for xml format
+  const comma = useXMLFormatOnly ? "\n" : ","; //no comma for xml format
   if (xml2) {
     //xml2 always has defaultman
     herostat += DEFAULTMAN_XML2 + comma + "\n";
@@ -408,11 +434,11 @@ const main = async (automatic = false, xml2 = false) => {
   writeProgress(((++progressPoints) / operations) * 100);
 
   //write herostat json to disk
-  const ext = xmlfmt ? `xml` : `json`;
+  const ext = useXMLFormatOnly ? `xml` : `json`;
   const herostatXmlPath = path.resolve("temp", "herostat.xml");
   const herostatJsonPath = path.resolve("temp", "herostat.json");
   fs.writeFileSync(path.resolve("temp", `herostat.${ext}`), herostat);
-  if (xmlfmt) {
+  if (useXMLFormatOnly) {
     cspawn.sync(path.resolve("xml2json.exe"), [herostatXmlPath, herostatJsonPath], {});
   }
   writeProgress(((++progressPoints) / operations) * 100);
@@ -452,6 +478,9 @@ const main = async (automatic = false, xml2 = false) => {
 };
 
 function writeProgress(percent) {
+  if (!options.showProgress) {
+    return;
+  }
   process.stdout.clearLine();
   process.stdout.cursorTo(0);
   process.stdout.write(percent === 100 ? "Done\n" : `Working, please wait... (${percent.toFixed(1)}%)`);
