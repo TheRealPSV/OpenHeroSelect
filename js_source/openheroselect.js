@@ -21,11 +21,15 @@ const XML2_RESOURCES = "xml2";
 const MUA_NAME = "Marvel Ultimate Alliance";
 const XML2_NAME = "X-Men Legends 2";
 
+const herostatOutputPath = path.resolve("temp", "herostat.xmlb");
+
 // OPTIONS
 const XML2_ROSTER_SIZES = new Map([["PC (21)", 21], ["Console (19)", 19], ["PSP (23)", 23]]);
 
 // Shared Options Object
 let options = {};
+
+let useXMLFormatOnly = true;
 
 const main = async (automatic = false, xml2 = false) => {
   const resourcePath = xml2 ? XML2_RESOURCES : MUA_RESOURCES;
@@ -45,7 +49,8 @@ const main = async (automatic = false, xml2 = false) => {
       herostatName: null,
       launchGame: null,
       saveTempFiles: null,
-      showProgress: null
+      showProgress: null,
+      debugMode: null
     };
   } else {
     options = {
@@ -57,7 +62,8 @@ const main = async (automatic = false, xml2 = false) => {
       herostatName: null,
       launchGame: null,
       saveTempFiles: null,
-      showProgress: null
+      showProgress: null,
+      debugMode: null
     };
   }
 
@@ -185,6 +191,11 @@ const main = async (automatic = false, xml2 = false) => {
         message: 'Show progress? (Leaving this disabled provides a performance boost.)',
         initial: false
       }).run();
+      options.debugMode = await new enquirer.Confirm({
+        name: 'debugMode',
+        message: 'Test herostats? (Shows more details on errors, but reduces performance.)',
+        initial: false
+      }).run();
       saveOptions = await new enquirer.Confirm({
         name: 'teamcharacterincluded',
         message: 'Save these options to config.ini file?',
@@ -222,11 +233,10 @@ const main = async (automatic = false, xml2 = false) => {
     menulocations = new Array(options.rosterSize);
   }
 
-  let operations = rosterList.length + menulocations.length + 7;
+  let operations = rosterList.length + menulocations.length + 6;
   let progressPoints = 0;
 
   //check if any json herostat exists
-  let useXMLFormatOnly = true;
   rosterList.forEach((item) => {
     if (fs.existsSync(path.resolve(resourcePath, "json", `${item}.json`))) {
       useXMLFormatOnly = false;
@@ -407,6 +417,11 @@ const main = async (automatic = false, xml2 = false) => {
         `$1${menulocations[index]}$2`
       );
     }
+    //debug mode is new
+    if (options.debugMode) {
+      let dbgStat = CHARACTERS_START + heroValue + "\n" + CHARACTERS_END;
+      compileHerostat(dbgStat, rosterList[index]);
+    };
     //append to herostat with comma and newline
     herostat += heroValue;
     //skip the last comma for xml2 since there's no TEAM_CHARACTER
@@ -434,25 +449,7 @@ const main = async (automatic = false, xml2 = false) => {
   writeProgress(((++progressPoints) / operations) * 100);
 
   //write herostat json to disk
-  const ext = useXMLFormatOnly ? `xml` : `json`;
-  const herostatXmlPath = path.resolve("temp", "herostat.xml");
-  const herostatJsonPath = path.resolve("temp", "herostat.json");
-  fs.writeFileSync(path.resolve("temp", `herostat.${ext}`), herostat);
-  if (useXMLFormatOnly) {
-    cspawn.sync(path.resolve("xml2json.exe"), [herostatXmlPath, herostatJsonPath], {});
-  }
-  writeProgress(((++progressPoints) / operations) * 100);
-
-  const herostatOutputPath = path.resolve("temp", "herostat.xmlb");
-  //generate herostat xmlb file
-  const child = cspawn.sync(
-    path.resolve("json2xmlb.exe"),
-    [herostatJsonPath, herostatOutputPath],
-    {}
-  );
-  if (child.error) {
-    throw child.stderr.toString('utf8');
-  }
+  compileHerostat(herostat, 'herostat')
   writeProgress(((++progressPoints) / operations) * 100);
 
   //copy converted herostat to game data directory
@@ -484,6 +481,26 @@ function writeProgress(percent) {
   process.stdout.clearLine();
   process.stdout.cursorTo(0);
   process.stdout.write(percent === 100 ? "Done\n" : `Working, please wait... (${percent.toFixed(1)}%)`);
+}
+
+function compileHerostat(stats, statname) {
+  const ext = useXMLFormatOnly ? `xml` : `json`;
+  const herostatXmlPath = path.resolve("temp", "herostat.xml");
+  const herostatJsonPath = path.resolve("temp", "herostat.json");
+  fs.writeFileSync(path.resolve("temp", `herostat.${ext}`), stats);
+  if (useXMLFormatOnly) {
+    cspawn.sync(path.resolve("xml2json.exe"), [herostatXmlPath, herostatJsonPath], {});
+  }
+
+  //generate herostat xmlb file
+  const child = cspawn.sync(
+    path.resolve("json2xmlb.exe"),
+    [herostatJsonPath, herostatOutputPath],
+    {}
+  );
+  if (child.stdout == '') {
+    throw statname + ":\n" + child.stderr.toString('utf8').split("\n").slice(-3).join('\n');
+  }
 }
 
 module.exports = main;
