@@ -1,0 +1,186 @@
+    <stats name="Gambit" charactername="Gambit" skin="1301" skin_future="02" sounddir="gambit_m" powerstyle="ps_gambit" level="1" strength="5" speed="3" body="3" mind="6" scriptlevel="3" team="hero" RatingMelee="0.2" RatingRanged="0.6" RatingSupport="0.2" RatingDurability="0.5" characteranims="13_gambit" playable="true">
+        <Race name="Mutant" />
+        <Talent name="charged_card" level="1" descname="Charged Card" description="Throws kinetically charged cards.  Can also destroy objects with touch." icon_texture="textures/ui/gambit_all.png" icon="0" power="0">
+            <level description="^3 Cards. ^L1 Energy damage per card. ^1 Destruction. ^P1 Energy." />
+            <level description="^3 Cards. ^L1+ Energy damage per card. ^1 Destruction. ^P1+ Energy.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^3 Cards. ^L2 Energy damage per card. ^2 Destruction. ^P2 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^3 Cards. ^L2+ Energy damage per card. ^2 Destruction. ^P2+ Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^3 Cards. ^L3 Energy damage per card. ^3 Destruction. ^P3 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^5 Cards. ^L3 Energy damage per card. ^4 Destruction. ^K2 Knockback. ^P4 Energy." cost="2" descname="Charged Shuffle">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^5 Cards. ^L3+ Energy damage per card. ^5 Destruction. ^K2 Knockback. ^P4+ Energy.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^5 Cards. ^L4 Energy damage per card. ^6 Destruction. ^K3 Knockback. ^P5 Energy.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^5 Cards. ^L4+ Energy damage per card. ^7 Destruction. ^K3 Knockback. ^P5+ Energy.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^5 Cards. ^L5- Energy damage per card. ^8 Destruction. ^K4 Knockback. ^P6 Energy.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^7 Cards. ^L5- Energy damage per card. ^9 Destruction. ^K5 Knockback. ^P7 Energy." cost="2" descname="Card Legend">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="staff_slam" level="0" cost="2" descname="Staff Slam" description="A powerful staff attack" icon_texture="textures/ui/gambit_all.png" icon="1" power="1">
+            <level description="^L1 Energy Damage. ^1 Destruction. ^K2 Knockback. Range ^5 feet. ^P2+ Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L2 Energy Damage. ^1 Destruction. ^K3 Knockback. Range ^6 feet. ^P3 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L3 Energy Damage. ^2 Destruction. ^K3 Knockback. Range ^6 feet. ^P3+ Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^L4 Energy Damage. ^2 Destruction. ^K4 Knockback. Range ^7 feet. ^P4 Energy.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="^L5 Energy Damage. ^3 Destruction. ^K4 Knockback. Range ^7 feet. ^P4+ Energy.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^M1 Energy Damage. ^3 Destruction. ^K6 Knockback. Range ^8 feet. ^P5+ Energy." cost="2" descname="Staff Detonation">
+                <require cat="level" level="20" />
+            </level>
+            <level description="^M2 Energy Damage. ^4 Destruction. ^K6 Knockback. Range ^9 feet. ^P6 Energy.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="^M3 Energy Damage. ^4 Destruction. ^K7 Knockback. Range ^9 feet. ^P6+ Energy.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="^M4 Energy Damage. ^5 Destruction. ^K7 Knockback. Range ^10 feet. ^P7 Energy.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="^M5 Energy Damage. ^5 Destruction. ^K8 Knockback. Range ^10 feet. ^P7+ Energy.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="^H1 Energy Damage. ^6 Destruction. ^K10 Knockback. Range ^11 feet. ^P8+ Energy." cost="2" descname="Staff Legend">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="kinetic_boost" level="0" cost="2" descname="Kinetic Boost" description="Gives damage bonus for a time" icon_texture="textures/ui/gambit_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. +^L1 Energy damage to physical attacks. ^P6 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. +^L1+ Energy damage to physical attacks. ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. +^L2 Energy damage to physical attacks. ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. +^L2+ Energy damage to physical attacks. +10% Movement speed. ^P10 Energy. Affects nearby teammates." cost="2" descname="Kinetic Amplification">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. +^L3 Energy damage to physical attacks. +10% Movement speed. ^P11 Energy. Affects nearby teammates.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. +^L3+ Energy damage to physical attacks. +15% Movement speed. ^P12 Energy. Affects nearby teammates.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. +^L4 Energy damage to physical attacks. +25% Movement speed. ^P14 Energy. Affects all teammates." cost="2" descname="Kinetic Mastery">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. +^L4+ Energy damage to physical attacks. +25% Movement speed. ^P15 Energy. Affects all teammates.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. +^L5- Energy damage to physical attacks. +30% Movement speed. ^P16 Energy. Affects all teammates.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="gambit_xtreme" level="0" descname="52 PICK UP" description="A flurry of kinetically charged cards dishes out extreme damage." icon_texture="textures/ui/gambit_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="overload" level="0" descname="Overload" description="Adds Energy to Charged Objects" power="5">
+            <level description="^L3 Energy damage. ^K1 Knockback. ^4 foot range. ^P2 Energy.">
+                <require cat="level" level="2" />
+            </level>
+            <level description="^L4 Energy damage. ^K2 Knockback. ^5 foot range. ^P2 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L5 Energy damage. ^K3 Knockback. ^6 foot range. ^P2 Energy.">
+                <require cat="level" level="12" />
+            </level>
+            <level description="^M1 Energy damage. ^K4 Knockback. ^7 foot range. ^P2 Energy.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^M2 Energy damage. ^K5 Knockback. ^8 foot range. ^P2 Energy.">
+                <require cat="level" level="22" />
+            </level>
+        </Talent>
+        <Talent name="kinetic_strike" level="0" descname="Kinetic Strike" description="Adds Kinetic Damage to Melee Attacks, does not include Staff Attacks." power="4">
+            <level description="^L1 Energy Damage. ^3 Destruction.">
+                <require cat="level" level="3" />
+                <activepowerup powerup="special" damageType="dmg_energy" level="L1" user1="3" user2="28" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/gambit_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L1+ Energy Damage. ^3 Destruction.">
+                <require cat="level" level="5" />
+                <activepowerup powerup="special" damageType="dmg_energy" level="L1+" user1="3" user2="28" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/gambit_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L2 Energy Damage. ^4 Destruction.">
+                <require cat="level" level="9" />
+                <activepowerup powerup="special" damageType="dmg_energy" level="L2" user1="4" user2="28" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/gambit_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L2+ Energy Damage. ^4 Destruction." descname="Kinetic Fury">
+                <require cat="level" level="12" />
+                <activepowerup powerup="special" damageType="dmg_energy" level="L2+" user1="4" user2="28" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/gambit_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L3 Energy Damage. ^5 Destruction.">
+                <require cat="level" level="15" />
+                <activepowerup powerup="special" damageType="dmg_energy" level="L3" user1="5" user2="28" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/gambit_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L3+ Energy Damage. ^5 Destruction.">
+                <require cat="level" level="18" />
+                <activepowerup powerup="special" damageType="dmg_energy" level="L3+" user1="5" user2="28" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/gambit_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+        </Talent>
+        <Talent name="staff_master" level="0" descname="Staff Master" description="Adds Kinetic Damage to Non-Power Staff Attacks." power="5">
+            <level description="+^L3 Damage">
+                <require cat="level" level="4" />
+                <activepowerup powerup="atk_damage" level="L3" life="-1">
+                    <scope scope_node="gambit_staff" />
+                </activepowerup>
+            </level>
+            <level description="+^L4 Damage">
+                <require cat="level" level="9" />
+                <activepowerup powerup="atk_damage" level="L4" life="-1">
+                    <scope scope_node="gambit_staff" />
+                </activepowerup>
+            </level>
+            <level description="+^L5 Damage">
+                <require cat="level" level="14" />
+                <activepowerup powerup="atk_damage" level="L5" life="-1">
+                    <scope scope_node="gambit_staff" />
+                </activepowerup>
+            </level>
+            <level description="+^M1 Damage">
+                <require cat="level" level="19" />
+                <activepowerup powerup="atk_damage" level="M1" life="-1">
+                    <scope scope_node="gambit_staff" />
+                </activepowerup>
+            </level>
+            <level description="+^M2 Damage">
+                <require cat="level" level="24" />
+                <activepowerup powerup="atk_damage" level="M2" life="-1">
+                    <scope scope_node="gambit_staff" />
+                </activepowerup>
+            </level>
+        </Talent>
+        <Talent name="fightstyle_hero" level="1" />
+        <Talent name="critical" level="0" />
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>

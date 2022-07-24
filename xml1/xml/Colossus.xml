@@ -1,0 +1,130 @@
+    <stats name="Colossus" charactername="Colossus" skin="0901" skin_70s="03" skin_civilian="02" skin_future="06" sounddir="coloss_m" powerstyle="ps_colossus" characteranims="09_colossus" level="1" strength="6" speed="4" body="4" mind="3" canthrowally="true" team="hero" heaviness="2" scale_factor="1.15" ignoreboundsscaling="true" scriptlevel="3" RatingMelee="0.7" RatingRanged="0.3" RatingSupport="0" RatingDurability="1" ailevel="2" playable="true">
+        <Race name="Mutant" />
+        <Talent name="colossus_titanicsmash" level="1" descname="Power Smash" description="Extra heavy lunge punch." icon_texture="textures/ui/colossus_all.png" icon="0" power="0">
+            <level description="^L4 Physical Damage. ^5 Destruction. ^K1 Knockback. ^P1 Energy." />
+            <level description="^L5 Physical Damage. ^5 Destruction. ^K2 Knockback. ^P1+ Energy.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^M1 Physical Damage. ^5 Destruction. ^K3 Knockback. ^P2 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^M2 Physical Damage. ^5 Destruction. ^K4 Knockback. ^P2+ Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^M3 Physical Damage. ^5 Destruction. ^K5 Knockback. ^P3 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^M5 Physical Damage. ^5 Destruction. ^K6 Knockback. ^P4 Energy." descname="Titanic Smash" cost="2">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^H1 Physical Damage. ^5 Destruction. ^K7 Knockback. ^P4+ Energy.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^H2 Physical Damage. ^5 Destruction. ^K8 Knockback. ^P5 Energy.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^H3 Physical Damage. ^5 Destruction. ^K9 Knockback. ^P5+ Energy.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^H4 Physical Damage. ^5 Destruction. ^K10 Knockback. ^P6 Energy.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^H6 Physical Damage. ^10 Destruction. ^K10 Knockback. ^P7 Energy." descname="Titanic Legend" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="colossus_concslam" level="0" descname="Concussion Slam" description="A colossal clap that projects a blast arc." icon_texture="textures/ui/colossus_all.png" icon="1" power="1">
+            <level description="^L1 Physical Damage. ^K1 Knockback. ^2 Destruction. ^10 Feet. ^P2+ Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L2 Physical Damage. ^K1 Knockback. ^2 Destruction. ^10 Feet. ^P3 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L3 Physical Damage. ^K2 Knockback. ^2 Destruction. ^10 Feet. ^P3+ Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^L4 Physical Damage. ^K3 Knockback. ^2 Destruction. ^10 Feet. ^P4 Energy.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="^L5 Physical Damage. ^K4 Knockback. ^2 Destruction. ^10 Feet. ^P4+ Energy.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^M1 Physical Damage. ^K5 Knockback. ^5 Destruction. ^20 Feet. ^P5+ Energy." descname="Concussion Blast" cost="2">
+                <require cat="level" level="20" />
+            </level>
+            <level description="^M2 Physical Damage. ^K6 Knockback. ^5 Destruction. ^20 Feet. ^P6 Energy.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="^M3 Physical Damage. ^K7 Knockback. ^5 Destruction. ^20 Feet. ^P6+ Energy.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="^M4 Physical Damage. ^K8 Knockback. ^5 Destruction. ^20 Feet. ^P7 Energy.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="^M5 Physical Damage. ^K9 Knockback. ^5 Destruction. ^20 Feet. ^P7+ Energy.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="^H1 Physical Damage. ^K10 Knockback. ^10 Destruction. ^30 Feet. ^P8+ Energy." descname="Concussion Legend" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="colossus_steelskin" level="0" descname="Steel Skin" description="Colossus generates steel armor around his body." icon_texture="textures/ui/colossus_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. -^A2 physical damage. -^33% Pain. ^P6 Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. -^A3 physical damage. -^33% Pain. ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. -^A4 physical damage. -^33% Pain. ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. -^A4 physical and -^A2 beam damage. -^66% Pain. ^P10 Energy." descname="Titanium Skin" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. -^A5 physical and -^A3 beam damage. -^66% Pain. ^P11 Energy.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. -^A6 physical and -^A4 beam damage. -^66% Pain. ^P12 Energy.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. -^A7 physical and -^A4 beam damage. ^20% chance deflect physical. Pain immunity. ^P14 Energy." descname="Osmium Skin" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. -^A7 physical and -^A5 beam damage. ^35% chance deflect physical. Pain immunity. ^P15 Energy.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. -^A8 physical and -^A6 beam damage. ^50% chance deflect physical. Pain immunity. ^P16 Energy.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="colossus_xtreme" level="0" descname="SEISMIC SMASH" description="An xtreme concussion attack" icon_texture="textures/ui/colossus_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="colossus_charge" level="0" descname="Colossus Charge" description="A heavy charge attack that can be performed from a jump" power="5">
+            <level description="^L2 Physical Damage. ^2 Destruction. ^K3 Knockback. ^P3 Energy.">
+                <require cat="level" level="2" />
+            </level>
+            <level description="^L3 Physical Damage. ^2 Destruction. ^K3 Knockback. ^P3 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L4 Physical Damage. ^5 Destruction. ^K4 Knockback. ^P4 Energy.">
+                <require cat="level" level="12" />
+            </level>
+            <level description="^L5 Physical Damage. ^5 Destruction. ^K4 Knockback. ^P4 Energy.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^M1 Physical Damage. ^10 Destruction. ^K5 Knockback. ^P5 Energy.">
+                <require cat="level" level="22" />
+            </level>
+        </Talent>
+        <Talent name="fightstyle_wrestling" level="1" />
+        <Talent name="might" level="1" />
+        <Talent name="critical" level="0" />
+        <Talent name="knockback" level="0" />
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>

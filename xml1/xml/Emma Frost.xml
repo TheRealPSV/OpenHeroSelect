@@ -1,0 +1,173 @@
+    <stats name="Frost" charactername="Emma Frost" skin="1501" skin_future="02" sounddir="emmaf_m" powerstyle="ps_frost" characteranims="15_emmafrost" level="1" strength="3" speed="3" body="5" mind="6" scriptlevel="3" RatingMelee="0.15" RatingRanged="0.15" RatingSupport="0.7" RatingDurability="0.3" team="hero" ailevel="1" playable="true">
+        <Race name="Mutant" />
+        <Talent name="frost_confuse" level="1" descname="Confuse" description="Confuses enemies into becoming non-hostile for a time. Upgrades to convert them." icon_texture="textures/ui/frost_all.png" icon="0" power="0">
+            <level description="^1 to ^3 seconds. ^Short range. ^P1 Energy." />
+            <level description="^1 to ^4 seconds. ^Short range. ^P1+ Energy.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^1 to ^5 seconds. ^Short range. ^P2 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^1 to ^6 seconds. ^Short range. ^P2+ Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^1 to ^7 seconds. ^Short range. ^P3 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^2 to ^10 seconds. ^Medium range. ^P4 Energy. Converts. +^2 victim traits." cost="2" descname="Command">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^2 to ^11 seconds. ^Medium range. ^P4+ Energy. Converts. +^4 victim traits.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^2 to ^12 seconds. ^Medium range. ^P5 Energy. Converts. +^6 victim traits.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^2 to ^13 seconds. ^Medium range. ^P5+ Energy. Converts. +^8 victim traits.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^2 to ^14 seconds. ^Medium range. ^P6 Energy. Converts. +^10 victim traits.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^5 to ^20 seconds. ^Long range. ^P7 Energy. Converts. +^16 victim traits." cost="2" descname="Legend Command">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="frost_fear" level="0" descname="Fear" description="Causes foes to flee in terror." icon_texture="textures/ui/frost_all.png" icon="1" power="1">
+            <level description="^1 to ^3 seconds. ^Short range. ^P2+ Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^1 to ^4 seconds. ^Short range. ^P3 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^1 to ^5 seconds. ^Short range. ^P3+ Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^1 to ^6 seconds. ^Short range. ^P4 Energy.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="^1 to ^7 seconds. ^Short range. ^P4+ Energy.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^2 to ^8 seconds. ^Medium range. ^P5+ Energy. -^2 victim traits. ^L3 Mental damage." cost="2" descname="Terror">
+                <require cat="level" level="20" />
+            </level>
+            <level description="^2 to ^9 seconds. ^Medium range. ^P6 Energy. -^3 victim traits. ^L4 Mental damage.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="^2 to ^10 seconds. ^Medium range. ^P6 +Energy. -^4 victim traits. ^L5 Mental damage.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="^2 to ^11 seconds. ^Medium range. ^P7 Energy. -^5 victim traits. ^M1 Mental damage.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="^2 to ^12 seconds. ^Medium range. ^P7+ Energy. -^5 victim traits. ^M1 Mental damage.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="^5 to ^15 seconds. ^Long range. ^P8+ Energy. -^8 victim traits. ^M3 Mental damage." cost="2" descname="Legend Terror">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="frost_shield" level="0" descname="Psychic Shell" description="Changes into protective shell form for a time." icon_texture="textures/ui/frost_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. -^A2 physical damage. -^33% pain. ^P6 Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. -^A3 physical damage. -^33% pain. ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. -^A4 physical damage. -^33% pain. ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. -^A4 physical and -^A2 beam damage. -^66% pain. ^P10 Energy." descname="Diamond Shell" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. -^A5 physical and -^A3 beam damage. -^66% pain. ^P11 Energy.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. -^A6 physical and -^A4 beam damage. -^66% pain. ^P12 Energy.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. -^A6 physical and -^A4 beam damage. Pain immunity. ^P14 Energy." descname="Impervious Shell" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. -^A7 physical and -^A5 beam damage. Pain immunity. ^P15 Energy.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. -^A8 physical and -^A6 beam damage. Pain immunity. ^P16 Energy.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="frost_xtreme" level="0" descname="PSYCHIC BEDLAM" description="Damages all enemies within 50 feet with a psionic attack and paralyzes nearby enemies with fear" icon_texture="textures/ui/frost_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="frost_hardness" level="0" descname="Hardness" description="Reflects physical damage back at foes." power="5">
+            <level description="^10% chance to reflect ^L3 damage.">
+                <activepowerup powerup="reflect_damage" level="L3" user1="10" scope_damage="dmg_physical" life="-1" />
+            </level>
+            <level description="^20% chance to reflect ^L4 damage.">
+                <require cat="level" level="7" />
+                <activepowerup powerup="reflect_damage" level="L4" user1="20" scope_damage="dmg_physical" life="-1" />
+            </level>
+            <level description="^30% chance to reflect ^L5 damage.">
+                <require cat="level" level="12" />
+                <activepowerup powerup="reflect_damage" level="L5" user1="30" scope_damage="dmg_physical" life="-1" />
+            </level>
+            <level description="^40% chance to reflect ^M1 damage.">
+                <require cat="level" level="17" />
+                <activepowerup powerup="reflect_damage" level="M1" user1="40" scope_damage="dmg_physical" life="-1" />
+            </level>
+            <level description="^50% chance to reflect ^M2 damage.">
+                <require cat="level" level="22" />
+                <activepowerup powerup="reflect_damage" level="M2" user1="50" scope_damage="dmg_physical" life="-1" />
+            </level>
+        </Talent>
+        <Talent name="frost_might" level="0" descname="Shell Might" description="Increases lifting strength, and damage of melee attacks while in shell form." power="5">
+            <level description="+^5% damage. ^Heavy Objects. +^3 Destruction.">
+                <require cat="level" level="4" />
+                <activepowerup powerup="might_mode_mod" level="1" life="-1" />
+            </level>
+            <level description="+^10% Damage. ^Massive Objects. +^6 Destruction.">
+                <require cat="level" level="9" />
+                <activepowerup powerup="might_mode_mod" level="2" life="-1" />
+            </level>
+            <level description="+^15% damage. ^Gigantic Objects. +^8 Destruction.">
+                <require cat="level" level="14" />
+                <activepowerup powerup="might_mode_mod" level="3" life="-1" />
+            </level>
+        </Talent>
+        <Talent name="fightstyle_finesse1" level="1" />
+        <Talent name="fightstyle_psionic" level="0" />
+        <Talent name="psi_fight_frost" level="0" power="4" descname="Psionic Strike" description="Adds mental damage to melee attacks">
+            <level description="^L1 Mental Damage.">
+                <require cat="level" level="3" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L1" user1="1" user2="29" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/frost_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L2 Mental Damage.">
+                <require cat="level" level="5" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L2" user1="1" user2="29" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/frost_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L3 Mental Damage.">
+                <require cat="level" level="9" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L3" user1="1" user2="29" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/frost_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L4 Mental Damage." descname="Psionic Fury">
+                <require cat="level" level="12" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L4" user1="1" user2="29" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/frost_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L5 Mental Damage.">
+                <require cat="level" level="15" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L5" user1="1" user2="29" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/frost_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L5 Mental Damage.">
+                <require cat="level" level="18" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L5" user1="1" user2="29" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/frost_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+        </Talent>
+        <Talent name="critical" level="0" />
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>

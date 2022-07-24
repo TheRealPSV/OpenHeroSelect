@@ -1,0 +1,114 @@
+    <stats name="Beast" charactername="Beast" skin="0501" skin_60s="02" skin_future="03" sounddir="beast_m" powerstyle="ps_beast" moveset1="moveset_acrobat" characteranims="05_beast" level="1" strength="4" speed="6" body="5" mind="2" canthrowally="true" scriptlevel="3" RatingMelee="0.7" RatingRanged="0.3" RatingSupport="0" RatingDurability="0.7" ailevel="2" team="hero" playable="true">
+        <Race name="Mutant" />
+        <Talent name="beast_pinball" level="1" descname="PinBall" description="Pinballs through the area at incredible speed." icon_texture="textures/ui/beast_all.png" icon="1" power="0">
+            <level description="^L3 Damage. ^P1 Energy per roll." />
+            <level description="^L4 Damage. ^P1+ Energy per roll.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^L5 Damage. ^P2 Energy per roll.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^M1 Damage. ^P2+ Energy per roll.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^M2 Damage. ^P3 Energy per roll.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^M2 Damage. ^K3 Knockback. ^P4 Energy per roll." descname="Cannon Ball" cost="2">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^M3 Damage. ^K4 Knockback. ^P4+ Energy per roll.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^M4 Damage. ^K5 Knockback. ^P5 Energy per roll.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^M5 Damage. ^K6 Knockback. ^P5+ Energy per roll.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^H1 Damage. ^K7 Knockback. ^P6 Energy per roll.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^H3 Damage. ^K8 Knockback. ^P7 Energy per roll." descname="Legend Ball" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="beast_propeller" level="0" descname="Propeller Kick" description="Spins legs around kicking any enemies within range." icon_texture="textures/ui/beast_all.png" icon="0" power="1">
+            <level description="^L3 Damage. ^5 foot range. ^P2+ Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L4 Damage. ^6 foot range. ^P3 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L5 Damage. Range ^6 feet. ^P3+ Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^M1 Damage. Range ^7 feet. ^P4 Energy.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="^M2 Damage. Range ^7 feet. ^P4+ Energy.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^M3 Damage. Range ^8 feet. ^K3 Knockback. ^P5+ Energy." descname="Propeller Lash" cost="2">
+                <require cat="level" level="20" />
+            </level>
+            <level description="^M4 Damage. Range ^9 feet. ^K4 Knockback. ^P6 Energy.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="^M5 Damage. Range ^9 feet. ^K5 Knockback. ^P6+ Energy.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="^H1 Damage. Range ^10 feet. ^K6 Knockback. ^P7 Energy.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="^H2 Damage. Range ^10 feet. ^K7 Knockback. ^P7+ Energy.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="^H3 Damage. Range ^11 feet. ^K10 Knockback. ^P8+ Energy." descname="Legend Propeller" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="beast_boost" level="0" descname="Beastial Feats" description="Mentally focuses body and mind to react to anything." icon_texture="textures/ui/beast_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. -^A1 Physical damage. ^P6 Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. -^A2 Physical damage. ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. -^A3 Physical damage. ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. -^A3 Physical damage. +^2 Agility. ^P10 Energy." descname="Beastial Instinct" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. -^A4 Physical damage. +^4 Agility. ^P11 Energy.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. -^A4 Physical damage. +^6 Agility. ^P12 Energy.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. -^A5 Physical damage. +^8 Agility. +75% Jump. ^P14 Energy." descname="Beastial Soul" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. -^A6 Physical damage. +^10 Agility. +125% Jump. ^P15 Energy.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. -^A6 Physical damage. +^12 Agility. +150% Jump. ^P16 Energy.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="beast_xtreme" level="0" descname="ORBITAL BOMBARDMENT" description="Call powerful laser down to smite enemies." icon_texture="textures/ui/beast_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="fightstyle_wrestling" level="1" />
+        <Talent name="might" level="1" />
+        <Talent name="grappling" level="0" />
+        <Talent name="acrobatics" level="0" />
+        <Talent name="critical" level="0" />
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>

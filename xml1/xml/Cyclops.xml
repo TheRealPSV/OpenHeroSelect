@@ -1,0 +1,114 @@
+    <stats name="Cyclops" charactername="Cyclops" skin="0101" skin_60s="02" skin_70s="03" skin_future="05" sounddir="cyclop_m" powerstyle="ps_cyclops" characteranims="01_cyclops" level="1" strength="3" speed="5" body="3" mind="6" team="hero" scriptlevel="3" RatingMelee="0.2" RatingRanged="0.7" RatingSupport="0.1" RatingDurability="0.5" playable="true">
+        <Race name="Mutant" />
+        <Talent name="cyclops_beam" level="1" descname="Optic Beam" description="Improves optic beam. Can weld." icon_texture="textures/ui/cyclops_all.png" icon="0" power="0">
+            <level description="^L2 Energy Damage. ^1 Destruction. ^P1 Energy." />
+            <level description="^L3 Energy Damage. ^2 Destruction. ^P1+ Energy.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^L4 Energy Damage. ^3 Destruction. ^P2 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L5 Energy Damage. ^3 Destruction. ^P2+ Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^M1 Energy Damage. ^4 Destruction. ^P3 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^M2 Energy Damage. ^4 Destruction. Piercing. ^P4 Energy." descname="Optic Blast" cost="2">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^M3 Energy Damage. ^5 Destruction. Piercing. ^P4+ Energy.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^M4 Energy Damage. ^6 Destruction. Piercing. ^P5 Energy.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^M5 Energy Damage. ^7 Destruction. Piercing. ^P5+ Energy.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^H1 Energy Damage. ^8 Destruction. Piercing. ^P6 Energy.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^H2 Energy Damage. ^10 Destruction. Piercing. ^P7 Energy." descname="Legend Blast" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="cyclops_sweep" level="0" descname="Optic Sweep" description="A wide beam attack" icon_texture="textures/ui/cyclops_all.png" icon="1" power="1">
+            <level description="^L1 Energy Damage. ^1 Destruction. ^K2 Knockback. ^P2+ Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L1+ Energy Damage. ^1 Destruction. ^K3 Knockback. ^P3 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L2 Energy Damage. ^1 Destruction. ^K4 Knockback. ^P3+ Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^L2+ Energy Damage. ^1 Destruction. ^K5 Knockback. ^P4 Energy.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="^L3 Energy Damage. ^1 Destruction. ^K6 Knockback. ^P4+ Energy.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^L3+ Energy Damage. ^2 Destruction. ^K7 Knockback. ^P5+ Energy." descname="Optic Slam" cost="2">
+                <require cat="level" level="20" />
+            </level>
+            <level description="^L4 Energy Damage. ^3 Destruction. ^K8 Knockback. ^P6 Energy.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="^L4+ Energy Damage. ^4 Destruction. ^K8 Knockback. ^P6+ Energy.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="^L5 Energy Damage. ^5 Destruction. ^K9 Knockback. ^P7 Energy.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="^M1 Energy Damage. ^6 Destruction. ^K9 Knockback. ^P7+ Energy.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="^M2 Energy Damage. ^7 Destruction. ^K10 Knockback. ^P8+ Energy." descname="Legend Slam" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="cyclops_tactics" level="0" descname="Tactics" description="Improves fighting effectiveness" icon_texture="textures/ui/cyclops_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. +^2 Striking. +^2 Agility. ^P6 Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. +^4 Striking. +^4 Agility. ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. +^6 Striking. +^6 Agility. ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. +^8 Striking. +^8 Agility. ^P10 Energy. Affects nearby teammates." descname="Strategy" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. +^10 Striking. +^10 Agility. ^P11 Energy. Affects nearby teammates.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. +^12 Striking. +^12 Agility. ^P12 Energy. Affects nearby teammates.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. +^14 Striking. +^14 Agility. ^P14 Energy. Affects all teammates." descname="Command" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. +^16 Striking. +^16 Agility. ^P15 Energy. Affects all teammates.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. +^18 Striking. +^18 Agility. ^P16 Energy. Affects all teammates.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="cyclops_xtreme" level="0" descname="OPTIC RAGE" description="An xtreme arc spray attack" icon_texture="textures/ui/cyclops_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="fightstyle_hero" level="1" />
+        <Talent name="accuracy" level="0" />
+        <Talent name="critical" level="0" />
+        <Talent name="leadership" level="0" />
+        <Talent name="pointblank" level="0" />
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>

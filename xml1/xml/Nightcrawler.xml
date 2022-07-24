@@ -1,0 +1,147 @@
+    <stats name="Nightcrawler" charactername="Nightcrawler" skin="0601" skin_70s="02" skin_future="03" sounddir="night_m" powerstyle="ps_nightcrawler" moveset1="moveset_acrobat" characteranims="06_nightcrawler" level="1" strength="3" speed="7" body="3" mind="4" scriptlevel="3" RatingMelee="0.6" RatingRanged="0.5" RatingSupport="0.3" RatingDurability="0.3" team="hero" playable="true">
+        <Race name="Mutant" />
+        <BoltOn slot="ebolton_tail" bolt="Bip01 Pelvis" model="9801" anim="98_tail" />
+        <Talent name="night_strike" level="1" descname="Teleport Leap" description="Teleport ahead for a distance.  If an enemy is ahead, teleport behind him and strike." icon_texture="textures/ui/nightcrawler_all.png" icon="0" power="0">
+            <level description="^L1 Physical Damage. ^15 foot range. ^P1 Energy." />
+            <level description="^L1+ Physical Damage. ^18 foot range. ^P1+ Energy.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^L2 Physical Damage. ^22 foot range. ^P2 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L2+ Physical Damage. ^26 foot range. ^P2+ Energy. Can teleport allies.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L3 Physical Damage. ^30 foot range. ^P3 Energy. Can teleport allies.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^L3+ Physical Damage. ^34 foot range. ^P4 Energy. Can teleport allies." descname="Teleport Strike" cost="2">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^L4 Physical Damage. ^38 foot range. ^P4+ Energy. Can teleport allies.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^L5 Physical Damage. ^42 foot range. ^P5 Energy. Can teleport allies.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^M1 Physical Damage. ^45 foot range. ^P5+ Energy. Can teleport allies.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^M2 Physical Damage. ^48 foot range. ^P6 Energy. Can teleport allies.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^M4 Physical Damage. ^50 foot range. ^P7 Energy. Can teleport allies." descname="Legend Strike">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="night_frenzy" level="0" descname="Teleport Flurry" description="Teleport around an area, hitting enemies, then teleport back to start position." icon_texture="textures/ui/nightcrawler_all.png" icon="1" power="1">
+            <level description="^L1 Physical Damage. ^14 foot range. ^2 Attacks. ^P4 Energy. ^P0+ Energy per attack." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L2 Physical Damage. ^16 foot range. ^2 Attacks. ^P5 Energy. ^P0+ Energy per attack.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L3 Physical Damage. ^18 foot range. ^3 Attacks. ^P6 Energy. ^P0+ Energy per attack.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^L4 Physical Damage. ^20 foot range. ^3 Attacks. ^P7 Energy. ^P0+ Energy per attack.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="^L5- Physical Damage. ^22 foot range. ^4 Attacks. ^P8 Energy. ^P0+ Energy per attack.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^L5 Physical Damage. ^24 foot range. ^5 Attacks. ^P9 Energy. ^P0+ Energy per attack." descname="Teleport Frenzy" cost="2">
+                <require cat="level" level="20" />
+            </level>
+            <level description="^L5+ Physical Damage. ^26 foot range. ^5 Attacks. ^P10 Energy. ^P0+ Energy per attack.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="^M1 Physical Damage. ^28 foot range. ^6 Attacks. ^P11 Energy. ^P0+ Energy per attack.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="^M1+ Physical Damage. ^30 foot range. ^6 Attacks. ^P12 Energy. ^P0+ Energy per attack.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="^M2 Physical Damage. ^30 foot range. ^7 Attacks. ^P13 Energy. ^P0+ Energy per attack.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="^M2+ Physical Damage. ^30 foot range. ^8 Attacks. ^P14 Energy. ^P0+ Energy per attack." descname="Legend Frenzy">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="night_shadow" level="0" descname="Shadow Blend" description="Becomes nearly invisible making it hard for enemies to target you." icon_texture="textures/ui/nightcrawler_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. -^A1 Damage. +^2 Agility. ^P6 Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. -^A2 Damage. +^3 Agility. ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. -^A3 Damage. +^4 Agility. ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. -^A4 Damage. +^6 Agility. ^P10 Energy." descname="Shadow Arts" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. -^A5 Damage. +^7 Agility. ^P11 Energy.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. -^A6 Damage. +^8 Agility. ^P12 Energy.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. -^A7 Damage. +^10 Agility. ^P14 Energy." descname="Shadow Mastery" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. -^A8 Damage. +^11 Agility. ^P15 Energy.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. -^A9 Damage. +^12 Agility. ^P16 Energy.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="night_xtreme" level="0" descname="BLINDSIDE BLITZ" description="Unrelenting teleport attack frenzy." icon_texture="textures/ui/nightcrawler_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="night_faith" level="0" descname="Leap of Faith" description="Chance that Nightcrawler will rescue friends from death as they die within range (once per minute). Does not occur while player controls Nightcrawler." power="5">
+            <level description="^25% chance within ^10 feet.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^50% chance within ^15 feet.">
+                <require cat="level" level="8" />
+            </level>
+            <level description="^75% chance within ^30 feet.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^80% chance within ^45 feet.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^100% chance within ^60 feet.">
+                <require cat="level" level="23" />
+            </level>
+        </Talent>
+        <Talent name="sucker_punch" level="0" descname="Sucker Punch" description="Bonus to Critical Chance if executing a teleport attack." power="5">
+            <level description="^3% Bonus">
+                <require cat="level" level="4" />
+            </level>
+            <level description="^6% Bonus">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^9% Bonus">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^12% Bonus">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^15% Bonus">
+                <require cat="level" level="24" />
+            </level>
+        </Talent>
+        <Talent name="fightstyle_finesse1" level="1" />
+        <Talent name="critical" level="0" />
+        <Talent name="acrobatics" level="0" />
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>

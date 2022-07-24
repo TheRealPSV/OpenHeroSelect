@@ -1,0 +1,116 @@
+    <stats name="Rogue" charactername="Rogue" skin="0701" sounddir="rogue_m" moveset1="moveset_flying" powerstyle="ps_rogue" characteranims="07_rogue" level="1" strength="7" speed="2" body="5" mind="3" team="hero" canthrowally="true" RatingMelee="0.6" RatingRanged="0.1" RatingSupport="0.3" RatingDurability="0.8" scriptlevel="3" ailevel="2" playable="true">
+        <FlyEffect effect="powers/rogue_fly_hands" bolt="Bip01 L Hand" />
+        <FlyEffect effect="powers/rogue_fly_hands" bolt="Bip01 R Hand" />
+        <Race name="Mutant" />
+        <Talent name="rogue_strike" level="1" descname="Southern Strike" description="Mutant powered smash punch" icon_texture="textures/ui/rogue_all.png" icon="0" power="0">
+            <level description="^L3 Damage. ^K1 Knockback. ^P1 Energy." />
+            <level description="^L4 Damage. ^K2 Knockback. ^P1+ Energy.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^L5 Damage. ^K3 Knockback. ^P2 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^M1 Damage. ^K4 Knockback. ^P2+ Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^M2 Damage. ^K5 Knockback. ^P3 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^M4 Damage. ^K5 Knockback. ^P4 Energy." descname="Southern Smash" cost="2">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^M5 Damage. ^K6 Knockback. ^P4+ Energy.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^H1 Damage. ^K7 Knockback. ^P5 Energy.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^H2 Damage. ^K8 Knockback. ^P5+ Energy.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^H3 Damage. ^K9 Knockback. ^P6 Energy.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^H5 Damage. ^K10 Knockback. ^P7 Energy." descname="Southern Legend" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="rogue_ability" level="0" descname="Ability Drain" description="Stun attack that steals powers from victim. If no victim nearby, Rogue will taunt." icon_texture="textures/ui/rogue_all.png" icon="1" power="1">
+            <level description="^L1 damage. ^10 second stun. Steals ^basic attack power. Damage Level ^1. ^P2+ energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L2 damage. ^15 second stun. Steals ^basic attack power. Damage Level ^2. ^P3 energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L3 damage. ^17 second stun. Steals ^basic attack power. Damage Level ^3. ^P3+ energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^L4 damage. ^19 second stun. Steals ^basic attack power. Damage Level ^4. ^P4 energy.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="^L5 damage. ^21 second stun. Steals ^basic attack power. Damage Level ^5. ^P4+ energy.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^M1 damage. ^25 second stun. Steals ^heavy attack power. Damage Level ^5. ^P5+ energy." descname="Ability Sap" cost="2">
+                <require cat="level" level="20" />
+            </level>
+            <level description="^M2 damage. ^28 second stun. Steals ^heavy attack power. Damage Level ^6. ^P6 energy.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="^M3 damage. ^30 second stun. Steals ^heavy attack power. Damage Level ^7. ^P6+ energy.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="^M4 damage. ^32 second stun. Steals ^heavy attack power. Damage Level ^8. ^P7 energy.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="^M5 damage. ^34 second stun. Steals ^heavy attack power. Damage Level ^9. ^P7+ energy.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="^H1 damage. ^45 second stun. Steals ^heavy attack power. Damage Level ^10. ^P8+ energy." descname="Consume Ability" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="rogue_shield" level="0" descname="Bullet Proof" description="Boosts defenses and resistances" icon_texture="textures/ui/rogue_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. -^A1 physical damage. -^30% pain. ^P6 energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. -^A2 physical damage. -^60% pain. ^P7 energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. -^A3 physical damage. -^60% pain. ^P8 energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. -^A3 physical and -^A1 beam damage. -^60% pain. -^100% knockback. ^P10 energy." descname="Iron Maiden" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. -^A4 physical and -^A2 beam damage. -^60% pain. -^100% knockback. ^P11 energy.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. -^A5 physical and -^A3 beam damage. -^60% pain. -^100% knockback. ^P12 energy.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. -^A5 physical and -^A3 beam damage. -^60% pain. -^100% knockback. ^10% chance deflect physical. ^P14 energy." descname="Invulnerability" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. -^A6 physical and -^A4 beam damage. -^100% pain. -^100% knockback. ^25% chance deflect physical. ^P15 energy.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. -^A7 physical and -^A5 beam damage. -^100% pain. -^100% knockback. ^40% chance deflect physical. ^P16 energy.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="rogue_xtreme" level="0" descname="ENERGY DRAIN" description="Saps energy from all enemies, stuns them, and prevents them from using their powers for a time" icon_texture="textures/ui/rogue_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="fightstyle_wrestling" level="1" />
+        <Talent name="might" level="1" />
+        <Talent name="flight" level="0" />
+        <Talent name="grappling" level="0" />
+        <Talent name="critical" level="0" />
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>

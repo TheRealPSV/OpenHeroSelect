@@ -1,0 +1,164 @@
+    <stats name="Phoenix" charactername="Jean Grey" skin="0201" skin_60s="02" skin_70s="03" sounddir="phoen_m" powerstyle="ps_phoenix" moveset1="moveset_flying" characteranims="02_phoenix" level="1" strength="2" speed="5" body="3" mind="7" team="hero" scriptlevel="3" RatingMelee="0.2" RatingRanged="0.4" RatingSupport="0.6" RatingDurability="0.2" canSeeStealthed="true" ailevel="1" playable="true">
+        <FlyEffect effect="powers/phoenix_fly_hands" bolt="Bip01 L Hand" />
+        <FlyEffect effect="powers/phoenix_fly_hands" bolt="Bip01 R Hand" />
+        <FlyEffect effect="powers/phoenix_fly_headglow" bolt="Bip01 Head" />
+        <Race name="Mutant" />
+        <Talent name="phoenix_telekinesis" level="1" descname="Telekinesis" description="Uses telekinesis to throw enemies and objects about." icon_texture="textures/ui/phoenix_all.png" icon="0" power="0">
+            <level description="^No Damage. ^Light objects. ^P1 Energy. ^20 Energy/Second." />
+            <level description="^L1 Mental damage. ^Light objects. ^P1+ Energy. ^19 Energy/Second.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^L2 Mental damage. ^Light objects. ^P2 Energy. ^18 Energy/Second.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L3 Mental damage. ^Light objects. ^P2+ Energy. ^17 Energy/Second.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L4 Mental damage. ^Light objects. ^P3 Energy. ^16 Energy/Second.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^L4 Mental damage. ^Large objects. ^P4 Energy. ^15 Energy/Second." descname="Telekinetic Mastery" cost="2">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^L5 Mental damage. ^Large objects. ^P4+ Energy. ^14 Energy/Second.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^M1 Mental damage. ^Large objects. ^P5 Energy. ^13 Energy/Second.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^M2 Mental damage. ^Large objects. ^P5+ Energy. ^12 Energy/Second.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^M3 Mental damage. ^Large objects. ^P6 Energy. ^11 Energy/Second.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^H1 Mental damage. ^Huge objects. ^P7 Energy. ^10 Energy/Second." descname="Telekinetic Legend">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="phoenix_shout" level="0" descname="Psychic Shout" description="Radial mental attack crippling and slowing enemies while damaging them." icon_texture="textures/ui/phoenix_all.png" icon="1" power="1">
+            <level description="^L1 Mental damage. -^1 Strike. ^10 feet. ^3 seconds. ^P2+ Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L2 Mental damage. -^1 Strike. -^1 Agility. ^10 feet. ^4 seconds. ^P3 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L3 Mental damage. -^2 Strike. -^1 Agility. ^10 feet. ^4 seconds. ^P3+ Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^L4 Mental damage. -^2 Strike. -^2 Agility. ^10 feet. ^5 seconds. ^P4 Energy.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="^L5 Mental damage. -^3 Strike. -^2 Agility. ^10 feet. ^5 seconds. ^P4+ Energy.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^M1 Mental damage. -^3 Strike. -^3 Agility. ^20 feet. ^6 seconds. ^P5+ Energy." descname="Psychic Scream" cost="2">
+                <require cat="level" level="20" />
+            </level>
+            <level description="^M2 Mental damage. -^4 Strike. -^3 Agility. ^20 feet. ^6 seconds. ^P6 Energy.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="^M3 Mental damage. -^4 Strike. -^4 Agility. ^20 feet. ^7 seconds. ^P6+ Energy.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="^M4 Mental damage. -^5 Strike. -^4 Agility. ^20 feet. ^7 seconds. ^P7 Energy.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="^M5 Mental damage. -^5 Strike. -^5 Agility. ^20 feet. ^8 seconds. ^P7+ Energy.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="^H1 Mental damage. -^6 Strike. -^5 Agility. ^30 feet. ^10 seconds. ^P8+ Energy." descname="Psychic Legend">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="phoenix_shield" level="0" descname="Telekinetic Shield" description="Creates a psychic field of protection" icon_texture="textures/ui/phoenix_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. -^A3 Damage. ^P6 Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. -^A4 Damage. ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. -^A4 Damage. ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. -^A5 Damage. Nearby Allies. ^P10 Energy." descname="Telekinetic Shell" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. -^A5 Damage. Nearby Allies. ^P11 Energy.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. -^A6 Damage. Nearby Allies. ^P12 Energy.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. -^A6 Damage. All Allies. ^P14 Energy." descname="Telekinetic Armor" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. -^A7 Damage. All Allies. ^P15 Energy.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. -^A8 Damage. All Allies. ^P16 Energy.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="phoenix_xtreme" level="0" descname="PHOENIX FORCE" description="Possesses Jean and lifts all targets up and smashes them into the ground" icon_texture="textures/ui/phoenix_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="phoenix_combat" level="0" descname="Telekinetic Combat" description="Increases damage to all mental attacks" power="5">
+            <level description="+^L1 Damage.">
+                <require cat="level" level="4" />
+                <activepowerup powerup="damage" level="L1" life="-1" scope_damage="dmg_mental" />
+            </level>
+            <level description="+^L3 Damage.">
+                <require cat="level" level="9" />
+                <activepowerup powerup="damage" level="L3" life="-1" scope_damage="dmg_mental" />
+            </level>
+            <level description="+^L5 Damage.">
+                <require cat="level" level="14" />
+                <activepowerup powerup="damage" level="L5" life="-1" scope_damage="dmg_mental" />
+            </level>
+            <level description="+^M2 Damage.">
+                <require cat="level" level="19" />
+                <activepowerup powerup="damage" level="M2" life="-1" scope_damage="dmg_mental" />
+            </level>
+            <level description="+^M4 Damage.">
+                <require cat="level" level="24" />
+                <activepowerup powerup="damage" level="M4" life="-1" scope_damage="dmg_mental" />
+            </level>
+        </Talent>
+        <Talent name="critical" level="0" />
+        <Talent name="flight" level="0" />
+        <Talent name="fightstyle_finesse1" level="1" />
+        <Talent name="fightstyle_psionic" level="0" />
+        <Talent name="psi_fight_phoenix" level="0" descname="Psionic Strike" description="Adds mental damage to melee attacks" power="4">
+            <level description="^L1 Mental Damage.">
+                <require cat="level" level="3" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L1" user1="1" user2="27" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/phoenix_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L2 Mental Damage.">
+                <require cat="level" level="5" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L2" user1="1" user2="27" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/phoenix_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L3 Mental Damage.">
+                <require cat="level" level="9" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L3" user1="1" user2="27" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/phoenix_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L4 Mental Damage." descname="Psionic Fury">
+                <require cat="level" level="12" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L4" user1="1" user2="27" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/phoenix_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L5 Mental Damage.">
+                <require cat="level" level="15" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L5" user1="1" user2="27" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/phoenix_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^M1 Mental Damage.">
+                <require cat="level" level="18" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="M1" user1="1" user2="27" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/phoenix_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+        </Talent>
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>

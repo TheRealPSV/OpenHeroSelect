@@ -1,0 +1,142 @@
+    <stats name="Storm" charactername="Storm" skin="0401" skin_future="02" sounddir="storm_m" powerstyle="ps_storm" moveset1="moveset_flying" characteranims="04_storm" level="1" strength="2" speed="5" body="4" mind="6" team="hero" canfly="true" RatingMelee="0.2" RatingRanged="0.4" RatingSupport="0.4" RatingDurability="0.2" scriptlevel="3" ailevel="1" playable="true">
+        <FlyEffect effect="powers/storm_fly" />
+        <FlyEffect effect="powers/storm_fly_hands" bolt="Bip01 L Hand" />
+        <FlyEffect effect="powers/storm_fly_hands" bolt="Bip01 R Hand" />
+        <Race name="Mutant" />
+        <Talent name="storm_lnstrike" level="1" descname="Lightning Strike" description="Casts lightning bolt down on enemy.  Can weld." icon_texture="textures/ui/storm_all.png" icon="0" power="0">
+            <level description="^L2 Energy Damage. ^1 Destruction. ^P1 Energy." />
+            <level description="^L3 Energy Damage. ^1 Destruction. ^P1+ Energy.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^L4 Energy Damage. ^2 Destruction. ^P2 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L5 Energy Damage. ^2 Destruction. ^P2+ Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^M1 Energy Damage. ^3 Destruction. ^P3 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^M2 Energy Damage. ^4 Destruction. ^P4 Energy." descname="Chain Lightning" cost="2">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^M3 Energy Damage. ^5 Destruction. ^P4+ Energy.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^M4 Energy Damage. ^6 Destruction. ^P5 Energy.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^M5 Energy Damage. ^7 Destruction. ^P5+ Energy.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^H1 Energy Damage. ^8 Destruction. ^P6 Energy.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^H2 Energy Damage. ^10 Destruction. ^P7 Energy." descname="Legend Lightning" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="storm_whirlwind" level="0" descname="Whirlwind" description="Creates a powerful wind vortex lifting and throwing objects and enemies about." icon_texture="textures/ui/storm_all.png" icon="1" power="1">
+            <level description="Lifts ^small objects. ^L0 damage per second for ^1 second. ^P2+ Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="Lifts ^small objects. ^L0 damage per second for ^1.5 seconds. ^P3 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="Lifts ^small objects. ^L0+ damage per second for ^2 seconds. ^P3+ Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="Lifts ^small objects. ^L0+ damage per second for ^2.5 seconds. ^P4 Energy.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="Lifts ^small objects. ^L1 damage per second for ^3 seconds. ^P4+ Energy.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="Lifts ^medium objects. ^L1+ damage per second for ^3.5 seconds. ^P5+ energy." descname="Tornado" cost="2">
+                <require cat="level" level="20" />
+            </level>
+            <level description="Lifts ^medium objects. ^L2 damage per second for ^4 seconds. ^P6 Energy.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="Lifts ^medium objects. ^L3 damage per second for ^4.5 seconds. ^P6+ Energy.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="Lifts ^medium objects. ^L4 damage per second for ^5 seconds. ^P7 Energy.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="Lifts ^medium objects. ^L5 damage per second for ^6 seconds. ^P7+ Energy.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="Lifts ^large objects. ^M2 damage per second for ^8 seconds. ^P8+ Energy." descname="Legend Vortex" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="storm_shield" level="0" descname="Storm Shield" description="Creates protective vortex from physical attacks." icon_texture="textures/ui/storm_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. -^A2 Damage. ^P6 Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. -^A3 Damage. ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. -^A4 Damage. ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. -^A4 Damage, affects nearby allies.  ^L1 touch damage. ^P10 Energy." descname="Hail Shield" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. -^A5 Damage, affects nearby allies.  ^L1+ touch damage. ^P11 Energy.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. -^A6 Damage,  affects nearby allies.  ^L2 touch damage. ^P12 Energy.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. -^A6 Damage, affects all allies.  ^L3 touch damage. ^P14 Energy." descname="Blizzard Shield" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. -^A7 Damage, affects all allies.  ^L3+ touch damage. ^P15 Energy.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. -^A8 Damage, affects all allies.  ^L4 touch damage. ^P16 Energy.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="storm_xtreme" level="0" descname="CYCLONE FURY" description="XTreme wind and lightning attack" icon_texture="textures/ui/storm_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="storm_elemental" level="0" descname="Lightning Fury" description="Adds lightning damage to melee attacks" power="4">
+            <level description="^L1 Energy Damage. ^3 Destruction.">
+                <require cat="level" level="3" />
+                <activepowerup powerup="special" level="L1" user1="3" user2="30" life="-1" damageType="dmg_electricity" scope_damage="dmg_physical" effect_cust1="powerups/storm_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L2 Energy Damage. ^3 Destruction.">
+                <require cat="level" level="5" />
+                <activepowerup powerup="special" level="L2" user1="3" user2="30" life="-1" damageType="dmg_electricity" scope_damage="dmg_physical" effect_cust1="powerups/storm_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L3 Energy Damage. ^4 Destruction.">
+                <require cat="level" level="9" />
+                <activepowerup powerup="special" level="L3" user1="4" user2="30" life="-1" damageType="dmg_electricity" scope_damage="dmg_physical" effect_cust1="powerups/storm_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L4 Energy Damage. ^4 Destruction." descname="Lightning Rage">
+                <require cat="level" level="12" />
+                <activepowerup powerup="special" level="L4" user1="4" user2="30" life="-1" damageType="dmg_electricity" scope_damage="dmg_physical" effect_cust1="powerups/storm_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L5 Energy Damage. ^5 Destruction.">
+                <require cat="level" level="15" />
+                <activepowerup powerup="special" level="L5" user1="5" user2="30" life="-1" damageType="dmg_electricity" scope_damage="dmg_physical" effect_cust1="powerups/storm_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^M1 Energy Damage. ^5 Destruction.">
+                <require cat="level" level="18" />
+                <activepowerup powerup="special" level="M1" user1="5" user2="30" life="-1" damageType="dmg_electricity" scope_damage="dmg_physical" effect_cust1="powerups/storm_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+        </Talent>
+        <Talent name="fightstyle_finesse1" level="1" />
+        <Talent name="critical" level="0" />
+        <Talent name="flight" level="0" />
+        <Talent name="leadership" level="0" />
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>

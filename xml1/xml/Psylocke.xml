@@ -1,0 +1,167 @@
+    <stats name="Psylocke" charactername="Psylocke" skin="1201" skin_future="02" sounddir="psyloc_m" moveset1="moveset_acrobat" powerstyle="ps_psylocke" characteranims="12_psylocke" level="1" strength="4" speed="5" body="3" mind="5" team="hero" RatingMelee="0.5" RatingRanged="0.3" RatingSupport="0.2" RatingDurability="0.6" canSeeStealthed="true" scriptlevel="3" ailevel="2" playable="true">
+        <Race name="Mutant" />
+        <Talent name="psylocke_slash" level="1" descname="Psychic Slash" description="Powerful Psychic Blade attack." icon_texture="textures/ui/psylocke_all.png" icon="0" power="0">
+            <level description="^L1 Mental Damage. ^P1 Energy." />
+            <level description="^L2 Mental Damage. ^P1+ Energy.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^L3 Mental Damage. ^P2 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L4 Mental Damage. ^P2+ Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L5 Mental Damage. ^P3 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^M1 Mental Damage. ^K2 Knockback. ^P4 Energy." descname="Psychic Hammer" cost="2">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^M2 Mental Damage. ^K3 Knockback. ^P4+ Energy.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^M3 Mental Damage. ^K4 Knockback. ^P5 Energy.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^M4 Mental Damage. ^K5 Knockback. ^P5+ Energy.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^M5 Mental Damage. ^K6 Knockback. ^P6 Energy.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^H1 Mental Damage. ^K7 Knockback. ^P7 Energy." descname="Hammer Legend" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="psylocke_bolts" level="0" descname="Psychic Bolts" description="Throws psychic bolts." icon_texture="textures/ui/psylocke_all.png" icon="1" power="1">
+            <level description="^3 Blades. ^L1 Mental Damage per blade. ^P2+ Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^3 Blades. ^L1+ Mental Damage per blade. ^P3 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^3 Blades. ^L2 Mental Damage per blade. ^P3+ Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^3 Blades. ^L2+ Mental Damage per blade. ^P4 Energy.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="^3 Blades. ^L3 Mental Damage per blade. ^P4+ Energy.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^5 Blades. ^L3 Mental Damage per blade. ^P5+ Energy." descname="Psychic Spikes" cost="2">
+                <require cat="level" level="20" />
+            </level>
+            <level description="^5 Blades. ^L3+ Mental Damage per blade. ^P6 Energy.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="^5 Blades. ^L4 Mental Damage per blade. ^P6+ Energy.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="^5 Blades. ^L4+ Mental Damage per blade. ^P7 Energy.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="^5 Blades. ^L5- Mental Damage per blade. ^P7+ Energy.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="^7 Blades. ^L5- Mental Damage per blade. ^P8+ Energy." descname="Legend Bolts" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="psylocke_armor" level="0" descname="Psychic Defense" description="Psychic Energies surround you increasing defense." icon_texture="textures/ui/psylocke_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. -^A2 Mental Damage. Nearby Allies ^P6 Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. -^A3 Mental Damage. Nearby Allies ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. -^A4 Mental Damage. Nearby Allies ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. -^A4 Mental Damage. -^A2 Knockback. Nearby Allies. ^P10 Energy." descname="Psychic Armor" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. -^A5 Mental Damage. -^A3 Knockback. Nearby Allies. ^P11 Energy.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. -^A6 Mental Damage. -^A4 Knockback. Nearby Allies. ^P12 Energy.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. -^A6 Mental Damage. -^A5 Knockback. +^10 Focus. All Allies. ^P14 Energy." descname="Psychic Wall" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. -^A7 Mental Damage. -^A6 Knockback. +^20 Focus. All Allies. ^P15 Energy.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. -^A8 Mental Damage. -^A7 Knockback. +^30 Focus. All Allies. ^P16 Energy.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="psylocke_xtreme" level="0" descname="PSYCHIC ONSLAUGHT" description="Psychic Blades strike down your enemies" icon_texture="textures/ui/psylocke_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="blademaster" level="0" descname="Blade Master" description="Psychic Dagger increases in power and size" power="5">
+            <level description="+^L1 Damage to psychic blade attacks.">
+                <require cat="level" level="4" />
+                <activepowerup powerup="damage" level="L1" life="-1" scope_node="psylocke_power" />
+            </level>
+            <level description="+^L3 Damage to psychic blade attacks. ^Dagger blade.">
+                <require cat="level" level="9" />
+                <activepowerup powerup="damage" level="L3" life="-1" scope_node="psylocke_power" />
+            </level>
+            <level description="+^L5 Damage to psychic blade attacks. ^Dagger blade.">
+                <require cat="level" level="14" />
+                <activepowerup powerup="damage" level="L5" life="-1" scope_node="psylocke_power" />
+            </level>
+            <level description="+^M2 Damage to psychic blade attacks. ^Sword blade.">
+                <require cat="level" level="19" />
+                <activepowerup powerup="damage" level="M2" life="-1" scope_node="psylocke_power" />
+            </level>
+            <level description="+^M5 Damage to psychic blade attacks. ^Sword blade.">
+                <require cat="level" level="24" />
+                <activepowerup powerup="damage" level="M5" life="-1" scope_node="psylocke_power" />
+            </level>
+        </Talent>
+        <Talent name="fightstyle_finesse1" level="1" />
+        <Talent name="fightstyle_psionic" level="0" />
+        <Talent name="psi_fight_psylocke" level="0" power="4" descname="Psionic Strike" description="Adds mental damage to melee attacks">
+            <level description="^L1 Mental Damage.">
+                <require cat="level" level="3" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L1" user1="1" user2="32" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/psylocke_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L2 Mental Damage.">
+                <require cat="level" level="5" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L2" user1="1" user2="32" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/psylocke_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L3 Mental Damage.">
+                <require cat="level" level="9" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L3" user1="1" user2="32" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/psylocke_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L4 Mental Damage." descname="Psionic Fury">
+                <require cat="level" level="12" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L4" user1="1" user2="32" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/psylocke_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L5 Mental Damage.">
+                <require cat="level" level="15" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L5" user1="1" user2="32" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/psylocke_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^M1 Mental Damage.">
+                <require cat="level" level="18" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="M1" user1="1" user2="32" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/psylocke_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+        </Talent>
+        <Talent name="critical" level="0" />
+        <BoltOn slot="ebolton_weapon" bolt="Bip01 R Hand" model="models/bolton/psylocke_blade_01" />
+        <BoltOn slot="ebolton_weapon" bolt="Bip01 R Hand" model="models/bolton/psylocke_blade_02">
+            <require cat="skill" item="blademaster" level="2" />
+        </BoltOn>
+        <BoltOn slot="ebolton_weapon" bolt="Bip01 R Hand" model="models/bolton/psylocke_blade_03">
+            <require cat="skill" item="blademaster" level="4" />
+        </BoltOn>
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>

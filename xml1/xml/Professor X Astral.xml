@@ -1,0 +1,32 @@
+    <stats name="ProfXAstral" charactername="Professor X" skin="1104" characteranims="11_profxastral" powerstyle="ps_profxastral" sounddir="profxa_m" team="hero" level="40" strength="35" speed="40" body="40" mind="80" RatingMelee="0.2" RatingRanged="0.3" RatingSupport="0.5" RatingDurability="0.5" canSeeStealthed="true" playable="false" xpexempt="true">
+        <Race name="Mutant" />
+        <Talent name="profx_psychicsmash" level="1" descname="Hammer Legend" description="An extra heavy psychic lunge punch." icon_texture="textures/ui/profxastral_all.png" icon="0" power="0">
+            <level description="^H1 Mental damage. ^10 Destruction. ^K10 Knockback. ^P7 Energy." />
+        </Talent>
+        <Talent name="profx_psychicburst" level="1" descname="Blast Legend" description="Release mental energies in spherical area." icon_texture="textures/ui/profxastral_all.png" icon="1" power="1">
+            <level description="^H1 Mental damage. ^10 Destruction. ^K10 Knockback. Range ^12 feet. ^P10 Energy." />
+        </Talent>
+        <Talent name="profx_psychicdefense" level="1" descname="Psychic Defense" description="Puts a Psychic Shield around self." icon_texture="textures/ui/profxastral_all.png" icon="2" power="2">
+            <level description="^BST7 Seconds. -^A8 Physical damage. -^100% Knockback. Pain -^100%. ^P16 Energy." />
+        </Talent>
+        <Talent name="profx_xtreme" level="1" descname="PSYCHIC MAELSTROM" description="Psychic energies and lightning ravage the area" icon_texture="textures/ui/profxastral_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" />
+        </Talent>
+        <Talent name="profx_fighting" level="1" descname="Psionic Combat" description="Smash enemies with psionic assault" power="4">
+            <level description="Adds ^L1 Mental Damage to physical attacks">
+                <require cat="level" level="1" />
+                <activepowerup powerup="special" damageType="dmg_mental" level="L1" user1="3" user2="31" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/profx_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+        </Talent>
+        <Talent name="fightstyle_wrestling" level="1" />
+        <Talent name="might" level="3" />
+        <Talent name="critical" level="1" />
+        <Talent name="astralknockback" descname="Astral Knockback" description="Adds Knockback to Mental Attacks" level="1">
+            <level description="+^K3 knockback">
+                <activepowerup powerup="atk_knockback" level="K3" life="-1" scope_damage="dmg_mental" />
+            </level>
+        </Talent>
+        <Talent name="leadership" level="1" />
+        <Talent name="toughness" level="1" />
+        <Talent name="mutantmastery" level="1" />
+    </stats>

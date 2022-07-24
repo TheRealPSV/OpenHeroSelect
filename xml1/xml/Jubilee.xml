@@ -1,0 +1,130 @@
+    <stats name="Jubilee" charactername="Jubilee" powerstyle="ps_jubilee" team="hero" skin="1601" sounddir="jubile_m" characteranims="16_jubilee" level="1" strength="4" speed="5" body="3" mind="5" RatingMelee="0.2" RatingRanged="0.5" RatingSupport="0.3" RatingDurability="0.3" scriptlevel="3" ailevel="1" playable="true">
+        <Race name="Mutant" />
+        <Talent name="energy_burst" level="1" descname="Energy Burst" description="Throw a charged energy globule" icon_texture="textures/ui/jubilee_all.png" icon="0" power="0">
+            <level description="^3 Globules. ^L1 Energy damage per globule. ^P1 Energy." />
+            <level description="^3 Globules. ^L1+ Energy damage per globule. ^P1+ Energy.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^3 Globules. ^L2 Energy damage per globule. ^P2 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^3 Globules. ^L2+ Energy damage per globule. ^P2+ Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^3 Globules. ^L3 Energy damage per globule. ^P3 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^5 Globules. ^L3 Energy damage per globule. ^K2 Knockback. ^P4 Energy." descname="Energy Blast" cost="2">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^5 Globules. ^L3+ Energy damage per globule. ^K2 Knockback. ^P4+ Energy.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^5 Globules. ^L4 Energy damage per globule. ^K3 Knockback. ^P5 Energy.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^5 Globules. ^L4+ Energy damage per globule. ^K3 Knockback. ^P5+ Energy.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^5 Globules. ^L5- Energy damage per globule. ^K4 Knockback. ^P6 Energy.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^7 Globules. ^L5- Energy damage per globule. ^K6 Knockback. ^P7 Energy." descname="Legend Blast" cost="2">
+                <require cat="level" degree="see" level="25" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="photo_flash" level="0" cost="2" descname="Photo Flash" description="Radial light attack confuses enemies." icon_texture="textures/ui/jubilee_all.png" icon="1" power="1">
+            <level description="Confuses ^1 to ^3 seconds. ^Short range. ^P2+ energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="Confuses ^2 to ^4 seconds. ^Short range. ^P3 energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="Confuses ^2 to ^5 seconds. ^Short range. ^P3+ energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="Confuses ^2 to ^6 seconds. ^Short range. ^P4 energy.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="Confuses ^2 to ^7 seconds. ^Short range. ^P4+ energy.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="Converts ^2 to ^10 seconds. ^Medium range. ^P5+ energy." descname="Strobe Flash" cost="2">
+                <require cat="level" level="20" />
+            </level>
+            <level description="Converts ^2 to ^11 seconds. ^Medium range. ^P6 energy.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="Converts ^2 to ^12 seconds. ^Medium range. ^P6+ energy.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="Converts ^2 to ^13 seconds. ^Medium range. ^P7 energy.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="Converts ^2 to ^14 seconds. ^Medium range. ^P7+ energy.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="Converts ^5 to ^20 seconds. ^Medium range. ^P8+ energy." descname="Legend Flash" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="taunt" level="0" cost="2" descname="Bait" description="Penalizes enemy's attack" icon_texture="textures/ui/jubilee_all.png" icon="2" power="2">
+            <level description="Affects Enemies. ^BST1 Seconds -^25% Damage. ^10 foot range. ^P6 Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="Affects Enemies. ^BST2 Seconds -^35% Damage. ^10 foot range. ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="Affects Enemies. ^BST3 Seconds -^45% Damage. ^10 foot range. ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="Affects and Taunts Enemies. ^BST4 Seconds -^45% Damage. ^11 foot range. ^P10 Energy." descname="Taunt" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="Affects and Taunts Enemies. ^BST5 Seconds -^50% Damage. ^12 foot range. ^P11 Energy.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="Affects and Taunts Enemies. ^BST6 Seconds -^50% Damage. ^13 foot range. ^P12 Energy.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="Affects and Taunts Enemies. ^BST7 Seconds -^50% Damage. ^13 foot range. +10% Ally Striking and Agility. ^P14 Energy." descname="Pep Rally" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="Affects and Taunts Enemies. ^BST8 Seconds -^50% Damage. ^13 foot range. +15% Ally Striking and Agility. ^P15 Energy.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="Affects and Taunts Enemies. ^BST9 Seconds -^50% Damage. ^13 foot range. +20% Ally Striking and Agility. ^P16 Energy.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="jubilee_xtreme" level="0" descname="INDEPENDENCE DAY" description="Fills the sky with brilliant fireworks" icon_texture="textures/ui/jubilee_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="detonate" level="0" descname="Detonate" description="Adds Energy to Charged Objects" power="5">
+            <level description="^L3 Energy damage. ^K1 Knockback. ^4 foot range. ^P2 Energy.">
+                <require cat="level" level="2" />
+            </level>
+            <level description="^L4 Energy damage. ^K2 Knockback. ^5 foot range. ^P2 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L5 Energy damage. ^K3 Knockback. ^6 foot range. ^P2 Energy.">
+                <require cat="level" level="12" />
+            </level>
+            <level description="^M1 Energy damage. ^K4 Knockback. ^7 foot range. ^P2 Energy.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^M2 Energy damage. ^K5 Knockback. ^8 foot range. ^P2 Energy.">
+                <require cat="level" level="22" />
+            </level>
+        </Talent>
+        <Talent name="fightstyle_hero" level="1" />
+        <Talent name="accuracy" level="0" />
+        <Talent name="critical" level="0" />
+        <Talent name="pointblank" level="0" />
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>

@@ -1,0 +1,166 @@
+    <stats name="Wolverine" charactername="Wolverine" skin="0301" skin_60s="03" skin_70s="03" skin_future="05" skin_weaponx="02" sounddir="wolver_m" powerstyle="ps_wolverine" characteranims="03_wolverine" canbeallythrown="true" level="1" strength="4" speed="5" body="5" mind="3" team="hero" scriptlevel="3" RatingMelee="1" RatingRanged="0" RatingSupport="0" RatingDurability="0.8" canSeeStealthed="true" ailevel="2" playable="true">
+        <Race name="Mutant" />
+        <BoltOn slot="ebolton_clawleft" bolt="Bip01 L Hand" model="models/bolton/claw_left" />
+        <BoltOn slot="ebolton_clawright" bolt="Bip01 R Hand" model="models/bolton/claw_right" />
+        <Talent name="wolv_slash" level="1" descname="Brutal Slash" description="Brutal claw slash and stab" icon_texture="textures/ui/wolverine_all.png" icon="0" power="0">
+            <level description="^L4 Physical Damage. ^3 Destruction. ^K4 Knockback. ^P1 Energy." />
+            <level description="^L5 Physical Damage. ^3 Destruction. ^K4 Knockback. ^P1+ Energy.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^M1 Physical Damage. ^3 Destruction. ^K4 Knockback. ^P2 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^M2 Physical Damage. ^3 Destruction. ^K4 Knockback. ^P2+ Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^M3 Physical Damage. ^3 Destruction. ^K4 Knockback. ^P3 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^M4 Physical Damage. ^3 Destruction. ^K4 Knockback. ^P4 Energy.  Adds Bleed Damage." descname="Eviscerate" cost="2">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^M5 Physical Damage. ^3 Destruction. ^K4 Knockback. ^P4+ Energy.  Adds Bleed Damage.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^H1 Physical Damage. ^3 Destruction. ^K4 Knockback. ^P5 Energy. Adds Bleed Damage.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^H2 Physical Damage. ^3 Destruction. ^K4 Knockback. ^P5+ Energy. Adds Bleed Damage.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^H3 Physical Damage. ^3 Destruction. ^K4 Knockback. ^P6 Energy. Adds Bleed Damage.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^H5 Physical Damage. ^3 Destruction. ^K4 Knockback. ^P7 Energy. Adds Bleed Damage." descname="Legend Slash" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="wolv_frenzy" level="0" descname="Claw Flurry" description="Multiple slashing attacks" icon_texture="textures/ui/wolverine_all.png" icon="1" power="1">
+            <level description="^L2 Physical Damage. ^P2+ Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L3 Physical Damage. ^P3 Energy. Up to ^2 attacks in sequence.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L4 Physical Damage. ^P3+ Energy. Up to ^2 attacks in sequence.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^L5 Physical Damage. ^P4 Energy. Up to ^3 attacks in sequence.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="^M1 Physical Damage. ^P4+ Energy. Up to ^3 attacks in sequence.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^M2 Physical Damage. ^P5+ Energy. Up to ^3 attacks in sequence." descname="Claw Frenzy" cost="2">
+                <require cat="level" level="20" />
+            </level>
+            <level description="^M3 Physical Damage. ^P6 Energy. Up to ^4 attacks in sequence.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="^M4 Physical Damage. ^P6+ Energy. Up to ^4 attacks in sequence.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="^M5 Physical Damage. ^P7 Energy. Up to ^5 attacks in sequence.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="^H1 Physical Damage. ^P7+ Energy. Up to ^5 attacks in sequence.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="^H2 Physical Damage. ^P8+ Energy. Up to ^5 attacks in sequence." descname="Legend Frenzy" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="wolv_berserk" level="0" descname="Feral Rage" description="Enters a raged state" icon_texture="textures/ui/wolverine_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. +^5 Agility. +30% movement speed. ^P6 Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. +^5 Agility. +30% movement speed. ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. +^5 Agility. +30% movement speed. ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. +^5 Agility. +30% movement speed. +^5 Striking. ^P10 Energy." descname="Berserker Rage" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. +^5 Agility. +30% movement speed. +^5 Striking. ^P11 Energy.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. +^5 Agility. +30% movement speed. +^5 Striking. ^P12 Energy.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. +^5 Agility. +30% movement speed. +^5 Striking. +^5 Body. ^P14 Energy." descname="Unstoppable Rage" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. +^5 Agility. +30% movement speed. +^5 Striking. +^5 Body. ^P15 Energy.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. +^5 Agility. +30% movement speed. +^5 Striking. +^5 Body. ^P16 Energy.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="wolv_xtreme" level="0" descname="SAVAGE RAMPAGE" description="Dashes from enemy to enemy brutally slashing them" icon_texture="textures/ui/wolverine_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="wolv_sharpness" level="0" descname="Sharpness" description="Adds Damage and Destruction to all claw attacks." power="5">
+            <level description="+^L1 Physical Damage. +^3 Destruction.">
+                <require cat="level" level="3" />
+                <activepowerup powerup="damageLevel" level="3" life="-1" scope_attack="punch" />
+                <activepowerup powerup="damage" level="L1" life="-1" scope_attack="punch" />
+            </level>
+            <level description="+^L2 Physical Damage. +^5 Destruction.">
+                <require cat="level" level="8" />
+                <activepowerup powerup="damageLevel" level="5" life="-1" scope_attack="punch" />
+                <activepowerup powerup="damage" level="L2" life="-1" scope_attack="punch" />
+            </level>
+            <level description="+^L3 Physical Damage. +^6 Destruction. +^L1 Bleed for ^5 seconds.">
+                <require cat="level" level="13" />
+                <activepowerup powerup="damageLevel" level="6" life="-1" scope_attack="punch" />
+                <activepowerup powerup="damage" level="L3" life="-1" scope_attack="punch" />
+                <activepowerup powerup="none" level="L1" user1="5" life="-1" scope_attack="punch" func_damage="damageaddbleed" />
+            </level>
+            <level description="+^L4 Physical Damage. +^7 Destruction. +^L2 Bleed for ^7 seconds.">
+                <require cat="level" level="18" />
+                <activepowerup powerup="damageLevel" level="7" life="-1" scope_attack="punch" />
+                <activepowerup powerup="damage" level="L4" life="-1" scope_attack="punch" />
+                <activepowerup powerup="none" level="L2" user1="7" life="-1" scope_attack="punch" func_damage="damageaddbleed" />
+            </level>
+            <level description="+^L5 Physical Damage. +^8 Destruction. +^L3 Bleed for ^9 seconds.">
+                <require cat="level" level="20" />
+                <activepowerup powerup="damageLevel" level="8" life="-1" scope_attack="punch" />
+                <activepowerup powerup="damage" level="L5" life="-1" scope_attack="punch" />
+                <activepowerup powerup="none" level="L3" user1="9" life="-1" scope_attack="punch" func_damage="damageaddbleed" />
+            </level>
+        </Talent>
+        <Talent name="expertise" descname="Expertise" description="Adds Striking and Agility." level="0">
+            <level description="+^1 Striking. +^1 Agility.">
+                <activepowerup powerup="speed" level="1" life="-1" />
+                <activepowerup powerup="strength" level="1" life="-1" />
+            </level>
+            <level description="+^2 Striking. +^2 Agility.">
+                <activepowerup powerup="speed" level="2" life="-1" />
+                <activepowerup powerup="strength" level="2" life="-1" />
+            </level>
+            <level description="+^3 Striking. +^3 Agility.">
+                <activepowerup powerup="speed" level="3" life="-1" />
+                <activepowerup powerup="strength" level="3" life="-1" />
+            </level>
+            <level description="+^4 Striking. +^4 Agility.">
+                <activepowerup powerup="speed" level="4" life="-1" />
+                <activepowerup powerup="strength" level="4" life="-1" />
+            </level>
+            <level description="+^5 Striking. +^5 Agility.">
+                <activepowerup powerup="speed" level="5" life="-1" />
+                <activepowerup powerup="strength" level="5" life="-1" />
+            </level>
+        </Talent>
+        <Talent name="healing_factor" level="0" />
+        <Talent name="fightstyle_hero" level="1" />
+        <Talent name="critical" level="0" />
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>

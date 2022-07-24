@@ -1,0 +1,160 @@
+    <stats name="Iceman" charactername="Iceman" skin="0801" skin_60s="03" skin_civilian="02" sounddir="iceman_m" powerstyle="ps_iceman" characteranims="08_iceman" level="1" strength="3" speed="4" body="4" mind="6" team="hero" scriptlevel="3" RatingMelee="0.2" RatingRanged="0.5" RatingSupport="0.3" RatingDurability="0.4" ailevel="1" playable="true">
+        <Race name="Mutant" />
+        <Talent name="iceman_freeze" level="1" descname="Freeze Blast" description="Blast of ice that slows enemies, higher levels will freeze. Can build ice bridges and alter environment." icon_texture="textures/ui/iceman_all.png" icon="0" power="0">
+            <level description="^4 second ^65% slow. ^P1 Energy." />
+            <level description="^5 second ^55% slow. ^P1+ Energy.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^6 second ^45% slow. ^P2 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^7 second ^35% slow. ^P2+ Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^8 second ^25% slow. ^P3 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^4 second freeze.  ^4 second 30% slow. ^P4 Energy." descname="Deep Freeze" cost="2">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^5 second freeze.  ^4 second 30% slow. ^P4+ Energy.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^5 second freeze.  ^5 second 30% slow. ^P5 Energy.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^6 second freeze.  ^5 second 30% slow. ^P5+ Energy.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^6 second freeze.  ^6 second 30% slow. ^P6 Energy.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^8 second freeze.  ^8 second 30% slow. ^P7 Energy." descname="Legend Freeze" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="iceman_spikes" level="0" descname="Ice Shards" description="Throws ice projectiles." icon_texture="textures/ui/iceman_all.png" icon="1" power="1">
+            <level description="^3 Shards. ^L1 Energy damage per shard. ^1 Destruction. ^P2+ Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^3 Shards. ^L1+ Energy damage per shard. ^1 Destruction. ^P3 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^3 Shards. ^L2 Energy damage per shard. ^2 Destruction. ^P3+ Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^3 Shards. ^L2+ Energy damage per shard. ^3 Destruction. ^P4 Energy.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="^3 Shards. ^L3 Energy damage per shard. ^3 Destruction. ^P4+ Energy.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^5 Spikes. ^L3 Energy damage per shard. ^4 Destruction. Piercing. ^P5+ Energy." descname="Ice Spikes" cost="2">
+                <require cat="level" level="20" />
+            </level>
+            <level description="^5 Spikes. ^L3+ Energy damage per shard. ^5 Destruction. Piercing. ^P6 Energy.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="^5 Spikes. ^L4 Energy damage per shard. ^6 Destruction. Piercing. ^P6+ Energy.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="^5 Spikes. ^L4+ Energy damage per shard. ^7 Destruction. Piercing. ^P7 Energy.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="^5 Spikes. ^L5- Energy damage per shard. ^8 Destruction. Piercing. ^P7+ Energy.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="^7 Spikes. ^L5- Energy damage per shard. ^9 Destruction. Piercing. ^P8+ Energy." descname="Legend Spikes" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="iceman_armor" level="0" descname="Ice Armor" description="Adds ice armor bonus" icon_texture="textures/ui/iceman_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. -^A2 Damage. ^P6 Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. -^A3 Damage. ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. -^A4 Damage. ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. -^A4 Damage. Nearby allies +^L1 energy damage to punches. ^P10 Energy." descname="Ice Equipment" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. -^A5 Damage. Nearby allies +^L1+ energy damage to punches. ^P11 Energy.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. -^A6 Damage. Nearby allies +^L2 energy damage to punches. ^P12 Energy.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. -^A6 Damage. All allies +^L2+ energy damage to punches. ^L2+ Touch damage. ^P14 Energy." descname="Ice Forge" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. -^A7 Damage. All allies +^L3 energy damage to punches. ^L3 Touch damage. ^P15 Energy.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. -^A8 Damage. All allies +^L3+ energy damage to punches. ^L3+ Touch damage. ^P16 Energy.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="iceman_xtreme" level="0" descname="FREEZE FRAME" description="Freezes enemies within 12 feet, slows enemies within 33 feet." icon_texture="textures/ui/iceman_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="iceman_elemental" level="0" descname="Cold Smash" description="Adds cold damage to melee attacks" power="4">
+            <level description="^L1 Energy Damage. ^3 Destruction.">
+                <require cat="level" level="3" />
+                <activepowerup powerup="special" damageType="dmg_cold" level="L1" user1="3" user2="26" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/iceman_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L2 Energy Damage. ^3 Destruction.">
+                <require cat="level" level="5" />
+                <activepowerup powerup="special" damageType="dmg_cold" level="L2" user1="3" user2="26" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/iceman_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L3 Energy Damage. ^4 Destruction.">
+                <require cat="level" level="9" />
+                <activepowerup powerup="special" damageType="dmg_cold" level="L3" user1="4" user2="26" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/iceman_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L4 Energy Damage. ^4 Destruction." descname="Cold Crush">
+                <require cat="level" level="12" />
+                <activepowerup powerup="special" damageType="dmg_cold" level="L4" user1="4" user2="26" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/iceman_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L5 Energy Damage. ^5 Destruction.">
+                <require cat="level" level="15" />
+                <activepowerup powerup="special" damageType="dmg_cold" level="L5" user1="5" user2="26" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/iceman_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^M1 Energy Damage. ^5 Destruction.">
+                <require cat="level" level="18" />
+                <activepowerup powerup="special" damageType="dmg_cold" level="M1" user1="5" user2="26" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/iceman_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+        </Talent>
+        <Talent name="ice_skating" level="0" descname="Ice Tracks" description="Allows Iceman to use air skating" power="5">
+            <level description="^10 feet. ^L2 Energy damage. ^K1 Knockback. ^P1 Energy per 10 feet.">
+                <require cat="level" level="2" />
+            </level>
+            <level description="^20 feet. ^L3 Energy damage. ^K2 Knockback. ^P1+ Energy per 10 feet.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^30 feet. ^L4 Energy damage. ^K3 Knockback. ^P2 Energy per 10 feet.">
+                <require cat="level" level="12" />
+            </level>
+            <level description="^40 feet. ^L5 Energy damage. ^K4 Knockback. ^P2+ Energy per 10 feet.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^M1 Energy damage. ^K5 Knockback. ^P3 Energy per 10 feet. No distance restrictions.">
+                <require cat="level" level="22" />
+            </level>
+        </Talent>
+        <Talent name="fightstyle_hero" level="1" />
+        <Talent name="critical" level="0" />
+        <Talent name="pointblank" level="0" />
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+        <Talent name="ice_special" level="1" hidden="true">
+            <level>
+                <activepowerup powerup="no_iceshell" life="-1" affect_type="scale" level="0" />
+            </level>
+        </Talent>
+    </stats>

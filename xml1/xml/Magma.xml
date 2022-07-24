@@ -1,0 +1,168 @@
+    <stats name="Magma" charactername="Magma" skin="1801" skin_future="04" skin_magmacivilian="03" sounddir="magma_m" powerstyle="ps_magma" characteranims="18_magma" level="1" strength="3" speed="4" body="4" mind="6" scriptlevel="3" RatingMelee="0.2" RatingRanged="0.5" RatingSupport="0.3" RatingDurability="0.6" team="hero" ailevel="1" playable="true">
+        <Race name="Mutant" />
+        <Talent name="magma_blast" level="1" descname="Fiery Blast" description="Improves Fiery Blast.  Can build molten rock bridges.  Welds." icon_texture="textures/ui/magma_all.png" icon="0" power="0">
+            <level description="^3 Lava Balls. ^L1 Energy damage per lava ball. ^P1 Energy." />
+            <level description="^3 Lava Balls. ^L1+ Energy damage per lava ball. ^P1+ Energy.">
+                <require cat="level" level="3" />
+            </level>
+            <level description="^3 Lava Balls. ^L2 Energy damage per lava ball. ^P2 Energy.">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^3 Lava Balls. ^L2+ Energy damage per lava ball. ^P2+ Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^3 Lava Balls. ^L3 Energy damage per lava ball. ^P3 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^5 Lava Balls. ^L3 Energy damage per lava ball. ^P4 Energy." descname="Magma Blast" cost="2">
+                <require cat="level" level="15" />
+            </level>
+            <level description="^5 Lava Balls. ^L3+ Energy damage per lava ball. ^P4+ Energy.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^5 Lava Balls. ^L4 Energy damage per lava ball. ^P5 Energy.">
+                <require cat="level" level="19" />
+            </level>
+            <level description="^5 Lava Balls. ^L4+ Energy damage per lava ball. ^P5+ Energy.">
+                <require cat="level" level="21" />
+            </level>
+            <level description="^5 Lava Balls. ^L5- Energy damage per lava ball. ^P6 Energy.">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^7 Lava Balls. ^L5- Energy damage per lava ball. ^P7 Energy." descname="Magma Legend" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="lava_fissure" level="0" descname="Lava Fissure" description="Molten rock erupts from the ground. Can build molten rock bridges." icon_texture="textures/ui/magma_all.png" icon="1" power="1">
+            <level description="^L2 Energy damage. ^5 foot radius. ^P2+ Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^L3 Energy damage. ^5.5 foot radius. ^P3 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^L4 Energy damage. ^6 foot radius. ^P3+ Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^L5 Energy damage. ^6.5 foot radius. ^P4 Energy.">
+                <require cat="level" level="11" />
+            </level>
+            <level description="^M1 Energy damage. ^7 foot radius. ^P4+ Energy.">
+                <require cat="level" level="13" />
+            </level>
+            <level description="^M1 Energy damage. ^7.5 foot radius. ^P5+ Energy. Launches enemies upward." descname="Lava Rift" cost="2">
+                <require cat="level" level="20" />
+            </level>
+            <level description="^M2 Energy damage. ^8 foot radius. ^P6 Energy. Launches enemies upward.">
+                <require cat="level" level="22" />
+            </level>
+            <level description="^M3 Energy damage. ^8.5 foot radius. ^P6+ Energy. Launches enemies upward.">
+                <require cat="level" level="24" />
+            </level>
+            <level description="^M4 Energy damage. ^9 foot radius. ^P7 Energy. Launches enemies upward.">
+                <require cat="level" level="26" />
+            </level>
+            <level description="^M5 Energy damage. ^9.5 foot radius. ^P7+ Energy. Launches enemies upward.">
+                <require cat="level" level="28" />
+            </level>
+            <level description="^H1 Energy damage. ^10 foot radius. ^P8+ Energy. Launches enemies upward." descname="Legend Rift" cost="2">
+                <require cat="level" level="25" degree="see" />
+                <require cat="level" level="30" />
+            </level>
+        </Talent>
+        <Talent name="magma_form" level="0" descname="Fiery Form" description="Improves Fiery Form" icon_texture="textures/ui/magma_all.png" icon="2" power="2">
+            <level description="^BST1 Seconds. -^A1 Damage. +^1 Might. -50% Fire Damage. ^P6 Energy." cost="2">
+                <require cat="level" level="5" />
+            </level>
+            <level description="^BST2 Seconds. -^A2 Damage. +^1 Might. -50% Fire Damage. ^P7 Energy.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^BST3 Seconds. -^A3 Damage. +^1 Might. -50% Fire Damage. ^P8 Energy.">
+                <require cat="level" level="9" />
+            </level>
+            <level description="^BST4 Seconds. -^A4 Damage. +^1 Might. +^L1 Energy Damage. -50% Fire damage. ^P10 Energy." descname="Magma Form" cost="2">
+                <require cat="level" level="14" />
+            </level>
+            <level description="^BST5 Seconds. -^A5 Damage. +^1 Might. +^L1+ Energy Damage. -50% Fire damage. ^P11 Energy.">
+                <require cat="level" level="16" />
+            </level>
+            <level description="^BST6 Seconds. -^A6 Damage. +^1 Might. +^L2 Energy Damage. -50% Fire damage. ^P12 Energy.">
+                <require cat="level" level="18" />
+            </level>
+            <level description="^BST7 Seconds. -^A6 Damage. +^1 Might. +^L3 Energy Damage. +^L1+ touch damage. -50% Fire damage. ^P14 Energy." descname="Atlas Form" cost="2">
+                <require cat="level" level="23" />
+            </level>
+            <level description="^BST8 Seconds. -^A6 Damage. +^1 Might. +^L3+ Energy Damage. +^L2 touch damage. -50% Fire damage. ^P15 Energy.">
+                <require cat="level" level="25" />
+            </level>
+            <level description="^BST9 Seconds. -^A6 Damage. +^1 Might. +^L4 Energy Damage. +^L2+ touch damage. -50% Fire damage. ^P16 Energy.">
+                <require cat="level" level="27" />
+            </level>
+        </Talent>
+        <Talent name="magma_xtreme" level="0" descname="VOLCANO" description="A volcano erupts and rains rocks" icon_texture="textures/ui/magma_all.png" icon="3" power="3">
+            <level description="Unlocks this ability" cost="2">
+                <require cat="level" level="15" />
+            </level>
+        </Talent>
+        <Talent name="magma_elemental" level="0" descname="Burning Rage" description="Adds fire damage to melee attacks" power="4">
+            <level description="^L1 Energy Damage. ^3 Destruction.">
+                <require cat="level" level="3" />
+                <activepowerup powerup="special" damageType="dmg_fire" level="L1" user1="3" user2="25" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/magma_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L2 Energy Damage. ^3 Destruction.">
+                <require cat="level" level="5" />
+                <activepowerup powerup="special" damageType="dmg_fire" level="L2" user1="3" user2="25" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/magma_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L3 Energy Damage. ^4 Destruction.">
+                <require cat="level" level="9" />
+                <activepowerup powerup="special" damageType="dmg_fire" level="L3" user1="4" user2="25" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/magma_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L4 Energy Damage. ^4 Destruction." descname="Erupting Rage">
+                <require cat="level" level="12" />
+                <activepowerup powerup="special" damageType="dmg_fire" level="L4" user1="4" user2="25" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/magma_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^L5 Energy Damage. ^5 Destruction.">
+                <require cat="level" level="15" />
+                <activepowerup powerup="special" damageType="dmg_fire" level="L5" user1="5" user2="25" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/magma_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+            <level description="^M1 Energy Damage. ^5 Destruction.">
+                <require cat="level" level="18" />
+                <activepowerup powerup="special" damageType="dmg_fire" level="M1" user1="5" user2="25" life="-1" scope_damage="dmg_physical" effect_cust1="powerups/magma_elemental" func_trail="elemtrail" func_attempt_hit="DamageAddAttack" />
+            </level>
+        </Talent>
+        <Talent name="magma_skating" level="0" descname="Lava Tracks" description="Allows use of lava skating." power="5">
+            <level description="^10 feet. ^L2 Energy damage. ^K1 Knockback. ^P1 Energy per 10 feet.">
+                <require cat="level" level="2" />
+            </level>
+            <level description="^20 feet. ^L3 Energy damage. ^K2 Knockback. ^P1+ Energy per 10 feet.">
+                <require cat="level" level="7" />
+            </level>
+            <level description="^30 feet. ^L4 Energy damage. ^K3 Knockback. ^P2 Energy per 10 feet.">
+                <require cat="level" level="12" />
+            </level>
+            <level description="^40 feet. ^L5 Energy damage. ^K4 Knockback. ^P2+ Energy per 10 feet.">
+                <require cat="level" level="17" />
+            </level>
+            <level description="^M1 Energy damage. ^K5 Knockback. ^P3 Energy per 10 feet. No distance restrictions.">
+                <require cat="level" level="22" />
+            </level>
+        </Talent>
+        <Talent name="magma_might" level="0" descname="Magma Might" description="Increases lifting strength, and damage of melee attacks while in Magma Form" power="5">
+            <level description="+^5% damage. ^Heavy Objects. +^3 Destruction.">
+                <require cat="level" level="4" />
+                <activepowerup powerup="might_mode_mod" level="1" life="-1" />
+            </level>
+            <level description="+^10% Damage. ^Massive Objects. +^6 Destruction.">
+                <require cat="level" level="9" />
+                <activepowerup powerup="might_mode_mod" level="2" life="-1" />
+            </level>
+            <level description="+^15% damage. ^Gigantic Objects. +^8 Destruction.">
+                <require cat="level" level="14" />
+                <activepowerup powerup="might_mode_mod" level="3" life="-1" />
+            </level>
+        </Talent>
+        <Talent name="critical" level="0" />
+        <Talent name="fightstyle_hero" level="1" />
+        <Talent name="toughness" level="0" />
+        <Talent name="mutantmastery" level="0" />
+    </stats>
