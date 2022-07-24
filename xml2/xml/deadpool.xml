@@ -2,7 +2,7 @@ stats {
 autospend = bruiser_light ;
 body = 16 ;
 characteranims = 44_deadpool_hero ;
-charactername = DeadPool ;
+charactername = Deadpool ;
 level = 1 ;
 mind = 20 ;
 name = Deadpool ;
