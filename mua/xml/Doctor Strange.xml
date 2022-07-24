@@ -1,0 +1,51 @@
+   stats {
+   ailevel = 1 ;
+   autospend = support ;
+   body = 5 ;
+   characteranims = 16_dr_strange ;
+   charactername = Doctor Strange ;
+   level = 1 ;
+   menulocation = 46 ;
+   mind = 12 ;
+   moveset1 = moveset_flying ;
+   name = DrStrange ;
+   playable = true ;
+   powerstyle = ps_drstrange ;
+   scriptlevel = 3 ;
+   skin = 1601 ;
+   skin_01_name = Classic ;
+   skin_02 = 02 ;
+   skin_02_name = Royal Seer ;
+   skin_03 = 03 ;
+   skin_03_name = Blue Mage ;
+   skin_04 = 04 ;
+   skin_04_name = Ultimate ;
+   sounddir = drstr_m ;
+   strength = 4 ;
+   team = hero ;
+      talent {
+      level = 1 ;
+      name = drstr_p1 ;
+      }
+
+      talent {
+      level = 1 ;
+      name = drstr_teleport ;
+      }
+
+      talent {
+      level = 1 ;
+      name = flight ;
+      }
+
+      talent {
+      level = 1 ;
+      name = fightstyle_default ;
+      }
+
+      talent {
+      level = 1 ;
+      name = melee_moves ;
+      }
+
+   }

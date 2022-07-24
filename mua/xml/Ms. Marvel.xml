@@ -1,0 +1,61 @@
+   stats {
+   ailevel = 1 ;
+   autospend = support ;
+   body = 5 ;
+   characteranims = 14_warbird ;
+   charactername = Ms. Marvel ;
+   level = 1 ;
+   menulocation = 13 ;
+   mind = 12 ;
+   moveset1 = moveset_flying ;
+   name = Warbird ;
+   playable = true ;
+   powerstyle = ps_warbird ;
+   scriptlevel = 3 ;
+   skin = 1401 ;
+   skin_01_name = Warbird ;
+   skin_02 = 02 ;
+   skin_02_name = Original ;
+   skin_03 = 03 ;
+   skin_03_name = Ventura ;
+   skin_04 = 04 ;
+   skin_04_name = Binary ;
+   sounddir = warbir_m ;
+   strength = 4 ;
+   team = hero ;
+      talent {
+      level = 1 ;
+      name = war_power4 ;
+      }
+
+      talent {
+      level = 1 ;
+      name = war_resist ;
+      }
+
+      talent {
+      level = 1 ;
+      name = flight ;
+      }
+
+      talent {
+      level = 1 ;
+      name = might ;
+      }
+
+      talent {
+      level = 1 ;
+      name = no_grab ;
+      }
+
+      talent {
+      level = 1 ;
+      name = melee_moves ;
+      }
+
+      talent {
+      level = 1 ;
+      name = fightstyle_default ;
+      }
+
+   }

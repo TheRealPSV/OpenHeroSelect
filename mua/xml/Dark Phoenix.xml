@@ -1,0 +1,53 @@
+   stats {
+   ailevel = 1 ;
+   autospend = support ;
+   body = 6 ;
+   canseestealthed = true ;
+   characteranims = 99_darkphoenix ;
+   charactername = Dark Phoenix ;
+   level = 1 ;
+   menulocation = XX ;
+   mind = 12 ;
+   moveset1 = moveset_flying ;
+   name = DarkPhoenix ;
+   playable = true ;
+   powerstyle = ps_darkphoenix ;
+   scriptlevel = 3 ;
+   skin = 9902 ;
+   skin_01_name = Classic ;
+   skin_02 = 03 ;
+   skin_02_name = Black Queen ;
+   skin_03 = 04 ;
+   skin_03_name = Age of Apocalypse ;
+   skin_04 = 05 ;
+   skin_04_name = Here Comes Tomorrow ;
+   sounddir = darkp_m ;
+   strength = 5 ;
+   team = hero ;
+   textureicon = 5 ;
+      talent {
+      level = 1 ;
+      name = darkp_p1 ;
+      }
+
+      talent {
+      level = 1 ;
+      name = darkp_ashes ;
+      }
+
+      talent {
+      level = 1 ;
+      name = flight ;
+      }
+
+      talent {
+      level = 1 ;
+      name = fightstyle_default ;
+      }
+
+      talent {
+      level = 1 ;
+      name = melee_moves ;
+      }
+
+   }

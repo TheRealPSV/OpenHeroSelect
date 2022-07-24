@@ -1,107 +1,77 @@
-file_name = input('File to Convert with extension (ex: herostat.txt)> ')
-
-# start by opening the file
-with open(file_name, mode='r') as file:
-    lines_original = []
-    # format B does not have blank lines, so they can be removed right away
-    for line in file:
-        if line.isspace() == False:
-            line_fixed = line.strip('\n')
-            lines_original.append(line_fixed)
-
-# this is used in the space_remover function so that needed spaces are kept
-special_chars = ';= {}'
-
-# need a function to remove all spaces from lines. This makes working with the file easier
-def space_remover(old_line):
-    new_line = ''
-    i = 0
-    while i < len(old_line):
-        if old_line[i] == ' ':
-            if (old_line[i-1] in special_chars) or (old_line[i+1] in special_chars):
-                # if the character before or after the space is a special character,
-                # then the space can be removed.
-                # otherwise it is a string space, not whitespace
-                new_line = new_line # had to add this or else code would freak out
-            else:
-                # this is the string space case. Don't want to remove string spaces
-                new_line += old_line[i]
-        else:
-            # not a space, add as normal
-            new_line += old_line[i]
-        i += 1
-    return new_line
+import glob
+from pathlib import Path
+from argparse import ArgumentParser
 
 # function to process new lines
-def main_converter(old_line):
-    new_line = '"'
-    for char in old_line:
-        if char == '=':
-            new_line += '": "'
-        elif char == ';':
-            new_line += '",'
-        elif char == '{':
-            new_line += '": {'
-        else:
-            new_line += char
+def convert_escape(old_line):
+    new_line = old_line.replace('\\', '\\\\')
+    new_line = new_line.replace('"', '\\"')
+    new_line = '"' + new_line
     return new_line
 
-# unless there is a header, then the indent starts at 8
-indent = 8
+def convert(file_name: Path):
+    # start by opening the file
+    with open(file_name, mode='r') as file:
+        lines_output = []
+        indent = 8
+        for line in file:
+            # format B does not have blank lines, so they can be skipped
+            if line.isspace() == False:
 
-# these are the lines that will be written to the new file
-lines_output = []
+                # leading (indent) and trailing spaces can be removed
+                working_line = line.strip()
 
-code_begun = False
+                # begin performing conversion
+                if (working_line[0:4] == 'XMLB') and (working_line[-1] == '{'):
+                    # this is for the header
+                    lines_output.append('{')
+                    lines_output.append((' ' * 4) + '"' + working_line[4:-1].strip() + '": {')
+                elif working_line == '}':
+                    # this deals with lines that are closing brackets. Their indent is less than the previous line
+                    indent -= 4
+                    # previous line does not need to end in a comma
+                    lines_output[-1] = lines_output[-1].strip(',')
+                    lines_output.append((' ' * indent) + '},')
+                elif working_line[-1] == '{':
+                    # this deals with lines with open brackets. They increase the indent
+                    working_line = convert_escape(working_line)
+                    lines_output.append((' ' * indent) + working_line[:-1].strip() + '": {')
+                    indent += 4
+                else:
+                    working_line = convert_escape(working_line)
+                    working_line = working_line.replace(' = ', '": "', 1)
+                    if working_line[-1] == ';': working_line = working_line[:-1].strip()
+                    lines_output.append((' ' * indent) + working_line + '",')
 
-# begin performing conversion
-for line in lines_original:
-    working_line = space_remover(line)
-    if not code_begun:
-        # check if we're at the actual beginning of a file, if not then skip lines until we hit it
-        if (working_line[0:4] != 'XMLB') and (working_line[-1] != '{'):
-            continue
-        else:
-            code_begun = True
-    if working_line[0:4] == 'XMLB':
-        # this is for the header
-        lines_output.append('{')
-        lines_output.append((' ' * 4) + '"' + working_line[5:-1] + '"' + ': {')
-    elif working_line == '}':
-        # this deals with lines that are closing brackets. Their indent is less than the previous line
-        indent -= 4
-        lines_output.append((' ' * indent) + '},')
-    elif working_line[-1] == '{':
-        # this deals with lines with open brackets. They increase the indent
-        working_line = main_converter(working_line)
-        lines_output.append((' ' * indent) + working_line)
-        indent += 4
-    else:
-        working_line = main_converter(working_line)
-        output_line = (' ' * indent) + working_line
-        lines_output.append(output_line)
-        
-# if a full file is being converted, need to add an extra bracket because header is now 2 lines
-if lines_output[0] == '{':
-    lines_output.append('}')
+    # if a full file is being converted, need to add an extra bracket because header is now 2 lines (+ remove previous comma)
+    if lines_output[0] == '{':
+        lines_output[-1] = lines_output[-1].strip(',')
+        lines_output.append('}')
 
-# if line i is a curly bracket, line i-1 does not need to end in a comma
-i = 0
-while i < len(lines_output):
-    if '}' in lines_output[i]:
-        lines_output[i-1] = lines_output[i-1].strip(',')
-    i += 1
+    # once the conversion is done, you can write it all to the new file        
+    with open(file_name_out, mode = 'w') as file:
+        for line in lines_output:
+            file.write(line)
+            file.write('\n')
 
-# this determines the output file name
-i = len(file_name)
-while i > 0:
-    if file_name[i-1] == '.':
-        break
-    i -= 1
-file_name_out = file_name[0:i] + 'json'
+# read optional argument as input, another optional as output
+parser = ArgumentParser()
+parser.add_argument('input', nargs='?', default='input?', help='input file (supports glob)')
+parser.add_argument('output', nargs='?', default='*.json', help='output file (wildcards will be replaced by input file name)')
+args = parser.parse_args()
+input_files = glob.glob(args.input, recursive=True)
 
-# once the conversion is done, you can write it all to the new file        
-with open(file_name_out, mode = 'w') as file:
-    for line in lines_output:
-        file.write(line)
-        file.write('\n')
+# if no argument given or found, ask for input, else process argument
+if not input_files:
+    input_files = 'input?'
+if input_files == 'input?':
+    file_name = input('File to Convert with extension (ex: herostat.txt)> ')
+    file_name = Path(file_name)
+    file_name_out = file_name.with_suffix('.json')
+    convert(file_name)
+else:
+    for file_name in input_files:
+        file_name_out = args.output
+        if '*' in file_name_out:
+            file_name_out = file_name_out.replace('*', Path(file_name).stem)
+        convert(file_name)

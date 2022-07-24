@@ -26,6 +26,8 @@ Extendable HeroSelect script for Marvel Ultimate Alliance and X-Men Legends II
 https://marvelmods.com/forum/index.php/topic,10597.0.html
 
 ## Special Thanks
-* Sagap @ MarvelMods - Various improvements in v2
-* BaconWizard17 @ MarvelMods - xml to json conversion Python script, testing for X-Men Legends II support
+* [@sgprinc](https://github.com/sgprinc)/Sagap @ MarvelMods - Various improvements in v2
+* [@EthanReed517](https://github.com/EthanReed517)/BaconWizard17 @ MarvelMods - xml to json conversion Python script, testing for X-Men Legends II support
 * nikita488 @ MarvelMods - json to xmlb conversion Python script
+* [@ak2yny](https://github.com/ak2yny)/ak2yny @ MarvelMods - OCP v2.4 character stats and roster
+* [@JordanLeich](https://github.com/JordanLeich) - Additional menulocations
