@@ -6,7 +6,7 @@ characteranims = 29_sabretooth_hero ;
 charactername = Sabretooth ;
 level = 1 ;
 mind = 8 ;
-name = sabretooth_hero ;
+name = Sabretooth_hero ;
 platform = PC ;
 playable = true ;
 power1 = power1 ;
@@ -33,7 +33,7 @@ name = Brotherhood ;
 }
 talent {
 level = 1 ;
-name = wolv_slice ;
+name = sab_slice ;
 }
 talent {
 name = block ;
