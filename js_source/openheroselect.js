@@ -419,7 +419,7 @@ const main = async (automatic = false, xml2 = false) => {
     }
     //debug mode is new
     if (options.debugMode) {
-      let dbgStat = CHARACTERS_START + heroValue + "\n" + CHARACTERS_END;
+      const dbgStat = CHARACTERS_START + heroValue + "\n" + CHARACTERS_END;
       compileHerostat(dbgStat, rosterList[index]);
     };
     //append to herostat with comma and newline
@@ -449,7 +449,7 @@ const main = async (automatic = false, xml2 = false) => {
   writeProgress(((++progressPoints) / operations) * 100);
 
   //write herostat json to disk
-  compileHerostat(herostat, 'herostat')
+  compileHerostat(herostat, "herostat");
   writeProgress(((++progressPoints) / operations) * 100);
 
   //copy converted herostat to game data directory
@@ -484,7 +484,7 @@ function writeProgress(percent) {
 }
 
 function compileHerostat(stats, statname) {
-  const ext = useXMLFormatOnly ? `xml` : `json`;
+  const ext = useXMLFormatOnly ? "xml" : "json";
   const herostatXmlPath = path.resolve("temp", "herostat.xml");
   const herostatJsonPath = path.resolve("temp", "herostat.json");
   fs.writeFileSync(path.resolve("temp", `herostat.${ext}`), stats);
@@ -498,8 +498,8 @@ function compileHerostat(stats, statname) {
     [herostatJsonPath, herostatOutputPath],
     {}
   );
-  if (child.stdout == '') {
-    throw statname + ":\n" + child.stderr.toString('utf8').split("\n").slice(-3).join('\n');
+  if (child.stdout === "") {
+    throw new Error(`${statname}:\n${child.stderr.toString("utf8").split("\n").slice(-3).join("\n")}`);
   }
 }
 

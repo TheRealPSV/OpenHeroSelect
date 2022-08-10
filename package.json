@@ -1,6 +1,6 @@
 {
   "name": "openheroselect",
-  "version": "4.5.0",
+  "version": "4.5.1",
   "description": "Open Source HeroSelect for Marvel Ultimate Alliance (2006)",
   "main": "index.js",
   "scripts": {
@@ -30,9 +30,10 @@
   },
   "devDependencies": {
     "7zip-bin": "^5.1.1",
-    "eslint": "^8.12.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.4",
+    "eslint": "^8.21.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "node-7z": "^3.0.0",
