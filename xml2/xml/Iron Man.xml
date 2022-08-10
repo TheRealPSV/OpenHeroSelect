@@ -2,7 +2,7 @@ stats {
 autospend = support_heavy ;
 body = 16 ;
 characteranims = 15_ironman ;
-charactername = Ironman ;
+charactername = Iron Man ;
 level = 1 ;
 mind = 20 ;
 moveset1 = moveset_flying ;

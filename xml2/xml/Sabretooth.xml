@@ -33,7 +33,7 @@ name = Brotherhood ;
 }
 talent {
 level = 1 ;
-name = wolv_slice ;
+name = sab_slice ;
 }
 talent {
 name = block ;
