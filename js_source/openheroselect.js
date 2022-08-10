@@ -498,7 +498,7 @@ function compileHerostat(stats, statname) {
     [herostatJsonPath, herostatOutputPath],
     {}
   );
-  if (child.stdout === "") {
+  if (child.stdout == "") {
     throw new Error(`${statname}:\n${child.stderr.toString("utf8").split("\n").slice(-3).join("\n")}`);
   }
 }
