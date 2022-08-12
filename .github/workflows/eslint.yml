@@ -9,6 +9,7 @@ jobs:
       uses: myrotvorets/set-commit-status-action@1.1.5
       with:
         context: ESLint
+        allowForks: true
         token: ${{ secrets.GITHUB_TOKEN }}
         status: pending
     - name: Install eslint
@@ -22,5 +23,6 @@ jobs:
       if: always()
       with:
         context: ESLint
+        allowForks: true
         token: ${{ secrets.GITHUB_TOKEN }}
         status: ${{ job.status }}
