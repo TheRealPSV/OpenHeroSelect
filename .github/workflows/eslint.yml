@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set final commit status
+    - name: Set initial commit status
       uses: myrotvorets/set-commit-status-action@1.1.5
       with:
         context: ESLint
