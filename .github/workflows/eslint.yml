@@ -5,24 +5,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set pending status
-      uses: Sibz/github-status-action@v1.1.6
-      with: 
-        authToken: ${{secrets.GITHUB_TOKEN}}
+    - name: Set commit status as pending
+      uses: myrotvorets/set-commit-status-action@1.1.5
+      with:
+        token: ${{ secrets.STATUS_TOKEN }}
+        status: pending
         context: ESLint
-        state: pending
         sha: ${{github.event.pull_request.head.sha || github.sha}}
+        allowForks: true
     - name: Install eslint
       run: npm i -g eslint
     - name: Install modules
       run: npm i
     - name: Run ESLint
       run: eslint . --ext .js,.jsx,.ts,.tsx
-    - name: Set final status
+    - name: Set final commit status
+      uses: myrotvorets/set-commit-status-action@1.1.5
       if: always()
-      uses: Sibz/github-status-action@v1.1.6
-      with: 
-        authToken: ${{secrets.GITHUB_TOKEN}}
+      with:
+        token: ${{ secrets.STATUS_TOKEN }}
+        status: ${{ job.status }}
         context: ESLint
-        state: ${{ job.status }}
         sha: ${{github.event.pull_request.head.sha || github.sha}}
+        allowForks: true
