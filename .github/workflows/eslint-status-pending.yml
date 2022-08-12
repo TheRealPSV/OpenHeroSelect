@@ -1,0 +1,16 @@
+name: Set ESLint Pending
+on: 
+  workflow_run:
+      workflows: [Run ESLint]
+      types:
+        - requested
+jobs:
+  ESLint-status-pending:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set commit status as pending
+      uses: myrotvorets/set-commit-status-action@1.1.5
+      with:
+        status: pending
+        context: ESLint
+        sha: ${{ github.event.workflow_run.head_sha }}
