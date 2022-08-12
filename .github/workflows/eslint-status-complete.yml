@@ -5,10 +5,10 @@ on:
       types:
         - completed
 jobs:
-  ESLint-status-pending:
+  ESLint-status-complete:
     runs-on: ubuntu-latest
     steps:
-    - name: Set commit status as pending
+    - name: Set commit status to a complete status
       uses: myrotvorets/set-commit-status-action@1.1.5
       with:
         status: ${{ github.event.workflow_run.conclusion }}
