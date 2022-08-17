@@ -163,19 +163,19 @@ const main = async (automatic = false, xml2 = false) => {
           message: `Path to your installation of ${xml2 ? XML2_NAME : MUA_NAME} (you can just paste this in, right-click to paste)`,
           initial: xml2 ? "C:\\Program Files (x86)\\Activision\\X-Men Legends 2" : "C:\\Program Files (x86)\\Activision\\Marvel - Ultimate Alliance"
         }).run()
-        ).trim());
+        ).trim().replace(/['"]+/g, ''));
       options.exeName = (await new enquirer.Input({
         name: 'exename',
         message: `The filename of your game's exe (the default is usually fine unless using a modpack)`,
         initial: xml2 ? "XMen2.exe" : "Game.exe"
       }).run()
-      ).trim();
+      ).trim().replace(/['"]+/g, '');
       options.herostatName = (await new enquirer.Input({
         name: 'herostatname',
         message: `The filename of your game's herostat (the default is usually fine unless using a modpack)`,
         initial: "herostat.engb"
       }).run()
-      ).trim();
+      ).trim().replace(/['"]+/g, '');
       options.launchGame = await new enquirer.Confirm({
         name: 'launchgame',
         message: 'Launch the game when done?',
