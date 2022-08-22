@@ -14,11 +14,11 @@ jobs:
     steps:
     - name: Wait on check
       uses: lewagon/wait-on-check-action@v1.1.2
-        with:
-          ref: ${{ github.ref }}
-          check-name: 'ESLint Check'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 30
+      with:
+        ref: ${{ github.ref }}
+        check-name: 'ESLint Check'
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        wait-interval: 30
     - name: Get latest tag
       id: previous-tag
       uses: WyriHaximus/github-action-get-previous-tag@v1.1.0
