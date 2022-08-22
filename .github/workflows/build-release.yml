@@ -1,0 +1,67 @@
+name: Build and Release
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  check-tag:
+    name: Check Tag and Version
+    runs-on: ubuntu-latest
+    outputs:
+      newbuild: ${{ steps.compare-versions.outputs.newbuild }}
+      newtag: ${{ steps.compare-versions.outputs.newtag }}
+    steps:
+    - name: Wait on check
+      uses: lewagon/wait-on-check-action@v1.1.2
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'ESLint Check'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 30
+    - name: Get latest tag
+      id: previous-tag
+      uses: WyriHaximus/github-action-get-previous-tag@v1.1.0
+    - name: Get project version
+      id: project-version
+      uses: euberdeveloper/ga-project-version@v1.1.0
+      with:
+        package-manager: npm
+    - name: Compare versions
+      id: compare-versions
+      run: |
+        echo "Latest tag: ${{ steps.previous-tag.outputs.tag }}"
+        echo "Project version: ${{ steps.project-version.outputs.version }}"
+        oldtag_string=${{ steps.previous-tag.outputs.tag }}
+        newtag_string=${{ format('{{v{0}}}', steps.project-version.outputs.version) }}
+        newbuild=${{ oldtag_string == newtag_string }}
+        echo "Generate new release: ${{ newbuild }}"
+        echo "::set-output name=newbuild::${{ newbuild }}"
+        echo "::set-output name=newtag::${{ newtag_string }}"
+
+  build-release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    needs: check-tag
+    if: ${{ needs.check-tag.outputs.newbuild == 'true' }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Setup Python
+      uses: actions/setup-python@v4.2.0
+      with:
+        python-version: '3.10'
+    - name: Install modules
+      run: npm i
+    - name: Install pip modules
+      run: npm run pipsetup
+    - name: Build release artifact
+      run: npm run distpackage
+    - name: Create release
+      uses: marvinpinto/action-automatic-releases@v1.2.1
+      with: 
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: ${{ needs.check-tag.outputs.newtag }}
+        prerelease: false
+        files: |
+          dist/OpenHeroSelect.7z
