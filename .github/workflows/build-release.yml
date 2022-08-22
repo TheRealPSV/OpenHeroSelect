@@ -21,6 +21,8 @@ jobs:
         wait-interval: 30
     - name: Checkout code
       uses: actions/checkout@v3.0.2
+      with:
+        fetch-depth: 0
     - name: Get latest tag
       id: previous-tag
       uses: WyriHaximus/github-action-get-previous-tag@v1.1.0
@@ -49,6 +51,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3.0.2
+      with:
+        fetch-depth: 0
     - name: Setup Python
       uses: actions/setup-python@v4.2.0
       with:
