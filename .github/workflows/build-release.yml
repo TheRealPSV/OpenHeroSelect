@@ -34,7 +34,7 @@ jobs:
     - name: Get versions
       run: |
         echo "oldtag_string=${{ steps.previous-tag.outputs.tag }}" >> $GITHUB_ENV
-        echo "newtag_string=${{ format('{{v{0}}}', steps.project-version.outputs.version) }}" >> $GITHUB_ENV
+        echo "newtag_string=${{ format('v{0}', steps.project-version.outputs.version) }}" >> $GITHUB_ENV
     - name: Compare versions
       run: |
         echo "newbuild=${{ env.oldtag_string == env.newtag_string }}" >> $GITHUB_ENV
