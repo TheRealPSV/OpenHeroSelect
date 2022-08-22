@@ -32,12 +32,12 @@ jobs:
       run: |
         echo "Latest tag: ${{ steps.previous-tag.outputs.tag }}"
         echo "Project version: ${{ steps.project-version.outputs.version }}"
-        oldtag_string="${{ steps.previous-tag.outputs.tag }}"
-        newtag_string="${{ format('{{v{0}}}', steps.project-version.outputs.version) }}"
-        newbuild="${{ ${oldtag_string} == ${newtag_string} }}"
-        echo "Generate new release: ${{ ${newbuild} }}"
-        echo "::set-output name=newbuild::${{ ${newbuild} }}"
-        echo "::set-output name=newtag::${{ ${newtag_string} }}"
+        echo "oldtag_string=${{ steps.previous-tag.outputs.tag }}" >> $GITHUB_ENV
+        echo "newtag_string=${{ format('{{v{0}}}', steps.project-version.outputs.version) }}" >> $GITHUB_ENV
+        echo "newbuild=${{ env.oldtag_string == env.newtag_string }}" >> $GITHUB_ENV
+        echo "Generate new release: ${{ env.newbuild }}"
+        echo "::set-output name=newbuild::${{ env.newbuild }}"
+        echo "::set-output name=newtag::${{ env.newtag_string }}"
 
   build-release:
     name: Build and Release
