@@ -9,8 +9,8 @@ jobs:
     name: Check Tag and Version
     runs-on: ubuntu-latest
     outputs:
-      newbuild: ${{ steps.compare-versions.outputs.newbuild }}
-      newtag: ${{ steps.compare-versions.outputs.newtag }}
+      newbuild: ${{ steps.check-result.outputs.newbuild }}
+      newtag: ${{ steps.check-result.outputs.newtag }}
     steps:
     - name: Wait on check
       uses: lewagon/wait-on-check-action@v1.1.2
@@ -31,14 +31,18 @@ jobs:
       uses: euberdeveloper/ga-project-version@v1.1.0
       with:
         package-manager: npm
-    - name: Compare versions
-      id: compare-versions
+    - name: Get versions
       run: |
-        echo "Latest tag: ${{ steps.previous-tag.outputs.tag }}"
-        echo "Project version: ${{ steps.project-version.outputs.version }}"
         echo "oldtag_string=${{ steps.previous-tag.outputs.tag }}" >> $GITHUB_ENV
         echo "newtag_string=${{ format('{{v{0}}}', steps.project-version.outputs.version) }}" >> $GITHUB_ENV
+    - name: Compare versions
+      run: |
         echo "newbuild=${{ env.oldtag_string == env.newtag_string }}" >> $GITHUB_ENV
+    - name: Set check result
+      id: check-result
+      run: |
+        echo "Latest tag: ${{ env.oldtag_string }}"
+        echo "Project version (prepended with v): ${{ env.newtag_string }}"
         echo "Generate new release: ${{ env.newbuild }}"
         echo "::set-output name=newbuild::${{ env.newbuild }}"
         echo "::set-output name=newtag::${{ env.newtag_string }}"
