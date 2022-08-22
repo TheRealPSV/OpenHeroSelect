@@ -32,9 +32,9 @@ jobs:
       run: |
         echo "Latest tag: ${{ steps.previous-tag.outputs.tag }}"
         echo "Project version: ${{ steps.project-version.outputs.version }}"
-        oldtag_string=${{ steps.previous-tag.outputs.tag }}
-        newtag_string=${{ format('{{v{0}}}', steps.project-version.outputs.version) }}
-        newbuild=${{ oldtag_string == newtag_string }}
+        oldtag_string="${{ steps.previous-tag.outputs.tag }}"
+        newtag_string="${{ format('{{v{0}}}', steps.project-version.outputs.version) }}"
+        newbuild="${{ oldtag_string == newtag_string }}"
         echo "Generate new release: ${{ newbuild }}"
         echo "::set-output name=newbuild::${{ newbuild }}"
         echo "::set-output name=newtag::${{ newtag_string }}"
