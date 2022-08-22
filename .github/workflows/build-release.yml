@@ -19,6 +19,8 @@ jobs:
         check-name: 'ESLint Check'
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         wait-interval: 30
+    - name: Checkout code
+      uses: actions/checkout@v3.0.2
     - name: Get latest tag
       id: previous-tag
       uses: WyriHaximus/github-action-get-previous-tag@v1.1.0
@@ -46,7 +48,7 @@ jobs:
     if: ${{ needs.check-tag.outputs.newbuild == 'true' }}
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3.0.2
     - name: Setup Python
       uses: actions/setup-python@v4.2.0
       with:
