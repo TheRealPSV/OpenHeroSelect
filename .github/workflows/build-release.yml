@@ -65,6 +65,8 @@ jobs:
       run: npm i
     - name: Install pip modules
       run: npm run pipsetup
+    - name: Install Wine for rcedit
+      run: sudo apt install wine
     - name: Build release artifact
       run: npm run distpackage
     - name: Create release
