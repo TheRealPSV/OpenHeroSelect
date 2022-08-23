@@ -1,11 +1,12 @@
 name: Run ESLint
 on: [push, pull_request]
 jobs:
-  build:
+  eslint-check:
     name: ESLint Check
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
     - name: Install eslint
       run: npm i -g eslint
     - name: Install modules
