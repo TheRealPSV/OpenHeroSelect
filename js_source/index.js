@@ -76,7 +76,7 @@ const main = async () => {
       message: 'Press Enter to close'
     }).run();
   } catch (e) {
-    fs.writeFileSync("error.log", e.toString() + "\n" + e.stack);
+    fs.writeFileSync("error.log", e.stack);
     console.error("Program hit an error, wrote error to error.log");
     process.exitCode = 1;
     await new enquirer.Invisible({
