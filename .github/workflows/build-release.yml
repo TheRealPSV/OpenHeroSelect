@@ -49,14 +49,12 @@ jobs:
 
   build-release:
     name: Build and Release
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: check-tag
     if: ${{ needs.check-tag.outputs.newbuild == 'true' }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v3.0.2
-      with:
-        fetch-depth: 0
     - name: Setup Python
       uses: actions/setup-python@v4.2.0
       with:

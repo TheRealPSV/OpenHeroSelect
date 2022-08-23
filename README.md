@@ -8,7 +8,7 @@ Extendable HeroSelect script for Marvel Ultimate Alliance and X-Men Legends II
 * Requires python/pip (min Python 3.8) and nodejs/npm (min v14) to be installed
 * Recommended to use `eslint --fix` with provided `.eslintrc.js` to reformat code
 * The build script should automatically add the icon and version info to the generated exes, version info is based on what's set in `package.json`
-* Don't forget to run `npm i` to bring in the required dependencies, before doing anything else
+* Don't forget to run `npm i` to bring in the required dependencies, before doing anything else; also run this command after changing the project version in `package.json`
 
 ### `npm` commands
 * `npm run pipsetup`: Sets up python dependencies (assumes pip is in your path)
@@ -29,5 +29,5 @@ https://marvelmods.com/forum/index.php/topic,10597.0.html
 * [@sgprinc](https://github.com/sgprinc)/Sagap @ MarvelMods - Various improvements in v2
 * [@EthanReed517](https://github.com/EthanReed517)/BaconWizard17 @ MarvelMods - xml to json conversion Python script, testing and rosters for X-Men Legends II support
 * nikita488 @ MarvelMods - json to xmlb conversion Python script
-* [@ak2yny](https://github.com/ak2yny)/ak2yny @ MarvelMods - OCP v2.4 character stats and roster
+* [@ak2yny](https://github.com/ak2yny)/ak2yny @ MarvelMods - OCP v2.4 character stats and roster, additional testing and improvements
 * [@JordanLeich](https://github.com/JordanLeich) - Additional menulocations
