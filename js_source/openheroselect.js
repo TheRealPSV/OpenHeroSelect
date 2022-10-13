@@ -49,7 +49,7 @@ const main = async (automatic = false, xml2 = false) => {
       gameInstallPath: null,
       exeName: null,
       herostatName: null,
-      charinfo: null,
+      unlocker: null,
       launchGame: null,
       saveTempFiles: null,
       showProgress: null,
@@ -63,7 +63,7 @@ const main = async (automatic = false, xml2 = false) => {
       gameInstallPath: null,
       exeName: null,
       herostatName: null,
-      charinfo: null,
+      unlocker: null,
       launchGame: null,
       saveTempFiles: null,
       showProgress: null,
@@ -180,8 +180,8 @@ const main = async (automatic = false, xml2 = false) => {
         initial: "herostat.engb"
       }).run()
       ).trim().replace(/['"]+/g, '');
-      options.charinfo = await new enquirer.Confirm({
-        name: 'charinfo',
+      options.unlocker = await new enquirer.Confirm({
+        name: 'unlocker',
         message: `Update character unlocks?`,
         initial: false
       }).run();
@@ -514,7 +514,7 @@ const main = async (automatic = false, xml2 = false) => {
   useXMLFormatOnly = false;
 
   //start writing charinfo
-  if (options.charinfo) {
+  if (options.unlocker) {
     const scriptunlock = [];
     if (!xml2) {
       const allchars = startchars.concat(unlockchars, lockchars);
