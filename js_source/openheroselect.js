@@ -515,12 +515,12 @@ const main = async (automatic = false, xml2 = false) => {
 
   //start writing charinfo
   if (options.charinfo) {
+    const scriptunlock = [];
     if (!xml2) {
       const allchars = startchars.concat(unlockchars, lockchars);
       const rosterSz = Math.min(menulocations.length, characters.length);
       const unlockNum = Math.max(STARTERS, Math.min(rosterSz, startchars.length + unlockchars.length));
       const charinfoNum = Math.min(CHARINFO_LIMIT, rosterSz);
-      const scriptunlock = [];
       let charinfo = CHARINFO_START;
       for (const [i, charname] of allchars.entries()) {
         let hero = HERO_START + `\n` + `            "name": "` + charname + `"`;
@@ -540,7 +540,7 @@ const main = async (automatic = false, xml2 = false) => {
         }
       }
       charinfo += JSON_END;
-      
+
       //write charinfo json to disk and copy to game data directory
       compileRavenFormats(charinfo, "charinfo");
       fs.copyFileSync(
@@ -548,7 +548,7 @@ const main = async (automatic = false, xml2 = false) => {
         path.resolve(options.gameInstallPath, "data", "charinfo.xmlb")
       );
     } else {
-      const scriptunlock = startchars.concat(unlockchars);
+      Array.prototype.push.apply(scriptunlock, startchars.concat(unlockchars));
     }
 
     //write remaining characters to unlock to script file
