@@ -12,6 +12,8 @@ const NEWLINE_REGEX = /\n+/m;
 
 // CONSTANT VALUES
 const DEFAULT_HEROLIMIT = 27;
+const STARTERS = 4;
+const CHARINFO_LIMIT = 31;
 
 // PATHS
 const INI_PATH = "config.ini";
@@ -60,6 +62,7 @@ const main = async (automatic = false, xml2 = false) => {
       gameInstallPath: null,
       exeName: null,
       herostatName: null,
+      charinfo: null,
       launchGame: null,
       saveTempFiles: null,
       showProgress: null,
@@ -176,6 +179,13 @@ const main = async (automatic = false, xml2 = false) => {
         initial: "herostat.engb"
       }).run()
       ).trim().replace(/['"]+/g, '');
+      if (!xml2) {
+        options.charinfo = await new enquirer.Confirm({
+          name: 'charinfo',
+          message: `Update charinfo.xmlb with the current roster?`,
+        initial: false
+        }).run();
+      }
       options.launchGame = await new enquirer.Confirm({
         name: 'launchgame',
         message: 'Launch the game when done?',
@@ -215,10 +225,12 @@ const main = async (automatic = false, xml2 = false) => {
   //load chosen roster and menulocations
   const rosterFile = path.resolve(resourcePath, "rosters", `${options.rosterValue}.cfg`);
   const rosterData = fs.readFileSync(path.resolve(rosterFile), "utf8");
-  const rosterList = rosterData
+  const rosterRaw = rosterData
     .split(NEWLINE_REGEX)
     .filter((item) => item.trim().length)
     .map((item) => item.trim());
+  const rosterList = rosterRaw
+    .map((item) => item.replaceAll("*","").replaceAll("?",""));
 
   let menulocations = [];
   if (!xml2) {
@@ -233,7 +245,7 @@ const main = async (automatic = false, xml2 = false) => {
     menulocations = new Array(options.rosterSize);
   }
 
-  let operations = rosterList.length + menulocations.length + 6;
+  let operations = rosterList.length + menulocations.length + 7;
   let progressPoints = 0;
 
   //check if any json herostat exists
@@ -244,6 +256,10 @@ const main = async (automatic = false, xml2 = false) => {
   });
 
   // CONSTANT HEROSTAT PIECES
+  const JSON_END = `
+  }
+}
+`;
   const CHARACTERS_START = useXMLFormatOnly
     ? `XMLB characters {
 `
@@ -254,10 +270,7 @@ const main = async (automatic = false, xml2 = false) => {
     ? `
 }
 `
-    : `
-  }
-}
-`;
+    : JSON_END;
   const DEFAULTMAN = useXMLFormatOnly
     ? `   stats {
    autospend = support_heavy ;
@@ -359,13 +372,34 @@ const main = async (automatic = false, xml2 = false) => {
 }
 `;
 
+  // CONSTANT CHARINFO PIECES
+  const CHARINFO_START = 
+`{
+    "charinfo": {`;
+  const HERO_START = 
+`
+        "hero": {`;
+  const HERO_END = 
+`
+        }`;
+  const START_GAME = 
+`,
+            "start_game": "normal"`;
+  const UNLOCKED = 
+`,
+            "unlocked": "normal"`;
+
   //dynamic regexes
   const MENULOCATION_REGEX = useXMLFormatOnly ? /(^\s*menulocation\s*=\s*)\w+(\s*;\s*$)/m : /(^\s*"menulocation":\s*)"?\w+"?(,\s*$)/m;
   const STATS_REGEX = useXMLFormatOnly ? /^.*stats\s*{[\s\S]*}(?![\s\S]*})/m : /^.*"stats":\s*{[\s\S]*}(?![\s\S]*})/m;
 
   //load stat data for each character in roster
+  let starterindex = STARTERS;
+  const startchars = [];
+  const unlockchars = [];
+  const lockchars = [];
   const characters = [];
-  rosterList.forEach((item) => {
+  rosterList.forEach((item, index) => {
     let fileData = "";
     if (useXMLFormatOnly) {
       //if no json herostat exists for the whole roster, load xml files
@@ -386,6 +420,29 @@ const main = async (automatic = false, xml2 = false) => {
 
     //clean up loaded file and push to list of loaded character stats
     fileData = fileData.match(STATS_REGEX).join();
+
+    if (fileData.match(/menulocation/g).length > 1) {
+      throw new Error(`ERROR: more than 1 occurrence of 'menulocation' found in ${item}`);
+    }
+    
+    let charname = ""
+    if (useXMLFormatOnly) {
+      const herostatArray = fileData.toString().replace(/\r\n/g,"\n").split("\n");
+      charname = (herostatArray.find(function(line){return line.includes(" name =")})).split("=")[1].slice(1,-2);
+    } else {
+      const herostatJSON = JSON.parse(fileData.replace(`"stats": `,``));
+      charname = herostatJSON.name;
+    }
+
+    let c = rosterRaw[index]
+    if (starterindex && c.indexOf("*")+1) {
+      startchars.push(charname);
+      starterindex--
+    } else if (c.indexOf("?")+1 || c.indexOf("*")+1) {
+      unlockchars.push(charname);
+    } else {
+      lockchars.push(charname);
+    }
 
     characters.push(fileData);
     writeProgress(((++progressPoints) / operations) * 100);
@@ -420,7 +477,7 @@ const main = async (automatic = false, xml2 = false) => {
     //debug mode is new
     if (options.debugMode) {
       const dbgStat = CHARACTERS_START + heroValue + "\n" + CHARACTERS_END;
-      compileHerostat(dbgStat, rosterList[index]);
+      compileRavenFormats(dbgStat, rosterList[index]);
     };
     //append to herostat with comma and newline
     herostat += heroValue;
@@ -449,7 +506,7 @@ const main = async (automatic = false, xml2 = false) => {
   writeProgress(((++progressPoints) / operations) * 100);
 
   //write herostat json to disk
-  compileHerostat(herostat, "herostat");
+  compileRavenFormats(herostat, "herostat");
   writeProgress(((++progressPoints) / operations) * 100);
 
   //copy converted herostat to game data directory
@@ -457,6 +514,66 @@ const main = async (automatic = false, xml2 = false) => {
     herostatOutputPath,
     path.resolve(options.gameInstallPath, "data", options.herostatName)
   );
+  writeProgress(((++progressPoints) / operations) * 100);
+
+  //we're done with NBA2kStuff's XML, so we can disable that now
+  useXMLFormatOnly = false
+
+  //start writing charinfo
+  if (options.charinfo) {
+    const allchars = startchars.concat(unlockchars, lockchars);
+    const rosterSz = Math.min(menulocations.length, characters.length);
+    const unlockNum = Math.max(STARTERS, Math.min(rosterSz, startchars.length + unlockchars.length));
+    const charinfoNum = Math.min(CHARINFO_LIMIT, rosterSz);
+    let scriptunlock = [];
+    let charinfo = CHARINFO_START;
+    for (const [i, charname] of allchars.entries()) {
+      let hero = HERO_START + `\n` + `            "name": "` + charname + `"`;
+      if (i < STARTERS) {
+        hero += START_GAME;
+      }
+      if (i < unlockNum) {
+        hero += UNLOCKED;
+      }
+      if (i < charinfoNum) {
+        charinfo += hero + HERO_END;
+      } else if (i < unlockNum) {
+        scriptunlock.push(charname);
+      }
+      if (i < charinfoNum-1) {
+        charinfo += ",";
+      }
+    }
+    charinfo += JSON_END;
+
+    //write charinfo json to disk and copy to game data directory
+    compileRavenFormats(charinfo, "charinfo");
+    fs.copyFileSync(
+      path.resolve("temp", "charinfo.xmlb"),
+      path.resolve(options.gameInstallPath, "data", "charinfo.xmlb")
+    );
+
+    //write remaining characters to unlock to script file
+    const pyPath = path.resolve(options.gameInstallPath, "scripts", "menus", "new_game.py");
+    const unlockScriptFile = path.resolve("temp", "new_game.py");
+    let newScriptlines = [];
+    if(fs.existsSync(pyPath)) {
+      const scriptFile = fs.readFileSync(pyPath, "utf8");
+      scriptlines = scriptFile.split(NEWLINE_REGEX)
+      for (const scriptline of scriptlines) {
+        if (!scriptline.includes("unlockCharacter(")) {
+          newScriptlines.push(scriptline);
+        }
+      }
+      for (const charname of scriptunlock) {
+        let scriptline = `unlockCharacter("` + charname + `", "" )`;
+        newScriptlines.push(scriptline);
+      }
+    }
+    fs.writeFileSync(unlockScriptFile, newScriptlines.join("\n"));
+    fs.copyFileSync(unlockScriptFile, pyPath);
+  }
+
   writeProgress(((++progressPoints) / operations) * 100);
 
   //clear temp folder if not saving temp files
@@ -483,23 +600,24 @@ function writeProgress(percent) {
   process.stdout.write(percent === 100 ? "Done\n" : `Working, please wait... (${percent.toFixed(1)}%)`);
 }
 
-function compileHerostat(stats, statname) {
+function compileRavenFormats(code, filename) {
   const ext = useXMLFormatOnly ? "xml" : "json";
-  const herostatXmlPath = path.resolve("temp", "herostat.xml");
-  const herostatJsonPath = path.resolve("temp", "herostat.json");
-  fs.writeFileSync(path.resolve("temp", `herostat.${ext}`), stats);
+  const XmlPath = path.resolve("temp", `${filename}.xml`);
+  const JsonPath = path.resolve("temp", `${filename}.json`);
+  const OutputPath = path.resolve("temp", `${filename}.xmlb`);
+  fs.writeFileSync(path.resolve("temp", `${filename}.${ext}`), code);
   if (useXMLFormatOnly) {
-    cspawn.sync(path.resolve("xml2json.exe"), [herostatXmlPath, herostatJsonPath], {});
+    cspawn.sync(path.resolve("xml2json.exe"), [XmlPath, JsonPath], {});
   }
 
-  //generate herostat xmlb file
+  //generate xmlb file
   const child = cspawn.sync(
     path.resolve("json2xmlb.exe"),
-    [herostatJsonPath, herostatOutputPath],
+    [JsonPath, OutputPath],
     {}
   );
   if (child.stderr.length !== 0) {
-    throw new Error(`${statname}:\n${child.stderr.toString("utf8").split("\n").slice(-3).join("\n")}`);
+    throw new Error(`${filename}:\n${child.stderr.toString("utf8").split("\n").slice(-3).join("\n")}`);
   }
 }
 
