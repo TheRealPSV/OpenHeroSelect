@@ -423,7 +423,7 @@ const main = async (automatic = false, xml2 = false) => {
     let charname = "";
     if (useXMLFormatOnly) {
       const herostatArray = fileData.toString().replace(/\r\n/g, "\n").split("\n");
-      charname = (herostatArray.find(function(line) { return line.includes(" name =") } )).split("=")[1].slice(1, -2);
+      charname = (herostatArray.find(function (line) { return line.includes(" name ="); })).split("=")[1].slice(1, -2);
     } else {
       const herostatJSON = JSON.parse(fileData.replace(`"stats": `, ``));
       charname = herostatJSON.name;
@@ -561,7 +561,7 @@ const main = async (automatic = false, xml2 = false) => {
         }
       }
       for (const charname of scriptunlock) {
-        let scriptline = `unlockCharacter("` + charname + `", "" )`;
+        const scriptline = `unlockCharacter("` + charname + `", "" )`;
         newScriptlines.push(scriptline);
       }
     }
