@@ -183,7 +183,7 @@ const main = async (automatic = false, xml2 = false) => {
         options.charinfo = await new enquirer.Confirm({
           name: 'charinfo',
           message: `Update charinfo.xmlb with the current roster?`,
-        initial: false
+          initial: false
         }).run();
       }
       options.launchGame = await new enquirer.Confirm({
@@ -230,7 +230,7 @@ const main = async (automatic = false, xml2 = false) => {
     .filter((item) => item.trim().length)
     .map((item) => item.trim());
   const rosterList = rosterRaw
-    .map((item) => item.replaceAll("*","").replaceAll("?",""));
+    .map((item) => item.replaceAll("*", "").replaceAll("?", ""));
 
   let menulocations = [];
   if (!xml2) {
@@ -373,20 +373,15 @@ const main = async (automatic = false, xml2 = false) => {
 `;
 
   // CONSTANT CHARINFO PIECES
-  const CHARINFO_START = 
-`{
+  const CHARINFO_START = `{
     "charinfo": {`;
-  const HERO_START = 
-`
+  const HERO_START = `
         "hero": {`;
-  const HERO_END = 
-`
+  const HERO_END = `
         }`;
-  const START_GAME = 
-`,
+  const START_GAME = `,
             "start_game": "normal"`;
-  const UNLOCKED = 
-`,
+  const UNLOCKED = `,
             "unlocked": "normal"`;
 
   //dynamic regexes
@@ -424,21 +419,21 @@ const main = async (automatic = false, xml2 = false) => {
     if (fileData.match(/menulocation/g).length > 1) {
       throw new Error(`ERROR: more than 1 occurrence of 'menulocation' found in ${item}`);
     }
-    
-    let charname = ""
+
+    let charname = "";
     if (useXMLFormatOnly) {
-      const herostatArray = fileData.toString().replace(/\r\n/g,"\n").split("\n");
-      charname = (herostatArray.find(function(line){return line.includes(" name =")})).split("=")[1].slice(1,-2);
+      const herostatArray = fileData.toString().replace(/\r\n/g, "\n").split("\n");
+      charname = (herostatArray.find(function(line) { return line.includes(" name =") } )).split("=")[1].slice(1, -2);
     } else {
-      const herostatJSON = JSON.parse(fileData.replace(`"stats": `,``));
+      const herostatJSON = JSON.parse(fileData.replace(`"stats": `, ``));
       charname = herostatJSON.name;
     }
 
-    let c = rosterRaw[index]
-    if (starterindex && c.indexOf("*")+1) {
+    const c = rosterRaw[index];
+    if (starterindex && c.indexOf("*") + 1) {
       startchars.push(charname);
-      starterindex--
-    } else if (c.indexOf("?")+1 || c.indexOf("*")+1) {
+      starterindex--;
+    } else if (c.indexOf("?") + 1 || c.indexOf("*") + 1) {
       unlockchars.push(charname);
     } else {
       lockchars.push(charname);
@@ -517,7 +512,7 @@ const main = async (automatic = false, xml2 = false) => {
   writeProgress(((++progressPoints) / operations) * 100);
 
   //we're done with NBA2kStuff's XML, so we can disable that now
-  useXMLFormatOnly = false
+  useXMLFormatOnly = false;
 
   //start writing charinfo
   if (options.charinfo) {
@@ -525,7 +520,7 @@ const main = async (automatic = false, xml2 = false) => {
     const rosterSz = Math.min(menulocations.length, characters.length);
     const unlockNum = Math.max(STARTERS, Math.min(rosterSz, startchars.length + unlockchars.length));
     const charinfoNum = Math.min(CHARINFO_LIMIT, rosterSz);
-    let scriptunlock = [];
+    const scriptunlock = [];
     let charinfo = CHARINFO_START;
     for (const [i, charname] of allchars.entries()) {
       let hero = HERO_START + `\n` + `            "name": "` + charname + `"`;
@@ -540,7 +535,7 @@ const main = async (automatic = false, xml2 = false) => {
       } else if (i < unlockNum) {
         scriptunlock.push(charname);
       }
-      if (i < charinfoNum-1) {
+      if (i < charinfoNum - 1) {
         charinfo += ",";
       }
     }
@@ -556,10 +551,10 @@ const main = async (automatic = false, xml2 = false) => {
     //write remaining characters to unlock to script file
     const pyPath = path.resolve(options.gameInstallPath, "scripts", "menus", "new_game.py");
     const unlockScriptFile = path.resolve("temp", "new_game.py");
-    let newScriptlines = [];
-    if(fs.existsSync(pyPath)) {
+    const newScriptlines = [];
+    if (fs.existsSync(pyPath)) {
       const scriptFile = fs.readFileSync(pyPath, "utf8");
-      scriptlines = scriptFile.split(NEWLINE_REGEX)
+      const scriptlines = scriptFile.split(NEWLINE_REGEX);
       for (const scriptline of scriptlines) {
         if (!scriptline.includes("unlockCharacter(")) {
           newScriptlines.push(scriptline);
