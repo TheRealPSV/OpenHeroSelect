@@ -5,7 +5,7 @@ Extendable HeroSelect script for Marvel Ultimate Alliance and X-Men Legends II
 [Instructions](help_files/)
 
 ## Developing/Building instructions
-* Requires python/pip (min Python 3.8) and nodejs/npm (min v14) to be installed
+* Requires python/pip (recommended Python version is 3.10) and nodejs/npm (recommended Node.JS version is 16.16) to be installed
 * Recommended to use `eslint --fix` with provided `.eslintrc.js` to reformat code
 * The build script should automatically add the icon and version info to the generated exes, version info is based on what's set in `package.json`
 * Don't forget to run `npm i` to bring in the required dependencies, before doing anything else; also run this command after changing the project version in `package.json`, before committing the version number change
