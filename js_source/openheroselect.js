@@ -130,10 +130,10 @@ const main = async (automatic = false, xml2 = false) => {
           name: 'menulocations',
           message: 'Select a roster layout',
           choices: [...menulocationOptions],
-          initial: "27"
+          initial: "27 (Official Characters Pack)"
         }).run();
         if (!options.menulocationsValue.trim()) {
-          options.menulocationsValue = "27";
+          options.menulocationsValue = "27 (Official Characters Pack)";
         } else if (!menulocationOptions.includes(options.menulocationsValue)) {
           console.error("ERROR: Invalid roster layout");
           throw new Error("ERROR: Invalid roster layout");

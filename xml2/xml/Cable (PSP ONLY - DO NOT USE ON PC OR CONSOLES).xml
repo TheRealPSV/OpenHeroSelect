@@ -1,0 +1,79 @@
+   stats {
+   ailevel = 2 ;
+   autospend = support_heavy ;
+   body = 16 ;
+   characteranims = 150_cable ;
+   charactername = Cable ;
+   effect_skin = char/cable/special_aura ;
+   effect_skin_bolt_astonishing = Bip01 Head ;
+   effect_skin_bolt_default = Bip01 Head ;
+   effect_skin_bolt_future = Bip01 Head ;
+   effect_skin_bolt_weaponx = Bip01 Head ;
+   ignoreboundsscaling = true ;
+   level = 1 ;
+   mind = 20 ;
+   name = Cable ;
+   playable = true ;
+   power1 = power1 ;
+   power2 = power2 ;
+   power3 = power8 ;
+   power4 = power7 ;
+   powerstyle = ps_cable ;
+   scale_factor = 1.1 ;
+   scriptlevel = 3 ;
+   skin = 15001 ;
+   skin_future = 03 ;
+   skin_weaponx = 02 ;
+   sounddir = cable_m ;
+   speed = 16 ;
+   strength = 16 ;
+   team = hero ;
+   textureicon = 64 ;
+      Race {
+      name = Mutant ;
+      }
+
+      Race {
+      name = XMen ;
+      }
+
+      Multipart {
+      health = 0 ;
+      hideskin = gun_left ;
+      }
+
+      Multipart {
+      health = 0 ;
+      hideskin = gun_right ;
+      }
+
+      Multipart {
+      health = 0 ;
+      hideskin = holster_rifle ;
+      }
+
+      talent {
+      level = 1 ;
+      name = cable_smash ;
+      }
+
+      talent {
+      level = 1 ;
+      name = cable_pistol ;
+      }
+
+      talent {
+      level = 1 ;
+      name = cable_tele ;
+      }
+
+      talent {
+      name = mutantmaster ;
+      }
+
+      talent {
+      level = 1 ;
+      name = fightstyle_hero ;
+      }
+
+   }

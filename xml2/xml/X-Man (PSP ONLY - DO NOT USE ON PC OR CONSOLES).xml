@@ -1,0 +1,62 @@
+   stats {
+   autospend = support ;
+   body = 16 ;
+   characteranims = 152_xman ;
+   charactername = X-Man ;
+   effect_skin = char/xman/special_aura ;
+   effect_skin_bolt_aoa = Bip01 Head ;
+   effect_skin_bolt_astonishing = Bip01 Head ;
+   effect_skin_bolt_default = Bip01 Head ;
+   effect_skin_bolt_future = Bip01 Head ;
+   effect_skin_bolt_weaponx = Bip01 Head ;
+   level = 1 ;
+   mind = 20 ;
+   name = XMan ;
+   playable = true ;
+   power1 = power1 ;
+   power2 = power4 ;
+   power3 = power3 ;
+   power4 = power7 ;
+   powerstyle = ps_xman ;
+   scriptlevel = 3 ;
+   skin = 15201 ;
+   skin_future = 03 ;
+   skin_weaponx = 02 ;
+   skirmish_boost = -9 ;
+   sounddir = xman_m ;
+   speed = 16 ;
+   strength = 16 ;
+   team = hero ;
+   textureicon = 67 ;
+      Race {
+      name = Mutant ;
+      }
+
+      Race {
+      name = XMen ;
+      }
+
+      talent {
+      level = 1 ;
+      name = xman_bolt ;
+      }
+
+      talent {
+      level = 1 ;
+      name = xman_shield ;
+      }
+
+      talent {
+      name = flight ;
+      }
+
+      talent {
+      name = mutantmaster ;
+      }
+
+      talent {
+      level = 1 ;
+      name = fightstyle_hero ;
+      }
+
+   }
