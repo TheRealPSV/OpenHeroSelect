@@ -1,0 +1,60 @@
+   stats {
+   autospend = bruiser ;
+   body = 16 ;
+   characteranims = 151_cannonball ;
+   charactername = Cannonball ;
+   level = 1 ;
+   mind = 20 ;
+   name = Cannonball ;
+   playable = true ;
+   power1 = power1 ;
+   power2 = power3 ;
+   power3 = power2 ;
+   power4 = power7 ;
+   powerstyle = ps_cannonball ;
+   scriptlevel = 3 ;
+   skin = 15101 ;
+   skin_future = 03 ;
+   skin_weaponx = 02 ;
+   sounddir = cball_m ;
+   speed = 16 ;
+   strength = 16 ;
+   team = hero ;
+   textureicon = 66 ;
+      Race {
+      name = Mutant ;
+      }
+
+      Race {
+      name = XMen ;
+      }
+
+      talent {
+      level = 1 ;
+      name = can_rocket ;
+      }
+
+      talent {
+      level = 1 ;
+      name = can_shield ;
+      }
+
+      talent {
+      level = 1 ;
+      name = can_blast ;
+      }
+
+      talent {
+      name = flight ;
+      }
+
+      talent {
+      level = 1 ;
+      name = fightstyle_hero ;
+      }
+
+      talent {
+      name = mutantmaster ;
+      }
+
+   }

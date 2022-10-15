@@ -1,0 +1,90 @@
+   stats {
+   autospend = support ;
+   body = 16 ;
+   characteranims = 153_darkphoenix ;
+   charactername = Dark Phoenix ;
+   effect_skin = char/drkphoenx/special_aura ;
+   effect_skin_bolt_default = Bip01 Spine1 ;
+   level = 1 ;
+   mind = 20 ;
+   name = DarkPhoenix ;
+   playable = true ;
+   power1 = power1 ;
+   power2 = power3 ;
+   power3 = power9 ;
+   power4 = power8 ;
+   powerstyle = ps_darkphoenix ;
+   scriptlevel = 3 ;
+   skin = 15301 ;
+   sounddir = darkp_m ;
+   speed = 16 ;
+   strength = 16 ;
+   team = hero ;
+   textureicon = 65 ;
+      Race {
+      name = Mutant ;
+      }
+
+      Race {
+      name = XMen ;
+      }
+
+      talent {
+      level = 1 ;
+      name = dark_force ;
+      }
+
+      talent {
+      level = 1 ;
+      name = dark_erode ;
+      }
+
+      talent {
+      level = 1 ;
+      name = dark_inferno ;
+      }
+
+      talent {
+      level = 1 ;
+      name = dark_absorb ;
+      }
+
+      talent {
+      level = 1 ;
+      name = dark_absorb2 ;
+      }
+
+      talent {
+      level = 1 ;
+      name = dark_matter ;
+      }
+
+      talent {
+      level = 1 ;
+      name = dark_warp ;
+      }
+
+      talent {
+      level = 1 ;
+      name = dark_consume ;
+      }
+
+      talent {
+      level = 1 ;
+      name = dark_shield ;
+      }
+
+      talent {
+      name = flight ;
+      }
+
+      talent {
+      name = mutantmaster ;
+      }
+
+      talent {
+      level = 1 ;
+      name = fightstyle_hero ;
+      }
+
+   }
