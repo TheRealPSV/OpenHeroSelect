@@ -1,6 +1,6 @@
 {
   "name": "openheroselect",
-  "version": "4.5.7",
+  "version": "4.6.0",
   "description": "Open Source HeroSelect for Marvel Ultimate Alliance (2006)",
   "main": "index.js",
   "scripts": {
@@ -39,5 +39,8 @@
     "node-7z": "^3.0.0",
     "pkg": "^5.5.2",
     "rcedit": "^3.0.1"
+  },
+  "volta": {
+    "node": "16.18.0"
   }
 }
