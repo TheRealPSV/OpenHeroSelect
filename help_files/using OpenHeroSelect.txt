@@ -6,17 +6,19 @@ Basic usage:
         defaultman and team_character are handled for you
         When pasting in your path to MUA, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
             For example, if your game is at "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance\Game.exe", then you would just paste in "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance" without the quotes.
-        You'll be asked for the filename of your game's exe and herostat file, but the default should be fine unless you're using a special modpack with a different exe/herostat.
+        You'll be asked for the filename of your game's exe and herostat file, but the default should be fine unless you're using a special modpack with a different exe/herostat. You can define unlocked characters with a question mark (?) in the roster cfg file (simply add it to the character's line). The four starter characters are defined with an asterisk (*) in the same way. To use this configuration, you must answer 'yes' when asked.
         OpenHeroSelect will ask you to save temp files, but you don't need to unless you're experiencing issues and need to save them for debugging purposes.
         You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
+        Use the debug mode, if you get an error, which you can't solve right away. Debug mode will try to pinpoint the problematic herostat file.
     
     Generate Herostat for X-Men Legends II:
         defaultman is handled for you, and XML2 doesn't have a team_character
         When pasting in your path to XML2, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
             For example, if your game is at "D:\Program Files (x86)\Activision\X-Men Legends 2\XMen2.exe", then you would just paste in "D:\Program Files (x86)\Activision\X-Men Legends 2" without the quotes.
-        You'll be asked for the filename of your game's exe and herostat file, but the default should be fine unless you're using a special modpack with a different exe/herostat.
+        You'll be asked for the filename of your game's exe and herostat file, but the default should be fine unless you're using a special modpack with a different exe/herostat. You can define unlocked characters with a question mark (?) in the roster cfg file (simply add it to the character's line). To use this configuration, you must answer 'yes' when asked.
         OpenHeroSelect will ask you to save temp files, but you don't need to unless you're experiencing issues and need to save them for debugging purposes.
         You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
+        Use the debug mode, if you get an error, which you can't solve right away. Debug mode will try to pinpoint the problematic herostat file.
     
     Splitter for Old OHS Config Files:
         See the "converting from old versions" file, you only need this if you're converting a roster from OHS v1/v2 to the current format
@@ -38,17 +40,27 @@ Advanced usage:
     Example config.ini for MUA:
         {
             "menulocationsValue": "27",
+            "rosterHack": true,
             "rosterValue": "roster",
-            "defaultmanIncluded": true,
-            "teamcharacterIncluded": true,
             "gameInstallPath": "C:\\Program Files (x86)\\Activision\\Marvel - Ultimate Alliance",
+            "exeName": "Game.exe",
+            "herostatName": "herostat.engb",
+            "unlocker": false,
             "launchGame": false,
             "saveTempFiles": false
+            "showProgress": true,
+            "debugMode": false
         }
     Example config.ini for XML2:
         {
+            "rosterSize": 21,
             "rosterValue": "roster",
             "gameInstallPath": "C:\\Program Files (x86)\\Activision\\X-Men Legends 2",
+            "exeName": "XMen2.exe",
+            "herostatName": "herostat.engb",
+            "unlocker": false,
             "launchGame": false,
             "saveTempFiles": false
+            "showProgress": true,
+            "debugMode": false
         }
