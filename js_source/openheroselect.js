@@ -567,9 +567,9 @@ const main = async (automatic = false, xml2 = false) => {
         const scriptline = `unlockCharacter("` + charname + `", "" )`;
         newScriptlines.push(scriptline);
       }
+      fs.writeFileSync(unlockScriptFile, newScriptlines.join("\n"));
+      fs.copyFileSync(unlockScriptFile, pyPath);
     }
-    fs.writeFileSync(unlockScriptFile, newScriptlines.join("\n"));
-    fs.copyFileSync(unlockScriptFile, pyPath);
   }
 
   writeProgress(((++progressPoints) / operations) * 100);
