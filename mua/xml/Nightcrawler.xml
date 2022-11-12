@@ -40,24 +40,6 @@
       showskin = sword_Back_segment ;
       }
 
-      Multipart {
-      health = 0 ;
-      nonmenuonly = true ;
-      showskin = sword_Back_segment ;
-      }
-
-      Multipart {
-      health = 0 ;
-      hideskin = sword_L_segment ;
-      nonmenuonly = true ;
-      }
-
-      Multipart {
-      health = 0 ;
-      hideskin = sword_R_segment ;
-      nonmenuonly = true ;
-      }
-
       talent {
       level = 1 ;
       name = night_power1 ;

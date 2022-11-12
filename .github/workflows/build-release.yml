@@ -23,9 +23,6 @@ jobs:
       uses: actions/checkout@v3.0.2
       with:
         fetch-depth: 0
-    - name: Get latest tag
-      id: previous-tag
-      uses: WyriHaximus/github-action-get-previous-tag@v1.1.0
     - name: Get project version
       id: project-version
       uses: euberdeveloper/ga-project-version@v1.1.0
@@ -33,15 +30,13 @@ jobs:
         package-manager: npm
     - name: Get versions
       run: |
-        echo "oldtag_string=${{ steps.previous-tag.outputs.tag }}" >> $GITHUB_ENV
         echo "newtag_string=${{ format('v{0}', steps.project-version.outputs.version) }}" >> $GITHUB_ENV
     - name: Compare versions
       run: |
-        echo "newbuild=${{ env.oldtag_string != env.newtag_string }}" >> $GITHUB_ENV
+        echo "newbuild=${{ true }}" >> $GITHUB_ENV
     - name: Set check result
       id: check-result
       run: |
-        echo "Latest tag: ${{ env.oldtag_string }}"
         echo "Project version (prepended with v): ${{ env.newtag_string }}"
         echo "Generate new release: ${{ env.newbuild }}"
         echo "::set-output name=newbuild::${{ env.newbuild }}"

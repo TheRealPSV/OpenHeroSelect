@@ -25,23 +25,14 @@
       Multipart {
       health = 0 ;
       hideskin = 0101_sword_back_segment ;
-      }
-
-      Multipart {
-      health = 0 ;
-      hideskin = 0101_gun_segment ;
-      }
-
-      Multipart {
-      health = 0 ;
-      nonmenuonly = true ;
-      showskin = 0101_sword_back_segment ;
+      hideskin2 = 0101_gun_segment ;
       }
 
       Multipart {
       health = 0 ;
       hideskin = 0101_sword_segment ;
       nonmenuonly = true ;
+      showskin = 0101_sword_back_segment ;
       }
 
       talent {

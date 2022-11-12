@@ -25,11 +25,7 @@
       Multipart {
       health = 0 ;
       hideskin = gun_left ;
-      }
-
-      Multipart {
-      health = 0 ;
-      hideskin = gun_right ;
+      hideskin2 = gun_right ;
       }
 
       talent {
