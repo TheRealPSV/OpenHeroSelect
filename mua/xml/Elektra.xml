@@ -25,33 +25,13 @@
       Multipart {
       health = 0 ;
       hideskin = 1201_sai_left_segment ;
-      }
-
-      Multipart {
-      health = 0 ;
-      hideskin = 1201_sai_right_segment ;
+      hideskin2 = 1201_sai_right_segment ;
       }
 
       Multipart {
       health = 0 ;
       hideskin = 1201_star_left_segment ;
-      }
-
-      Multipart {
-      health = 0 ;
-      hideskin = 1201_star_right_segment ;
-      }
-
-      Multipart {
-      health = 0 ;
-      menuonly = true ;
-      showskin = 1201_sai_left_segment ;
-      }
-
-      Multipart {
-      health = 0 ;
-      menuonly = true ;
-      showskin = 1201_sai_right_segment ;
+      hideskin2 = 1201_star_right_segment ;
       }
 
       talent {
@@ -67,6 +47,13 @@
       talent {
       level = 1 ;
       name = melee_moves ;
+      }
+
+      Multipart {
+      health = 0 ;
+      menuonly = true ;
+      showskin = 1201_sai_left_segment ;
+      showskin2 = 1201_sai_right_segment ;
       }
 
    }
