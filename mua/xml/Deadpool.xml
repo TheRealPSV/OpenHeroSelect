@@ -25,33 +25,20 @@
       Multipart {
       health = 0 ;
       hideskin = sword_l_back ;
-      }
-
-      Multipart {
-      health = 0 ;
-      hideskin = sword_r_hand ;
+      hideskin2 = sword_r_hand ;
       }
 
       Multipart {
       health = 0 ;
       hideskin = sword_l_hand_reverse ;
-      }
-
-      Multipart {
-      health = 0 ;
-      hideskin = guns ;
-      }
-
-      Multipart {
-      health = 0 ;
-      nonmenuonly = true ;
-      showskin = sword_l_back ;
+      hideskin2 = guns ;
       }
 
       Multipart {
       health = 0 ;
       hideskin = sword_l_hand ;
       nonmenuonly = true ;
+      showskin = sword_l_back ;
       }
 
       talent {

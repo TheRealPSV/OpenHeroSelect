@@ -26,6 +26,8 @@ jobs:
     - name: Get latest tag
       id: previous-tag
       uses: WyriHaximus/github-action-get-previous-tag@v1.1.0
+      with:
+        fallback: 1.0.0
     - name: Get project version
       id: project-version
       uses: euberdeveloper/ga-project-version@v1.1.0
