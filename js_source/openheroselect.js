@@ -415,14 +415,14 @@ const main = async (automatic = false, xml2 = false) => {
     //clean up loaded file and push to list of loaded character stats
     fileData = fileData.match(STATS_REGEX).join();
 
-    if (fileData.match(/menulocation/g).length > 1) {
+    if (!xml2 && fileData.match(/menulocation/g).length > 1) {
       throw new Error(`ERROR: more than 1 occurrence of 'menulocation' found in ${item}`);
     }
 
     let charname = "";
     if (useXMLFormatOnly) {
       const herostatArray = fileData.toString().replace(/\r\n/g, "\n").split("\n");
-      charname = (herostatArray.find(function (line) { return line.includes(" name ="); })).split("=")[1].slice(1, -2);
+      charname = (herostatArray.filter(line => line.match(/^\s*name\s=/gi))[0]).split("=")[1].slice(1, -2);
     } else {
       const herostatJSON = JSON.parse(fileData.replace(`"stats": `, ``));
       charname = herostatJSON.name;
