@@ -33,7 +33,7 @@ jobs:
         echo "newtag_string=${{ format('v{0}', steps.project-version.outputs.version) }}" >> $GITHUB_ENV
     - name: Compare versions
       run: |
-        echo "newbuild=${{ env.newtag_string }}" >> $GITHUB_ENV
+        echo "newbuild=${{ true }}" >> $GITHUB_ENV
     - name: Set check result
       id: check-result
       run: |
