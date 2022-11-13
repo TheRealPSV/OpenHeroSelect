@@ -13,22 +13,22 @@ jobs:
       newtag: ${{ steps.check-result.outputs.newtag }}
     steps:
     - name: Wait on check
-      uses: lewagon/wait-on-check-action@v1.1.2
+      uses: lewagon/wait-on-check-action@v1.2.0
       with:
         ref: ${{ github.ref }}
         check-name: 'ESLint Check'
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         wait-interval: 30
     - name: Checkout code
-      uses: actions/checkout@v3.0.2
+      uses: actions/checkout@v3.1.0
       with:
         fetch-depth: 0
     - name: Get latest tag
       id: previous-tag
-      uses: WyriHaximus/github-action-get-previous-tag@v1.1.0
+      uses: WyriHaximus/github-action-get-previous-tag@v1.2.2
     - name: Get project version
       id: project-version
-      uses: euberdeveloper/ga-project-version@v1.1.0
+      uses: euberdeveloper/ga-project-version@v1.3.0
       with:
         package-manager: npm
     - name: Get versions
@@ -44,8 +44,8 @@ jobs:
         echo "Latest tag: ${{ env.oldtag_string }}"
         echo "Project version (prepended with v): ${{ env.newtag_string }}"
         echo "Generate new release: ${{ env.newbuild }}"
-        echo "::set-output name=newbuild::${{ env.newbuild }}"
-        echo "::set-output name=newtag::${{ env.newtag_string }}"
+        echo "newbuild=${{ env.newbuild }}" >> $GITHUB_OUTPUT
+        echo "newtag=${{ env.newtag_string }}" >> $GITHUB_OUTPUT
 
   build-release:
     name: Build and Release
@@ -54,13 +54,13 @@ jobs:
     if: ${{ needs.check-tag.outputs.newbuild == 'true' }}
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3.0.2
+      uses: actions/checkout@v3.1.0
     - name: Setup Node.js
-      uses: actions/setup-node@v3.4.1
+      uses: actions/setup-node@v3.5.1
       with:
         node-version: '16.18'
     - name: Setup Python
-      uses: actions/setup-python@v4.2.0
+      uses: actions/setup-python@v4.3.0
       with:
         python-version: '3.10'
     - name: Install npm modules

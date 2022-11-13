@@ -24,10 +24,7 @@
    team = hero ;
       Multipart {
       hideskin = 20102_Mgun_segment ;
-      }
-
-      Multipart {
-      hideskin = 20102_pistol_segment ;
+      hideskin2 = 20102_pistol_segment ;
       }
 
       Multipart {

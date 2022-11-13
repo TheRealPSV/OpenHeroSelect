@@ -25,11 +25,7 @@
       Multipart {
       health = 0 ;
       hideskin = dagger_l_segment ;
-      }
-
-      Multipart {
-      health = 0 ;
-      hideskin = dagger_r_segment ;
+      hideskin2 = dagger_r_segment ;
       }
 
       talent {
