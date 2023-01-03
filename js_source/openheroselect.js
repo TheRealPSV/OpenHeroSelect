@@ -415,8 +415,8 @@ const main = async (automatic = false, xml2 = false) => {
     //clean up loaded file and push to list of loaded character stats
     fileData = fileData.match(STATS_REGEX).join();
 
-    if (!xml2 && fileData.match(/menulocation/g).length > 1) {
-      throw new Error(`ERROR: more than 1 occurrence of 'menulocation' found in ${item}`);
+    if (!xml2 && (fileData.match(/menulocation/g) || []).length !== 1) {
+      throw new Error(`ERROR: more or less than 1 occurrence of 'menulocation' found in ${item}`);
     }
 
     let charname = "";
