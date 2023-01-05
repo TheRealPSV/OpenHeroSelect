@@ -419,23 +419,28 @@ const main = async (automatic = false, xml2 = false) => {
       throw new Error(`ERROR: more or less than 1 occurrence of 'menulocation' found in ${item}`);
     }
 
-    let charname = "";
-    if (useXMLFormatOnly) {
-      const herostatArray = fileData.toString().replace(/\r\n/g, "\n").split("\n");
-      charname = (herostatArray.filter(line => line.match(/^\s*name\s=/gi))[0]).split("=")[1].slice(1, -2);
-    } else {
-      const herostatJSON = JSON.parse(fileData.replace(`"stats": `, ``));
-      charname = herostatJSON.name;
-    }
-
-    const c = rosterRaw[index];
-    if (starterindex && c.indexOf("*") + 1) {
-      startchars.push(charname);
-      starterindex--;
-    } else if (c.indexOf("?") + 1 || c.indexOf("*") + 1) {
-      unlockchars.push(charname);
-    } else {
-      lockchars.push(charname);
+    if (options.unlocker) {
+      let charname = "";
+      if (useXMLFormatOnly) {
+        const herostatXML = fileData.match(/^.*stats\s*{[\s\S]*?{/mi)[0]
+        charname = (herostatXML.match(/^\s*name\s=\s(.*?)\s;$/mi) || [])[1];
+      } else {
+        const herostatJSON = JSON.parse(fileData.replace(`"stats": `, ``));
+        charname = herostatJSON.name;
+      }
+      if (!charname) {
+        throw new Error(`ERROR: no name found in ${item}`);
+      }
+    
+      const c = rosterRaw[index];
+      if (starterindex && c.indexOf("*") + 1) {
+        startchars.push(charname);
+        starterindex--;
+      } else if (c.indexOf("?") + 1 || c.indexOf("*") + 1) {
+        unlockchars.push(charname);
+      } else {
+        lockchars.push(charname);
+      }
     }
 
     characters.push(fileData);
