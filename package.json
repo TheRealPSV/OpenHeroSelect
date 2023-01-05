@@ -36,6 +36,7 @@
     "eslint-plugin-n": "^15.2.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.31.11",
     "node-7z": "^3.0.0",
     "pkg": "^5.5.2",
     "rcedit": "^3.0.1"
