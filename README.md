@@ -17,7 +17,6 @@ Extendable HeroSelect script for Marvel Ultimate Alliance and X-Men Legends II
 * `npm run build`: Builds the entire project to the build/ directory
 * `npm run distpackage`: Cleans out the build/cache files, rebuilds the project, and packages it for distribution inside the `dist/` folder.
 * `npm run buildohs`: Build only OpenHeroSelect.exe
-* `npm run buildxml2json`: Build only xml2json.exe
 * `npm run buildjson2xmlb`: Build only json2xmlb.exe
 * `npm run buildcopyfiles`: Copy supporting files to build/ directory
 
