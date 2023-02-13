@@ -5,10 +5,19 @@ require('source-map-support').install();
 const fs = require("fs-extra");
 const path = require("path");
 const cspawn = require("cross-spawn");
-const enquirer = require('enquirer');
+const enquirer = require("enquirer");
+const glob = require("glob");
+const { XMLParser, XMLBuilder } = require("fast-xml-parser");
+
+const TXT_TO_JSON = require("./xml to json converter");
 
 // REGEXES
 const NEWLINE_REGEX = /\n+/m;
+const MENULOCATION_REGEX = /^((\s*"?|\s*<.*)menulocation[\s=":]{2,4}).+?(\s;\s*|".*|"?,)$/im;
+const STATS_REGEX = {
+  TOJ: /^\s*"?stats"?:?\s*{[\s\S]*}(?![\s\S]*})/im,
+  XML: /^.*<stats [\s\S]*<\/stats>$/im
+};
 
 // CONSTANT VALUES
 const DEFAULT_HEROLIMIT = 27;
@@ -19,19 +28,110 @@ const CHARINFO_LIMIT = 31;
 const INI_PATH = "config.ini";
 const MUA_RESOURCES = "mua";
 const XML2_RESOURCES = "xml2";
+const EXTENSIONS = ["json", "txt", "xml"];
 
 const MUA_NAME = "Marvel Ultimate Alliance";
 const XML2_NAME = "X-Men Legends 2";
 
 const herostatOutputPath = path.resolve("temp", "herostat.xmlb");
 
+// CONSTANT HEROSTAT PIECES
+const CHAR_END = {
+  JSON: `
+  }
+}
+`,
+  XML: `
+</characters>
+`
+};
+const CHAR_START = {
+  JSON: `{
+  "characters": {
+`,
+  XML: `<characters>
+`
+};
+const DEFAULTMAN = {
+  JSON: `"stats": {
+  "autospend": "support_heavy",
+  "body": 1,
+  "characteranims": "00_testguy",
+  "charactername": "defaultman",
+  "level": 1,
+  "menulocation": 0,
+  "mind": 1,
+  "name": "default",
+  "skin": "0002",
+  "strength": 1,
+  "team": "enemy",
+  "talent": {
+      "level": 1,
+      "name": "fightstyle_default"
+  }
+}`
+};
+Object.assign(DEFAULTMAN, {
+  XML: JSON_TO_XML(DEFAULTMAN.JSON)
+});
+const DEFAULTMAN_XML2 = {
+  JSON: `"stats": {
+  "autospend": "support_heavy",
+  "body": "1",
+  "characteranims": "00_testguy",
+  "charactername": "defaultman",
+  "level": "1",
+  "mind": "1",
+  "name": "default",
+  "skin": "0002",
+  "speed": "1",
+  "strength": "1",
+  "Race": {
+      "name": "Mutant"
+  },
+  "Race": {
+      "name": "XMen"
+  },
+  "talent": {
+      "level": "1",
+      "name": "fightstyle_hero"
+  }
+}`
+};
+Object.assign(DEFAULTMAN_XML2, {
+  XML: JSON_TO_XML(DEFAULTMAN_XML2.JSON)
+});
+const TEAM_CHARACTER = {
+  JSON: `"stats": {
+  "autospend": "support",
+  "isteam": true,
+  "name": "team_character",
+  "skin": "0002",
+  "xpexempt": true
+}
+`
+};
+Object.assign(TEAM_CHARACTER, {
+  XML: JSON_TO_XML(TEAM_CHARACTER.JSON)
+});
+
+// CONSTANT CHARINFO PIECES
+const CHARINFO_START = `{
+  "charinfo": {`;
+const HERO_START = `
+      "hero": {`;
+const HERO_END = `
+      }`;
+const START_GAME = `,
+          "start_game": "normal"`;
+const UNLOCKED = `,
+          "unlocked": "normal"`;
+
 // OPTIONS
 const XML2_ROSTER_SIZES = new Map([["PC (21)", 21], ["Console (19)", 19], ["PSP (23)", 23]]);
 
 // Shared Options Object
 let options = {};
-
-let useXMLFormatOnly = true;
 
 const main = async (automatic = false, xml2 = false) => {
   const resourcePath = xml2 ? XML2_RESOURCES : MUA_RESOURCES;
@@ -44,32 +144,26 @@ const main = async (automatic = false, xml2 = false) => {
 
   if (xml2) {
     options = {
-      rosterSize: null,
-      rosterValue: null,
-      gameInstallPath: null,
-      exeName: null,
-      herostatName: null,
-      unlocker: null,
-      launchGame: null,
-      saveTempFiles: null,
-      showProgress: null,
-      debugMode: null
+      rosterSize: null
     };
   } else {
     options = {
       menulocationsValue: null,
-      rosterHack: null,
-      rosterValue: null,
-      gameInstallPath: null,
-      exeName: null,
-      herostatName: null,
-      unlocker: null,
-      launchGame: null,
-      saveTempFiles: null,
-      showProgress: null,
-      debugMode: null
+      rosterHack: null
     };
   }
+  Object.assign(options, {
+    rosterValue: null,
+    gameInstallPath: null,
+    exeName: null,
+    herostatName: null,
+    unlocker: null,
+    launchGame: null,
+    saveTempFiles: null,
+    showProgress: null,
+    debugMode: null,
+    herostatFolder: "xml"
+  });
 
   let saveOptions = false;
   let skipOptionsPrompts = false;
@@ -244,148 +338,13 @@ const main = async (automatic = false, xml2 = false) => {
     menulocations = new Array(options.rosterSize);
   }
 
-  let operations = rosterList.length + menulocations.length + 7;
+  let operations = rosterList.length + menulocations.length + 6;
   let progressPoints = 0;
 
-  //check if any json herostat exists
-  rosterList.forEach((item) => {
-    if (fs.existsSync(path.resolve(resourcePath, "json", `${item}.json`))) {
-      useXMLFormatOnly = false;
-    }
-  });
-
-  // CONSTANT HEROSTAT PIECES
-  const JSON_END = `
-  }
-}
-`;
-  const CHARACTERS_START = useXMLFormatOnly
-    ? `XMLB characters {
-`
-    : `{
-  "characters": {
-`;
-  const CHARACTERS_END = useXMLFormatOnly
-    ? `
-}
-`
-    : JSON_END;
-  const DEFAULTMAN = useXMLFormatOnly
-    ? `   stats {
-   autospend = support_heavy ;
-   body = 1 ;
-   characteranims = 00_testguy ;
-   charactername = defaultman ;
-   level = 1 ;
-   menulocation = 0 ;
-   mind = 1 ;
-   name = default ;
-   skin = 0002 ;
-   strength = 1 ;
-   team = enemy ;
-      talent {
-      level = 1 ;
-      name = fightstyle_default ;
-      }
-
-   }`
-    : `"stats": {
-  "autospend": "support_heavy",
-  "body": 1,
-  "characteranims": "00_testguy",
-  "charactername": "defaultman",
-  "level": 1,
-  "menulocation": 0,
-  "mind": 1,
-  "name": "default",
-  "skin": "0002",
-  "strength": 1,
-  "team": "enemy",
-  "talent": {
-      "level": 1,
-      "name": "fightstyle_default"
-  }
-}`;
-  const DEFAULTMAN_XML2 = useXMLFormatOnly
-    ? `   stats {
-   autospend = support_heavy ;
-   body = 1 ;
-   characteranims = 00_testguy ;
-   charactername = defaultman ;
-   level = 1 ;
-   mind = 1 ;
-   name = default ;
-   skin = 0002 ;
-   strength = 1 ;
-      Race {
-      name = Mutant ;
-      }
-
-      Race {
-      name = XMen ;
-      }
-
-      talent {
-      level = 1 ;
-      name = fightstyle_default ;
-      }
-
-   }`
-    : `"stats": {
-  "autospend": "support_heavy",
-  "body": "1",
-  "characteranims": "00_testguy",
-  "charactername": "defaultman",
-  "level": "1",
-  "mind": "1",
-  "name": "default",
-  "skin": "0002",
-  "speed": "1",
-  "strength": "1",
-  "Race": {
-      "name": "Mutant"
-  },
-  "Race": {
-      "name": "XMen"
-  },
-  "talent": {
-      "level": "1",
-      "name": "fightstyle_hero"
-  }
-}`;
-  const TEAM_CHARACTER = useXMLFormatOnly
-    ? `   stats {
-   autospend = support ;
-   isteam = true ;
-   name = team_character ;
-   skin = 0002 ;
-   xpexempt = true ;
-   }
-`
-    : `"stats": {
-  "autospend": "support",
-  "isteam": true,
-  "name": "team_character",
-  "skin": "0002",
-  "xpexempt": true
-}
-`;
-
-  // CONSTANT CHARINFO PIECES
-  const CHARINFO_START = `{
-    "charinfo": {`;
-  const HERO_START = `
-        "hero": {`;
-  const HERO_END = `
-        }`;
-  const START_GAME = `,
-            "start_game": "normal"`;
-  const UNLOCKED = `,
-            "unlocked": "normal"`;
-
-  //dynamic regexes
-  const MENULOCATION_REGEX = useXMLFormatOnly ? /(^\s*menulocation\s*=\s*)\w+(\s*;\s*$)/m : /(^\s*"menulocation":\s*)"?\w+"?(,\s*$)/m;
-  const STATS_REGEX = useXMLFormatOnly ? /^.*stats\s*{[\s\S]*}(?![\s\S]*})/m : /^.*"stats":\s*{[\s\S]*}(?![\s\S]*})/m;
+  //get the path from the secret option
+  const herostatPath = (path.isAbsolute(options.herostatFolder))
+    ? options.herostatFolder
+    : path.resolve(resourcePath, options.herostatFolder);
 
   //load stat data for each character in roster
   let starterindex = STARTERS;
@@ -393,57 +352,100 @@ const main = async (automatic = false, xml2 = false) => {
   const unlockchars = [];
   const lockchars = [];
   const characters = [];
+  let FORMAT = "";
+  let First = "";
+  let PrevItem = "";
   rosterList.forEach((item, index) => {
-    let fileData = "";
-    if (useXMLFormatOnly) {
-      //if no json herostat exists for the whole roster, load xml files
-      fileData = fs.readFileSync(path.resolve(resourcePath, "xml", `${item}.xml`), "utf8");
-    } else if (fs.existsSync(path.resolve(resourcePath, "json", `${item}.json`))) {
-      //if json stats file exists, load that (json has priority)
-      fileData = fs.readFileSync(path.resolve(resourcePath, "json", `${item}.json`), "utf8");
-    } else if (fs.existsSync(path.resolve(resourcePath, "xml", `${item}.xml`))) {
-      //if json file doesn't exist but xml does, convert to json and load it
-      const filePath = path.resolve(resourcePath, "xml", `${item}.xml`);
-      const tempFilePath = path.resolve("temp", `${item}.json`);
-      cspawn.sync(path.resolve("xml2json.exe"), [filePath, tempFilePath], {});
-      fileData = fs.readFileSync(tempFilePath, "utf8");
-    } else {
-      console.error(`ERROR: no json or xml found for ${item}`);
-      throw new Error(`ERROR: no json or xml found for ${item}`);
+    let statsData = "";
+    let statsXML = "";
+    let CharName = "";
+    let NoHsError = "ERROR: No herostat found.";
+
+    //define the base path, without extension and find all extensions, sorted by priority
+    const ChrPth = item.replace(/^[/\\]+/, '').replace(/[/\\]+$/, '');
+    const fileNE = path.resolve(herostatPath, `${ChrPth}.`);
+    const allext = glob.sync(fileNE + "*").map(p => {
+      return path.extname(p).slice(1).toLowerCase();
+    });
+    let ext = EXTENSIONS.concat(allext);
+    ext = ext.filter((e, i) => i === ext.indexOf(e));
+
+    //for all extensions sorted by priority, try to parse by priority
+    for (const e of ext) {
+      const filePath = fileNE + e;
+      if (fs.existsSync(filePath)) {
+        const fileData = fs.readFileSync(filePath, "utf8");
+        try {
+          statsData = fileData.match(STATS_REGEX.TOJ).join();
+          if (statsData.split("\n").at(0).trim() === "stats {") {
+            statsData = TXT_TO_JSON(statsData).replace(/,$/, '');
+          }
+          const herostatJSON = StatsJsonParse(statsData);
+          FORMAT = "JSON";
+          if (First && First !== "JSON") throw new Error(`XML format detected from ${First} to ${PrevItem} -- JSON expected.`);
+          CharName = herostatJSON.stats.name;
+          break;
+        } catch (ej) {
+          try {
+            // If another format detected in the roster, we can't use XML, because we don't convert.
+            // The first item is checked in all existing files, so JSON can take priority. For the rest, priority is based on first match:
+            //   if XML, throwing error on JSON match before XML
+            //   if JSON, ignores XML (and throws an error if no JSON match)
+            // The break and First commands are dirty, maybe it should be updated.
+            if (FORMAT === "JSON") throw new Error("XML data not converted.");
+            statsData = fileData.match(STATS_REGEX.XML).join();
+            const xmlAttr = new XMLParser({ ignoreAttributes: false });
+            const xmlData = xmlAttr.parse(statsData);
+            FORMAT = "XML";
+            CharName = xmlData.stats["@_name"];
+            if (First) {
+              break;
+            } else {
+              statsXML = statsData;
+            }
+          } catch (ex) {
+            // XML parse error not processed.
+            // Just continue with the next file extension. Clear statsData.
+            statsData = "";
+            NoHsError = ej;
+          }
+        }
+      }
     }
 
-    //clean up loaded file and push to list of loaded character stats
-    fileData = fileData.match(STATS_REGEX).join();
+    //if first char only had true XML among found files, need to throw error on JSON match
+    if (!First) {
+      First = (FORMAT === "XML") ? item : FORMAT;
+      if (FORMAT === "XML") statsData = statsXML;
+    }
+    PrevItem = item;
 
-    if (!xml2 && (fileData.match(/menulocation/g) || []).length !== 1) {
+    //now throw the saved error if truly no good file exists
+    if (!statsData) { throw new Error(`${item}:\n${NoHsError}`); }
+
+    //check if menulocation exists
+    if (!xml2 && (statsData.match(/menulocation/gi) || []).length !== 1) {
       throw new Error(`ERROR: more or less than 1 occurrence of 'menulocation' found in ${item}`);
     }
 
+    //prepare the characters to unlock
     if (options.unlocker) {
-      let charname = "";
-      if (useXMLFormatOnly) {
-        const herostatXML = fileData.match(/^.*stats\s*{[\s\S]*?{/mi)[0];
-        charname = (herostatXML.match(/^\s*name\s=\s(.*?)\s;$/mi) || [])[1];
-      } else {
-        const herostatJSON = JSON.parse(fileData.replace(`"stats": `, ``));
-        charname = herostatJSON.name;
-      }
-      if (!charname) {
+      if (!CharName) {
         throw new Error(`ERROR: no name found in ${item}`);
       }
-
       const c = rosterRaw[index];
       if (starterindex && c.indexOf("*") + 1) {
-        startchars.push(charname);
+        startchars.push(CharName);
         starterindex--;
       } else if (c.indexOf("?") + 1 || c.indexOf("*") + 1) {
-        unlockchars.push(charname);
+        unlockchars.push(CharName);
       } else {
-        lockchars.push(charname);
+        lockchars.push(CharName);
       }
     }
 
-    characters.push(fileData);
+    //push to list of loaded character stats
+    characters.push(statsData);
     writeProgress(((++progressPoints) / operations) * 100);
   });
 
@@ -452,14 +454,17 @@ const main = async (automatic = false, xml2 = false) => {
   }
 
   //begin generating herostat
-  let herostat = CHARACTERS_START;
-  const comma = useXMLFormatOnly ? "\n" : ","; //no comma for xml format
+  let herostat = CHAR_START[FORMAT];
+  const comma = {
+    JSON: ",",
+    XML: ""
+  };
   if (xml2) {
     //xml2 always has defaultman
-    herostat += DEFAULTMAN_XML2 + comma + "\n";
+    herostat += DEFAULTMAN_XML2[FORMAT] + comma[FORMAT] + "\n";
   } else if (options.rosterHack || characters.length < DEFAULT_HEROLIMIT || menulocations.length < DEFAULT_HEROLIMIT) {
-    //mua add defaultman unless no roster hack is installed and all 27 character slots are filled
-    herostat += DEFAULTMAN + comma + "\n";
+    //for mua, add defaultman, unless no roster hack is installed and all 27 character slots are filled
+    herostat += DEFAULTMAN[FORMAT] + comma[FORMAT] + "\n";
   }
   writeProgress(((++progressPoints) / operations) * 100);
 
@@ -470,19 +475,19 @@ const main = async (automatic = false, xml2 = false) => {
       //find and replace menulocation in stat with actual menulocation
       heroValue = heroValue.replace(
         MENULOCATION_REGEX,
-        `$1${menulocations[index]}$2`
+        `$1${menulocations[index]}$3`
       );
     }
-    //debug mode is new
+    //debug mode
     if (options.debugMode) {
-      const dbgStat = CHARACTERS_START + heroValue + "\n" + CHARACTERS_END;
-      compileRavenFormats(dbgStat, rosterList[index]);
+      const dbgStat = CHAR_START[FORMAT] + heroValue + "\n" + CHAR_END[FORMAT];
+      compileRavenFormats(dbgStat, rosterList[index], FORMAT.toLowerCase());
     };
     //append to herostat with comma and newline
     herostat += heroValue;
     //skip the last comma for xml2 since there's no TEAM_CHARACTER
     if (!xml2 || (index + 1 < menulocations.length && index + 1 < characters.length)) {
-      herostat += comma;
+      herostat += comma[FORMAT];
     };
     herostat += "\n";
     writeProgress(((++progressPoints) / operations) * 100);
@@ -490,22 +495,15 @@ const main = async (automatic = false, xml2 = false) => {
 
   //add team_character for mua
   if (!xml2) {
-    herostat += TEAM_CHARACTER;
+    herostat += TEAM_CHARACTER[FORMAT];
   }
 
   //finish writing herostat
-  herostat += CHARACTERS_END;
-  writeProgress(((++progressPoints) / operations) * 100);
-
-  //clear temp folder if not saving temp files
-  if (!options.saveTempFiles) {
-    fs.removeSync("temp");
-    fs.mkdirSync("temp", { recursive: true });
-  }
+  herostat += CHAR_END[FORMAT];
   writeProgress(((++progressPoints) / operations) * 100);
 
   //write herostat json to disk
-  compileRavenFormats(herostat, "herostat");
+  compileRavenFormats(herostat, "herostat", FORMAT.toLowerCase());
   writeProgress(((++progressPoints) / operations) * 100);
 
   //copy converted herostat to game data directory
@@ -515,8 +513,8 @@ const main = async (automatic = false, xml2 = false) => {
   );
   writeProgress(((++progressPoints) / operations) * 100);
 
-  //we're done with NBA2kStuff's XML, so we can disable that now
-  useXMLFormatOnly = false;
+  //the remaining files will all be in JSON format
+  FORMAT = "JSON";
 
   //start writing charinfo
   if (options.unlocker) {
@@ -527,8 +525,8 @@ const main = async (automatic = false, xml2 = false) => {
       const unlockNum = Math.max(STARTERS, Math.min(rosterSz, startchars.length + unlockchars.length));
       const charinfoNum = Math.min(CHARINFO_LIMIT, rosterSz);
       let charinfo = CHARINFO_START;
-      for (const [i, charname] of allchars.entries()) {
-        let hero = HERO_START + `\n` + `            "name": "` + charname + `"`;
+      for (const [i, CharName] of allchars.entries()) {
+        let hero = HERO_START + `\n` + `            "name": "` + CharName + `"`;
         if (i < STARTERS) {
           hero += START_GAME;
         }
@@ -538,16 +536,16 @@ const main = async (automatic = false, xml2 = false) => {
         if (i < charinfoNum) {
           charinfo += hero + HERO_END;
         } else if (i < unlockNum) {
-          scriptunlock.push(charname);
+          scriptunlock.push(CharName);
         }
         if (i < charinfoNum - 1) {
           charinfo += ",";
         }
       }
-      charinfo += JSON_END;
+      charinfo += CHAR_END.JSON;
 
       //write charinfo json to disk and copy to game data directory
-      compileRavenFormats(charinfo, "charinfo");
+      compileRavenFormats(charinfo, "charinfo", "json");
       fs.copyFileSync(
         path.resolve("temp", "charinfo.xmlb"),
         path.resolve(options.gameInstallPath, "data", "charinfo.xmlb")
@@ -556,7 +554,7 @@ const main = async (automatic = false, xml2 = false) => {
       Array.prototype.push.apply(scriptunlock, startchars.concat(unlockchars));
     }
 
-    //write remaining characters to unlock to script file
+    //write remaining unlock characters to script file
     const pyPath = path.resolve(options.gameInstallPath, "scripts", "menus", "new_game.py");
     const unlockScriptFile = path.resolve("temp", "new_game.py");
     const newScriptlines = [];
@@ -568,8 +566,8 @@ const main = async (automatic = false, xml2 = false) => {
           newScriptlines.push(scriptline);
         }
       }
-      for (const charname of scriptunlock) {
-        const scriptline = `unlockCharacter("` + charname + `", "" )`;
+      for (const CharName of scriptunlock) {
+        const scriptline = `unlockCharacter("` + CharName + `", "" )`;
         newScriptlines.push(scriptline);
       }
       fs.writeFileSync(unlockScriptFile, newScriptlines.join("\n"));
@@ -603,25 +601,39 @@ function writeProgress(percent) {
   process.stdout.write(percent === 100 ? "Done\n" : `Working, please wait... (${percent.toFixed(1)}%)`);
 }
 
-function compileRavenFormats(code, filename) {
-  const ext = useXMLFormatOnly ? "xml" : "json";
-  const XmlPath = path.resolve("temp", `${filename}.xml`);
-  const JsonPath = path.resolve("temp", `${filename}.json`);
-  const OutputPath = path.resolve("temp", `${filename}.xmlb`);
-  fs.writeFileSync(path.resolve("temp", `${filename}.${ext}`), code);
-  if (useXMLFormatOnly) {
-    cspawn.sync(path.resolve("xml2json.exe"), [XmlPath, JsonPath], {});
-  }
-
+function compileRavenFormats(data, filename, ext) {
+  const dPath = path.resolve("temp", `${filename}.${ext}`);
+  const cPath = path.resolve("temp", `${filename}.xmlb`);
+  fs.writeFileSync(dPath, data);
   //generate xmlb file
   const child = cspawn.sync(
     path.resolve("json2xmlb.exe"),
-    [JsonPath, OutputPath],
+    [dPath, cPath],
     {}
   );
   if (child.stderr.length !== 0) {
-    throw new Error(`${filename}:\n${child.stderr.toString("utf8").split("\n").slice(-3).join("\n")}`);
+    throw new Error(`${dPath}:\n${child.stderr.toString("utf8").split("\n").slice(-3).join("\n")}`);
   }
+}
+
+// JSON TO XML CONVERTER WITH FAST-XML-PARSER (ALL ATTRIBUTES VERSION)
+function JSON_TO_XML(json) {
+  const options = {
+    attributeNamePrefix: "@_",
+    ignoreAttributes: false,
+    allowBooleanAttributes: true,
+    suppressBooleanAttributes: false,
+    format: true,
+    indentBy: "    "
+  };
+  const XML2JSON = new XMLBuilder(options);
+  // Remove StatsJsonParse for non-stats use. The replace regex converts to attributes.
+  const ForceAttributes = StatsJsonParse(json.replace(/(")(.*[^{]$)/gm, `$1@_$2`));
+  return XML2JSON.build(ForceAttributes).trimEnd();
+}
+
+function StatsJsonParse(str) {
+  return JSON.parse(`{\n` + str.trimEnd().replace(/,$/, '') + `\n}`);
 }
 
 module.exports = main;

@@ -80,13 +80,6 @@ const main = async () => {
     await runPkg("index.js", MAIN_ICON_FILE_NAME, description, MAIN_AUTHOR_STRING, "OpenHeroSelect.exe", true);
   }
 
-  //xml2json
-  if (!args.t || args.t.includes("xml2json")) {
-    console.log("building xml2json");
-    const description = "Converts xml files to json files.";
-    await runPyInstaller("xml to json converter (BaconWizard17).py", MAIN_ICON_FILE_NAME, description, "BaconWizard17 @ MarvelMods", "xml2json.exe");
-  }
-
   //json2xmlb
   if (!args.t || args.t.includes("json2xmlb")) {
     console.log("building json2xmlb");
