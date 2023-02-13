@@ -92,18 +92,14 @@ const main = async () => {
     console.log("building copyfiles");
     //mua resources
     fs.ensureDirSync(path.resolve("mua", "xml"));
-    fs.ensureDirSync(path.resolve("mua", "json"));
     fs.ensureDirSync(path.resolve("build", "mua"));
     fs.copySync(path.resolve("mua", "xml"), path.resolve("build", "mua", "xml"), { recursive: true });
-    fs.copySync(path.resolve("mua", "json"), path.resolve("build", "mua", "json"), { recursive: true });
     fs.copySync(path.resolve("mua", "rosters"), path.resolve("build", "mua", "rosters"), { recursive: true });
     fs.copySync(path.resolve("mua", "menulocations"), path.resolve("build", "mua", "menulocations"), { recursive: true });
     //xml2 resources
     fs.ensureDirSync(path.resolve("xml2", "xml"));
-    fs.ensureDirSync(path.resolve("xml2", "json"));
     fs.ensureDirSync(path.resolve("build", "xml2"));
     fs.copySync(path.resolve("xml2", "xml"), path.resolve("build", "xml2", "xml"), { recursive: true });
-    fs.copySync(path.resolve("xml2", "json"), path.resolve("build", "xml2", "json"), { recursive: true });
     fs.copySync(path.resolve("xml2", "rosters"), path.resolve("build", "xml2", "rosters"), { recursive: true });
     //documentation
     fs.copySync(path.resolve("help_files"), path.resolve("build", "help_files"), { recursive: true });
