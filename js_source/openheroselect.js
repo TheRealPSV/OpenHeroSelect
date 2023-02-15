@@ -364,7 +364,7 @@ const main = async (automatic = false, xml2 = false) => {
     //define the base path, without extension and find all extensions, sorted by priority
     const ChrPth = item.replace(/^[/\\]+/, '').replace(/[/\\]+$/, '');
     const fileNE = path.resolve(herostatPath, `${ChrPth}.`);
-    const allext = glob.sync(fileNE + "*").map(p => {
+    const allext = glob.sync(fileNE + "*([^.])").map(p => {
       return path.extname(p).slice(1).toLowerCase();
     });
     let ext = EXTENSIONS.concat(allext);
