@@ -15,7 +15,7 @@ const TXT_TO_JSON = require("./xml to json converter");
 const NEWLINE_REGEX = /\n+/m;
 const MENULOCATION_REGEX = /^((\s*"?|\s*<.*)menulocation[\s=":]{2,4}).+?(\s;\s*|".*|"?,)$/im;
 const STATS_REGEX = {
-  TOJ: /^\s*"?stats"?:?\s*{[\s\S]*}(?![\s\S]*})/im,
+  TOJ: /^[^\S\n]*"?stats"?:?\s*{[\s\S]*}(?![\s\S]*})/im,
   XML: /^.*<stats [\s\S]*<\/stats>$/im
 };
 
