@@ -228,6 +228,7 @@ def main():
     for input_file in input_files:
         input_file = Path(input_file)
         output_file = Path(args.output.replace('*', input_file.stem))
+        output_file.parent.mkdir(parents=True, exist_ok=True)
 
         if args.decompile:
             decompile(input_file, output_file, not args.no_indent)
