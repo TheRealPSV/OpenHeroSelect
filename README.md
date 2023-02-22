@@ -17,7 +17,6 @@ Extendable HeroSelect script for Marvel Ultimate Alliance and X-Men Legends II
 * `npm run build`: Builds the entire project to the build/ directory
 * `npm run distpackage`: Cleans out the build/cache files, rebuilds the project, and packages it for distribution inside the `dist/` folder.
 * `npm run buildohs`: Build only OpenHeroSelect.exe
-* `npm run buildxml2json`: Build only xml2json.exe
 * `npm run buildjson2xmlb`: Build only json2xmlb.exe
 * `npm run buildcopyfiles`: Copy supporting files to build/ directory
 
@@ -28,6 +27,6 @@ https://marvelmods.com/forum/index.php/topic,10597.0.html
 ## Special Thanks
 * [@sgprinc](https://github.com/sgprinc)/Sagap @ MarvelMods - Various improvements in v2
 * [@EthanReed517](https://github.com/EthanReed517)/BaconWizard17 @ MarvelMods - xml to json conversion Python script, testing and rosters for X-Men Legends II support
-* nikita488 @ MarvelMods - json to xmlb conversion Python script
+* [@nikita488](https://github.com/nikita488)/nikita488 @ MarvelMods - json to xmlb conversion Python script
 * [@ak2yny](https://github.com/ak2yny)/ak2yny @ MarvelMods - OCP v2.4 character stats and roster, additional testing and improvements
 * [@JordanLeich](https://github.com/JordanLeich) - Additional menulocations

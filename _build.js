@@ -80,13 +80,6 @@ const main = async () => {
     await runPkg("index.js", MAIN_ICON_FILE_NAME, description, MAIN_AUTHOR_STRING, "OpenHeroSelect.exe", true);
   }
 
-  //xml2json
-  if (!args.t || args.t.includes("xml2json")) {
-    console.log("building xml2json");
-    const description = "Converts xml files to json files.";
-    await runPyInstaller("xml to json converter (BaconWizard17).py", MAIN_ICON_FILE_NAME, description, "BaconWizard17 @ MarvelMods", "xml2json.exe");
-  }
-
   //json2xmlb
   if (!args.t || args.t.includes("json2xmlb")) {
     console.log("building json2xmlb");
@@ -99,18 +92,14 @@ const main = async () => {
     console.log("building copyfiles");
     //mua resources
     fs.ensureDirSync(path.resolve("mua", "xml"));
-    fs.ensureDirSync(path.resolve("mua", "json"));
     fs.ensureDirSync(path.resolve("build", "mua"));
     fs.copySync(path.resolve("mua", "xml"), path.resolve("build", "mua", "xml"), { recursive: true });
-    fs.copySync(path.resolve("mua", "json"), path.resolve("build", "mua", "json"), { recursive: true });
     fs.copySync(path.resolve("mua", "rosters"), path.resolve("build", "mua", "rosters"), { recursive: true });
     fs.copySync(path.resolve("mua", "menulocations"), path.resolve("build", "mua", "menulocations"), { recursive: true });
     //xml2 resources
     fs.ensureDirSync(path.resolve("xml2", "xml"));
-    fs.ensureDirSync(path.resolve("xml2", "json"));
     fs.ensureDirSync(path.resolve("build", "xml2"));
     fs.copySync(path.resolve("xml2", "xml"), path.resolve("build", "xml2", "xml"), { recursive: true });
-    fs.copySync(path.resolve("xml2", "json"), path.resolve("build", "xml2", "json"), { recursive: true });
     fs.copySync(path.resolve("xml2", "rosters"), path.resolve("build", "xml2", "rosters"), { recursive: true });
     //documentation
     fs.copySync(path.resolve("help_files"), path.resolve("build", "help_files"), { recursive: true });

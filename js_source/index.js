@@ -3,12 +3,14 @@
 const minimist = require("minimist");
 const fs = require("fs-extra");
 const path = require("path");
+const glob = require("glob");
 
 const enquirer = require('enquirer');
 
 const openheroselect = require("./openheroselect");
 const splitter = require("./splitter");
 const extensionfixer = require("./extensionfixer");
+const xml2json = require("./xml to json converter");
 
 //DO NOT MESS WITH PATH; this path.join must be exactly like this for pkg to pick it up at build time
 require("dotenv").config({ path: path.join(__dirname, "../.env") });
@@ -36,6 +38,35 @@ const main = async () => {
     //if using the automatic functionality, go straight to ohs
     if (args.a) {
       await openheroselect(true, !!args.x);
+      process.exit(0);
+    }
+
+    //access converter with the -c arg
+    if (args.c) {
+      let infiles = "";
+      let outfile = "";
+      if (args.c.length > 0) {
+        infiles = args.c;
+      } else {
+        infiles = (await new enquirer.Input({
+          name: 'infiles',
+          message: `File to convert with extension (right-click to paste)`,
+          initial: "herostat.txt"
+        }).run()
+        ).trim().replace(/['"]+/g, '');
+      }
+      glob.sync(infiles).forEach(infile => {
+        outfile = infile.replace(/\.[^.]+$/, "") + ".json";
+        const data = fs.readFileSync(infile).toString();
+        const jData = xml2json(data);
+        fs.writeFileSync(outfile, jData);
+      });
+      if (!outfile) {
+        await new enquirer.Invisible({
+          name: 'usage',
+          message: 'uage: OpenHeroSelect -c [input]'
+        }).run();
+      };
       process.exit(0);
     }
 

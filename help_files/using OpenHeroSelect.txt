@@ -35,7 +35,7 @@ Advanced usage:
     You can automate the OpenHeroSelect process.
     If you pass the -a flag to OpenHeroSelect, it will automatically run the MUA generator and look for and attempt to use the options from the saved config (If the saved config is not found or is malformed, it will exit with an error.)
     If you pass both the -a and -x flags, it will do the same but for XML2.
-    You can create that JSON file, called "config.ini", inside the mua folder with your preferred options (create it inside the xml2 folder for the XML2 version). You can also run OpenHeroSelect normally once and opt to save the config for it to generate it for you.
+    You can create that JSON file, called "config.ini", inside the mua folder with your preferred options (create it inside the xml2 folder for the XML2 version). You can also run OpenHeroSelect normally once and opt to save the config for it to generate it for you. There is one secret setting, which you can't define with the dialogue: "herostatFolder". Use it to define a custom folder name or location, where you want ot keep the herostat files.
     Note that unlike in the interactive prompt, you do have to escape the special characters in config.ini.
     Example config.ini for MUA:
         {
@@ -49,7 +49,8 @@ Advanced usage:
             "launchGame": false,
             "saveTempFiles": false
             "showProgress": true,
-            "debugMode": false
+            "debugMode": false,
+            "herostatFolder": "xml"
         }
     Example config.ini for XML2:
         {
@@ -62,5 +63,9 @@ Advanced usage:
             "launchGame": false,
             "saveTempFiles": false
             "showProgress": true,
-            "debugMode": false
+            "debugMode": false,
+            "herostatFolder": "xml"
         }
+    It's possible to access BaconWizard17's converter, which is included in OpenHeroSelect.exe, with the -c flag. Optionally, provide a file after the -c argument. This converts to a json file with the same name. To convert to engb, include json2xmlb.exe like this (from a console):
+      > OpenHeroSelect -c "D:\MUA 1\data\herostat.txt"
+      > json2xmlb "D:\MUA 1\data\herostat.json" "D:\MUA 1\data\herostat.engb"
