@@ -11,7 +11,6 @@
     "build": "npm run envsetup && node ./_build.js",
     "distpackage": "npm run fullclean && npm run build && node ./_build.js -p",
     "buildohs": "npm run envsetup && node ./_build.js -t ohs",
-    "buildxml2json": "node ./_build.js -t xml2json",
     "buildjson2xmlb": "node ./_build.js -t json2xmlb",
     "buildcopyfiles": "node ./_build.js -t copyfiles"
   },
