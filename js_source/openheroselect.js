@@ -584,8 +584,9 @@ const main = async (automatic = false, xml2 = false) => {
   writeProgress(((++progressPoints) / operations) * 100);
 
   //launch game if desired
-  if (options.launchGame) {
-    const gameProc = cspawn(path.resolve(options.gameInstallPath, options.exeName), {
+  const gamePath = path.resolve(options.gameInstallPath, options.exeName);
+  if (options.launchGame && fs.existsSync(gamePath)) {
+    const gameProc = cspawn(gamePath, {
       detached: true
     });
     gameProc.unref();
