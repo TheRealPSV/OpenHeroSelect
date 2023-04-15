@@ -258,19 +258,19 @@ const main = async (automatic = false, xml2 = false) => {
       options.gameInstallPath = path.resolve(
         (await new enquirer.Input({
           name: 'installpath',
-          message: `Path to your installation of ${xml2 ? XML2_NAME : MUA_NAME} (you can just paste this in, right-click to paste)`,
+          message: `Enter the path to your installation of ${xml2 ? XML2_NAME : MUA_NAME}, an MO2 mod folder, or your console herostat.\nRight-click to paste or just type`,
           initial: xml2 ? "C:\\Program Files (x86)\\Activision\\X-Men Legends 2" : "C:\\Program Files (x86)\\Activision\\Marvel - Ultimate Alliance"
         }).run()
         ).trim().replace(/['"]+/g, ''));
       options.exeName = (await new enquirer.Input({
         name: 'exename',
-        message: `The filename of your game's exe (the default is usually fine unless using a modpack)`,
+        message: `The filename of your game's exe. Do not change unless using a package mod on PC`,
         initial: xml2 ? "XMen2.exe" : "Game.exe"
       }).run()
       ).trim().replace(/['"]+/g, '');
       options.herostatName = (await new enquirer.Input({
         name: 'herostatname',
-        message: `The filename of your game's herostat (the default is usually fine unless using a modpack)`,
+        message: `The filename of your game's herostat. Do not change unless using a package mod`,
         initial: "herostat.engb"
       }).run()
       ).trim().replace(/['"]+/g, '');
@@ -281,7 +281,7 @@ const main = async (automatic = false, xml2 = false) => {
       }).run();
       options.launchGame = await new enquirer.Confirm({
         name: 'launchgame',
-        message: 'Launch the game when done?',
+        message: 'Launch the game when done? (Console users: choose N)',
         initial: false
       }).run();
       options.saveTempFiles = await new enquirer.Confirm({
