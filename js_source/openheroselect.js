@@ -698,7 +698,30 @@ const main = async (automatic = false, xml2 = false) => {
       fs.writeFileSync(unlockScriptFile, newScriptlines.join("\n"));
       fs.copyFileSync(unlockScriptFile, pyPath);
     }
-	// Need to add support for XML2's new_game_hard.py file here
+	// XML2 uses a new_game_hard.py script in addition to new_game.py. Duplicate changes are added to this file. 
+	if (xml2) {
+      const pyHardName = options.newGameName.slice(0,-3) + "_hard.py";
+      const pyHardPath = path.resolve(options.gameInstallPath, "scripts", "menus", pyHardName);
+      const unlockScriptFileHard = path.resolve("temp", pyHardName);
+      const newScriptlines = [];
+      const replaceString = "new_game.py";
+      const regex = new RegExp(replaceString, "g");
+      if (fs.existsSync(pyHardPath)) {
+        const scriptFile = fs.readFileSync(pyHardPath, "utf8");
+        const scriptlines = scriptFile.split(NEWLINE_REGEX);
+        for (const scriptline of scriptlines) {
+          if (!scriptline.includes("unlockCharacter(")) {
+            newScriptlines.push(scriptline.replace(regex, pyHardName));
+          }
+        }
+        for (const CharName of scriptunlock) {
+          const scriptline = `unlockCharacter("` + CharName + `", "" )`;
+          newScriptlines.push(scriptline);
+        }
+        fs.writeFileSync(unlockScriptFileHard, newScriptlines.join("\n"));
+        fs.copyFileSync(unlockScriptFileHard, pyHardPath);
+      }
+    }
   }
 
   writeProgress(((++progressPoints) / operations) * 100);
