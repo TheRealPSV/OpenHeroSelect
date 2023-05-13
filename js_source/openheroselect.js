@@ -642,7 +642,7 @@ const main = async (automatic = false, xml2 = false) => {
 
     //write remaining unlock characters to script file
     const pyPath = path.resolve(options.gameInstallPath, "scripts", "menus", options.newGamePyName);
-    const hardPyPath = pyPath.slice(0,-3) + "_hard.py");
+    const hardPyPath = pyPath.slice(0,-3) + "_hard.py";
     const unlockScriptlines = [];
     //write the character unlocks
     for (const CharName of scriptunlock) {
