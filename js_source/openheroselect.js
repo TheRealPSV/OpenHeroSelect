@@ -308,7 +308,7 @@ const main = async (automatic = false, xml2 = false) => {
       if (platform !== "Console") {
         packageMod = await new enquirer.Confirm({
           name: 'packageMod',
-          message: `Do you have a package mod installed (such as the ${xml2 ? "AXE, BHE, or MUE" : "MK on MUA Content"})?`,
+          message: `Are you editing the herostat of a package mod (such as the ${xml2 ? "AXE, BHE, or MUE" : "MK on MUA Content"})?`,
           initial: false
         }).run();
 
