@@ -164,6 +164,7 @@ const main = async (automatic = false, xml2 = false) => {
     herostatName: null,
 	newGamePyName: null,
     unlocker: null,
+	chooseTeam: null,
     launchGame: null,
     saveTempFiles: null,
     showProgress: null,
@@ -392,6 +393,7 @@ const main = async (automatic = false, xml2 = false) => {
 		  options.charinfoName = "charinfo.xmlb"
 		}
 	  }
+      // Ask about unlocking characters
       options.unlocker = await new enquirer.Confirm({
         name: 'unlocker',
         message: `Update character unlocks?`,
@@ -404,6 +406,14 @@ const main = async (automatic = false, xml2 = false) => {
           name: 'unlockSkins',
           message: `Unlock skins?`,
           initial: false
+        }).run();
+      }		 
+      // Ask if the user wants to be able to pick their team from the start
+      if (options.unlocker) {
+        options.chooseTeam = await new enquirer.Confirm({
+          name: 'chooseTeam',
+          message: `Choose team before first level?`,
+          initial: xml2 ? true : false
         }).run();
       }		  
 	  // Ask if the user wants to start the game (PC direct method only)
@@ -702,19 +712,45 @@ const main = async (automatic = false, xml2 = false) => {
       const scriptlines = scriptFile.split(NEWLINE_REGEX);
 	  // Copy other script lines that are not unlocks
       for (const scriptline of scriptlines) {
+        let newLine = scriptline;
         if (!scriptline.includes("unlockCharacter(")) {
-          newScriptlines.push(scriptline.replace(regex, options.newGamePyName));
+          // XML2's script lines for choosing the team in the first map
+          if (xml2 && (scriptline.includes("loadMapChooseTeam") || scriptline.includes("loadMapKeepTeam"))) {
+            if (options.chooseTeam) {
+              newLine = scriptline.replace("loadMapKeepTeam", "loadMapChooseTeam");
+              newScriptlines.push(newLine.replace(regex, options.newGamePyName));
+            } else {
+              newLine = scriptline.replace("loadMapChooseTeam", "loadMapKeepTeam");
+              newScriptlines.push(newLine.replace(regex, options.newGamePyName));
+            }
+          // MUA1's script lines for choosing the team in the first map
+          } else if (!xml2 && scriptline.includes("loadMapStartGame()")) {
+            if (options.chooseTeam) {
+              newLine = `loadZoneAddTeam("act1/heli/heli1", "link_heli1" )\r`
+              newScriptlines.push(newLine.replace(regex, options.newGamePyName));
+            }
+          } else if (!xml2 && scriptline.includes("loadZoneAddTeam")) {
+            if (!options.chooseTeam) {
+              newLine = "loadMapStartGame()"
+              newScriptlines.push(newLine.replace(regex, options.newGamePyName));
+            } else {
+              newScriptlines.push(scriptline.replace(regex, options.newGamePyName));
+            }
+          // all other lines
+          } else {
+            newScriptlines.push(scriptline.replace(regex, options.newGamePyName));
+          }
         }
       }
 	  // Add the character unlocks
       for (const CharName of scriptunlock) {
-        const scriptline = `unlockCharacter("` + CharName + `","")`;
+        const scriptline = `unlockCharacter("` + CharName + `", "" )\r`;
         newScriptlines.push(scriptline);
       }
 	  // XML2 only: add the skin unlocks if selected
 	  if (options.unlockSkins && xml2) {
 		for (const skinCategory of skinCategoryList) {
-		  const scriptline = `unlockCharacter("","` + skinCategory + `")`;
+		  const scriptline = `unlockCharacter("", "` + skinCategory + `" )\r`;
 		  newScriptlines.push(scriptline);
 		}
 	  }
@@ -722,22 +758,34 @@ const main = async (automatic = false, xml2 = false) => {
       fs.copyFileSync(unlockScriptFile, pyPath);
     }
 	// XML2 uses a new_game_hard.py script in addition to new_game.py. Duplicate changes are added to this file. 
-	if (xml2 && fs.existsSync(hardPyPath)) {
-	  const scriptFile = fs.readFileSync(hardPyPath, "utf8");
-	  const scriptlines = scriptFile.split(NEWLINE_REGEX);
-	  const newScriptlines = [];
-	  for (const scriptline of scriptlines) {
-		if (!scriptline.includes("unlockCharacter(")) {
-		  newScriptlines.push(scriptline.replace(regex, options.newGamePyName));
+    if (xml2 && fs.existsSync(hardPyPath)) {
+      const scriptFile = fs.readFileSync(hardPyPath, "utf8");
+      const scriptlines = scriptFile.split(NEWLINE_REGEX);
+      const newScriptlines = [];
+      for (const scriptline of scriptlines) {
+        let newLine = scriptline;
+        if (!scriptline.includes("unlockCharacter(")) {// XML2's script lines for choosing the team in the first map
+          if (scriptline.includes("loadMapChooseTeam") || scriptline.includes("loadMapKeepTeam")) {
+            if (options.chooseTeam) {
+              newLine = scriptline.replace("loadMapKeepTeam", "loadMapChooseTeam");
+              newScriptlines.push(newLine.replace(regex, options.newGamePyName));
+            } else {
+              newLine = scriptline.replace("loadMapChooseTeam", "loadMapKeepTeam");
+              newScriptlines.push(newLine.replace(regex, options.newGamePyName));
+            }
+          // all other lines
+          } else {
+		    newScriptlines.push(scriptline.replace(regex, options.newGamePyName));
+          }
 		}
 	  }
 	  for (const CharName of scriptunlock) {
-		const scriptline = `unlockCharacter("` + CharName + `","")`;
+		const scriptline = `unlockCharacter("` + CharName + `", "" )\r`;
 		newScriptlines.push(scriptline);
 	  }
 	  if (options.unlockSkins) {
 		for (const skinCategory of skinCategoryList) {
-		  const scriptline = `unlockCharacter("","` + skinCategory + `")`;
+		  const scriptline = `unlockCharacter("", "` + skinCategory + `" )\r`;
 		  newScriptlines.push(scriptline);
 		}
 	  }
