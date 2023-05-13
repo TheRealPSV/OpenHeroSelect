@@ -145,7 +145,8 @@ const main = async (automatic = false, xml2 = false) => {
 
   if (xml2) {
     options = {
-      rosterSize: null
+      rosterSize: null,
+	  unlockSkins: null
     };
   } else {
     options = {
@@ -396,6 +397,17 @@ const main = async (automatic = false, xml2 = false) => {
         message: `Update character unlocks?`,
         initial: false
       }).run();
+      // XML2-specific new_game.py choices
+      if (options.unlocker == true) {
+        if (xml2) {
+		  // ask if the user wants to unlock skins
+          options.unlockSkins = await new enquirer.Confirm({
+            name: 'unlockSkins',
+            message: `Unlock skins?`,
+            initial: false
+          }).run();
+        }
+      }		  
 	  // Ask if the user wants to start the game (PC direct method only)
 	  if (options.platform == "Direct") {
         options.launchGame = await new enquirer.Confirm({
@@ -679,49 +691,60 @@ const main = async (automatic = false, xml2 = false) => {
 
     //write remaining unlock characters to script file
     const pyPath = path.resolve(options.gameInstallPath, "scripts", "menus", options.newGameName);
+	const hardPyPath = path.resolve(options.gameInstallPath, "scripts", "menus", options.newGameName.slice(0,-3) + "_hard.py");
     const unlockScriptFile = path.resolve("temp", options.newGameName);
     const newScriptlines = [];
     const replaceString = "new_game.py";
     const regex = new RegExp(replaceString, "g");
+	// the skin categories for XML2
+	const skinCategoryList = ["astonishing", "aoa", "60s", "70s", "weaponx", "future", "winter", "civilian"];
+	// Write to new_game.py
     if (fs.existsSync(pyPath)) {
       const scriptFile = fs.readFileSync(pyPath, "utf8");
       const scriptlines = scriptFile.split(NEWLINE_REGEX);
+	  // Copy other script lines that are not unlocks
       for (const scriptline of scriptlines) {
         if (!scriptline.includes("unlockCharacter(")) {
           newScriptlines.push(scriptline.replace(regex, options.newGameName));
         }
       }
+	  // Add the character unlocks
       for (const CharName of scriptunlock) {
-        const scriptline = `unlockCharacter("` + CharName + `", "" )`;
+        const scriptline = `unlockCharacter("` + CharName + `","")`;
         newScriptlines.push(scriptline);
       }
+	  // XML2 only: add the skin unlocks if selected
+	  if (options.unlockSkins && xml2) {
+		for (const skinCategory of skinCategoryList) {
+		  const scriptline = `unlockCharacter("","` + skinCategory + `")`;
+		  newScriptlines.push(scriptline);
+		}
+	  }
       fs.writeFileSync(unlockScriptFile, newScriptlines.join("\n"));
       fs.copyFileSync(unlockScriptFile, pyPath);
     }
 	// XML2 uses a new_game_hard.py script in addition to new_game.py. Duplicate changes are added to this file. 
-	if (xml2) {
-      const pyHardName = options.newGameName.slice(0,-3) + "_hard.py";
-      const pyHardPath = path.resolve(options.gameInstallPath, "scripts", "menus", pyHardName);
-      const unlockScriptFileHard = path.resolve("temp", pyHardName);
-      const newScriptlines = [];
-      const replaceString = "new_game.py";
-      const regex = new RegExp(replaceString, "g");
-      if (fs.existsSync(pyHardPath)) {
-        const scriptFile = fs.readFileSync(pyHardPath, "utf8");
-        const scriptlines = scriptFile.split(NEWLINE_REGEX);
-        for (const scriptline of scriptlines) {
-          if (!scriptline.includes("unlockCharacter(")) {
-            newScriptlines.push(scriptline.replace(regex, pyHardName));
-          }
-        }
-        for (const CharName of scriptunlock) {
-          const scriptline = `unlockCharacter("` + CharName + `", "" )`;
-          newScriptlines.push(scriptline);
-        }
-        fs.writeFileSync(unlockScriptFileHard, newScriptlines.join("\n"));
-        fs.copyFileSync(unlockScriptFileHard, pyHardPath);
-      }
-    }
+	if (xml2 && fs.existsSync(hardPyPath)) {
+	  const scriptFile = fs.readFileSync(hardPyPath, "utf8");
+	  const scriptlines = scriptFile.split(NEWLINE_REGEX);
+	  const newScriptlines = [];
+	  for (const scriptline of scriptlines) {
+		if (!scriptline.includes("unlockCharacter(")) {
+		  newScriptlines.push(scriptline.replace(regex, options.newGameName));
+		}
+	  }
+	  for (const CharName of scriptunlock) {
+		const scriptline = `unlockCharacter("` + CharName + `","")`;
+		newScriptlines.push(scriptline);
+	  }
+	  if (options.unlockSkins) {
+		for (const skinCategory of skinCategoryList) {
+		  const scriptline = `unlockCharacter("","` + skinCategory + `")`;
+		  newScriptlines.push(scriptline);
+		}
+	  }
+	  fs.writeFileSync(hardPyPath, newScriptlines.join("\n"));
+	}
   }
 
   writeProgress(((++progressPoints) / operations) * 100);
