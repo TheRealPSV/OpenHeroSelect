@@ -35,21 +35,6 @@ const XML2_NAME = "X-Men Legends 2";
 
 const herostatOutputPath = path.resolve("temp", "herostat.xmlb");
 
-// PLATFORM SPECIFIC DEFAULT LOCATIONS
-// With MO2, the herostat is stored in a separate folder. Default location is in AppData, so no default will be suggested.
-// For the direct method, the herostat goes in the base game folder, and the default location for both games is in Program Files (x86).
-// For consoles, the herostat can be extracted anywhere, so no default will be suggested. 
-const GIP_DEFAULT = {
-  MO2: `C:\\`,
-  Direct: xml2 ? `C:\\Program Files (x86)\\Activision\\X-Men Legends 2` : `C:\\Program Files (x86)\\Activision\\Marvel - Ultimate Alliance`,
-  Console: `C:\\`
-};
-const GIP_MESSAGE = {
-  MO2: `an MO2 mod folder`,
-  Direct: `your installation of ${xml2 ? XML2_NAME : MUA_NAME}`,
-  Console: `your extracted console herostat`
-};
-
 // CONSTANT HEROSTAT PIECES
 const CHAR_END = {
   JSON: `
@@ -184,6 +169,8 @@ const main = async (automatic = false, xml2 = false) => {
     herostatFolder: "xml"
   });
 
+  let platform = null;
+  let packageMod = false;
   let saveOptions = false;
   let skipOptionsPrompts = false;
 
@@ -275,7 +262,7 @@ const main = async (automatic = false, xml2 = false) => {
             initial: rosterSizeChoices[0]
           }).run());
         } else {
-          options.rosterSize = 21
+          options.rosterSize = 21;
         }
       }
 
@@ -292,6 +279,21 @@ const main = async (automatic = false, xml2 = false) => {
         console.error("ERROR: Invalid roster");
         throw new Error("ERROR: Invalid roster");
       }
+
+      // PLATFORM SPECIFIC DEFAULT LOCATIONS
+      // With MO2, the herostat is stored in a separate folder. Default location is in AppData, so no default will be suggested.
+      // For the direct method, the herostat goes in the base game folder, and the default location for both games is in Program Files (x86).
+      // For consoles, the herostat can be extracted anywhere, so no default will be suggested.
+      const GIP_DEFAULT = {
+        MO2: `C:\\`,
+        Direct: xml2 ? `C:\\Program Files (x86)\\Activision\\X-Men Legends 2` : `C:\\Program Files (x86)\\Activision\\Marvel - Ultimate Alliance`,
+        Console: `C:\\`
+      };
+      const GIP_MESSAGE = {
+        MO2: `an MO2 mod folder`,
+        Direct: `your installation of ${xml2 ? XML2_NAME : MUA_NAME}`,
+        Console: `your extracted console herostat`
+      };
 
       // Ask about the installation path. Each platform has a unique message.
       options.gameInstallPath = path.resolve(
@@ -351,7 +353,7 @@ const main = async (automatic = false, xml2 = false) => {
       options.unlocker = await new enquirer.Confirm({
         name: 'unlocker',
         message: `Update character unlocks?`,
-        initial: xml2 ? true : false
+        initial: xml2
       }).run();
       // XML2-specific new_game.py choices
       if (options.unlocker && xml2) {
@@ -642,7 +644,7 @@ const main = async (automatic = false, xml2 = false) => {
 
     //write remaining unlock characters to script file
     const pyPath = path.resolve(options.gameInstallPath, "scripts", "menus", options.newGamePyName);
-    const hardPyPath = pyPath.slice(0,-3) + "_hard.py";
+    const hardPyPath = pyPath.slice(0, -3) + "_hard.py";
     const unlockScriptlines = [];
     //write the character unlocks
     for (const CharName of scriptunlock) {
@@ -662,7 +664,7 @@ const main = async (automatic = false, xml2 = false) => {
     if (fs.existsSync(pyPath)) {
       writeUnlockScripts(pyPath, unlockScriptlines);
     }
-    //XML2 uses a new_game_hard.py script in addition to new_game.py. Duplicate changes are added to this file. 
+    //XML2 uses a new_game_hard.py script in addition to new_game.py. Duplicate changes are added to this file.
     if (xml2 && fs.existsSync(hardPyPath)) {
       writeUnlockScripts(hardPyPath, unlockScriptlines);
     }
