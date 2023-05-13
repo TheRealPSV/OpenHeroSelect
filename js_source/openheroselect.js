@@ -146,32 +146,31 @@ const main = async (automatic = false, xml2 = false) => {
   if (xml2) {
     options = {
       rosterSize: null,
-	  unlockSkins: null
+      unlockSkins: null
     };
   } else {
     options = {
       menulocationsValue: null,
       rosterHack: null,
-	  charinfoName: null
+      charinfoName: "charinfo.xmlb"
     };
   }
   Object.assign(options, {
-	platform: null,
     rosterValue: null,
     gameInstallPath: null,
-	packageMod: null,
-    exeName: null,
-    herostatName: null,
-	newGamePyName: null,
+    exeName: xml2 ? "XMen2.exe" : "Game.exe",
+    herostatName: "herostat.engb",
+    newGamePyName: "new_game.py",
     unlocker: null,
-	chooseTeam: null,
-    launchGame: null,
+    launchGame: false,
     saveTempFiles: null,
     showProgress: null,
     debugMode: null,
     herostatFolder: "xml"
   });
 
+  let platform = null;
+  let packageMod = false;
   let saveOptions = false;
   let skipOptionsPrompts = false;
 
@@ -219,27 +218,24 @@ const main = async (automatic = false, xml2 = false) => {
 
       // Ask the user which platform is in use
       const platformChoices = Array.from(PLATFORM_OPTIONS.keys());
-	  options.platform = PLATFORM_OPTIONS.get(await new enquirer.Select({
-	    name: 'platform',
-		message: 'Which platform are you using?',
-		choices: platformChoices,
-		initial: platformChoices[0]
-	  }).run());
-	  // XML2 does not use a roster hack, but MUA1 does. Only ask about roster hacks for MUA1. 
+      platform = PLATFORM_OPTIONS.get(await new enquirer.Select({
+        name: 'platform',
+        message: 'Which platform are you using?',
+        choices: platformChoices,
+        initial: platformChoices[0]
+      }).run());
+
       if (!xml2) {
-		// MUA1 consoles do not support roster hacks. Only ask about roster hacks with the PC. 
-		if (options.platform != "Console") {
+        // Consoles and XML2 do not have a roster hack.
+        if (platform !== "Console") {
           options.rosterHack = await new enquirer.Confirm({
             name: 'rosterhack',
             message: 'Do you have a roster size hack installed?',
             initial: false
           }).run();
-		} else {
-		// Consoles do not use roster hacks. 
-		  options.rosterHack = false
-		}
+        }
 
-        // Ask about menulocations
+        // Ask about menulocations for MUA
         const menulocationOptions = fs.readdirSync(path.resolve(resourcePath, "menulocations"))
           .filter((item) => item.toLowerCase().endsWith(".cfg"))
           .map((item) => item.slice(0, item.length - 4));
@@ -256,8 +252,8 @@ const main = async (automatic = false, xml2 = false) => {
           throw new Error("ERROR: Invalid roster layout");
         }
       } else {
-		// XML2 options. PC is locked at 21 characters, while the consoles have different roster sizes. 
-		if (options.platform == "Console") {
+        // XML2 PC is locked at 21 characters, while the consoles have different roster sizes.
+        if (platform === "Console") {
           const rosterSizeChoices = Array.from(XML2_ROSTER_SIZES.keys());
           options.rosterSize = XML2_ROSTER_SIZES.get(await new enquirer.Select({
             name: 'rostersize',
@@ -265,9 +261,9 @@ const main = async (automatic = false, xml2 = false) => {
             choices: rosterSizeChoices,
             initial: rosterSizeChoices[0]
           }).run());
-		} else {
-		  options.rosterSize = 21
-		}
+        } else {
+          options.rosterSize = 21;
+        }
       }
 
       // Ask about rosters
@@ -284,167 +280,116 @@ const main = async (automatic = false, xml2 = false) => {
         throw new Error("ERROR: Invalid roster");
       }
 
-      // Ask about menulocations. Each platform has a unique prompt.
-      if (options.platform == "MO2") {
-	    // With MO2, the herostat is stored in a separate folder. Default location is in AppData, so no default will be suggested. 
-		options.gameInstallPath = path.resolve(
-          (await new enquirer.Input({
-            name: 'installpath',
-            message: `Enter the path to an MO2 mod folder. Right-click to paste or just type`,
-            initial: "C:\\"
-          }).run()
-          ).trim().replace(/['"]+/g, ''));
-      } else if (options.platform == "Direct") {
-		// For the direct method, the herostat goes in the base game folder, and the default location for both is in Program Files (x86).
-		options.gameInstallPath = path.resolve(
-          (await new enquirer.Input({
-            name: 'installpath',
-            message: `Enter the path to your installation of ${xml2 ? XML2_NAME : MUA_NAME}. Right-click to paste or just type`,
-            initial: xml2 ? "C:\\Program Files (x86)\\Activision\\X-Men Legends 2" : "C:\\Program Files (x86)\\Activision\\Marvel - Ultimate Alliance"
-          }).run()
-          ).trim().replace(/['"]+/g, ''));
-      } else {
-		// For consoles, the herostat can be extracted anywhere, so no default will be suggested. 
-		options.gameInstallPath = path.resolve(
-          (await new enquirer.Input({
-            name: 'installpath',
-            message: `Enter the path to your extracted console herostat. Right-click to paste or just type`,
-            initial: "C:\\"
-          }).run()
-          ).trim().replace(/['"]+/g, ''));
-      }
-	  // Check if a package mod is used. 
-	  if (options.platform != "Console") {
-		  // Only the PC uses package mods. 
-          options.packageMod = await new enquirer.Confirm({
-            name: 'packageMod',
-            message: `Do you have a package mod installed (such as the ${xml2 ? "AXE, BHE, or MUE" : "MK on MUA Content"})?`,
-            initial: false
-          }).run();
-		} else {
-		// Consoles do not use package mods. 
-		  options.packageMod = false
-	  }
-	  // Ask about the name of the exe
-	  if (options.platform == "Direct") {
-		// Direct method is the only option that might have a different exe (if a package mod is used)
-		if (options.packageMod) {
-		  // Only package mods have a unique exe
-          options.exeName = (await new enquirer.Input({
-            name: 'exename',
-            message: `The filename of the package mod's exe.`,
-            initial: xml2 ? "XMen2.exe" : "Game.exe"
-          }).run()
-          ).trim().replace(/['"]+/g, '');
-		} else {
-		  // Direct method without a package mod does not need to customize the exe
-		  if (!xml2) {
-			options.exeName = "Game.exe"
-		  } else {
-			options.exeName = "XMen2.exe"
-		  }
-		}
-	  } else {
-		  // MO2 and consoles don't need to pick the exe in any case. A placeholder name is used to avoid any issues. 
-		  options.exeName = "null.exe"
-	  }
-	  // Ask about the name of other files (only different if a package mod is used)
-	  if (options.platform != "Console") {
-		// Only the PC supports package mods
-		if (options.packageMod) {
-	      // The herostat will only have a different name if a package mod is used
+      // PLATFORM SPECIFIC DEFAULT LOCATIONS
+      // With MO2, the herostat is stored in a separate folder. Default location is in AppData, so no default will be suggested.
+      // For the direct method, the herostat goes in the base game folder, and the default location for both games is in Program Files (x86).
+      // For consoles, the herostat can be extracted anywhere, so no default will be suggested.
+      const GIP_DEFAULT = {
+        MO2: `C:\\`,
+        Direct: xml2 ? `C:\\Program Files (x86)\\Activision\\X-Men Legends 2` : `C:\\Program Files (x86)\\Activision\\Marvel - Ultimate Alliance`,
+        Console: `C:\\`
+      };
+      const GIP_MESSAGE = {
+        MO2: `an MO2 mod folder`,
+        Direct: `your installation of ${xml2 ? XML2_NAME : MUA_NAME}`,
+        Console: `your extracted console herostat`
+      };
+
+      // Ask about the installation path. Each platform has a unique message.
+      options.gameInstallPath = path.resolve(
+        (await new enquirer.Input({
+          name: 'installpath',
+          message: `Enter the path to ${GIP_MESSAGE[platform]}. Right-click to paste or just type`,
+          initial: GIP_DEFAULT[platform]
+        }).run()
+        ).trim().replace(/['"]+/g, ''));
+
+      // Ask if a package mod is used. Only the PC supports package mods.
+      if (platform !== "Console") {
+        packageMod = await new enquirer.Confirm({
+          name: 'packageMod',
+          message: `Do you have a package mod installed (such as the ${xml2 ? "AXE, BHE, or MUE" : "MK on MUA Content"})?`,
+          initial: false
+        }).run();
+
+        // Ask about the file names if a package mod is used
+        if (packageMod) {
+          // Ask about the name of the exe for the Direct method only
+          if (platform === "Direct") {
+            options.exeName = (await new enquirer.Input({
+              name: 'exename',
+              message: `The filename of the package mod's exe.`,
+              initial: xml2 ? "XMen2.exe" : "Game.exe"
+            }).run()
+            ).trim().replace(/['"]+/g, '');
+          }
+          // Ask about the name of the herostat
           options.herostatName = (await new enquirer.Input({
             name: 'herostatname',
-            message: `The filename of the package mod's herostat.`,
+            message: `The filename of the package mod's herostat`,
             initial: "herostat.engb"
           }).run()
           ).trim().replace(/['"]+/g, '');
-		  // the new_game.py file will only have a different name if a package mod is used
+          // Ask about the name of the new_game script
           options.newGamePyName = (await new enquirer.Input({
             name: 'newGamePyName',
-            message: `The filename of the package mod's new_game file.`,
+            message: `The filename of the package mod's new_game file`,
             initial: "new_game.py"
           }).run()
           ).trim().replace(/['"]+/g, '');
-		  if (!xml2) {
-		  // the charinfo.xmlb file will only have a different name if a package mod is used. Only MUA1 uses charinfo
+          // Ask about the name of charinfo for MUA1 only
+          if (!xml2) {
             options.charinfoName = (await new enquirer.Input({
               name: 'charinfoName',
-              message: `The filename of the package mod's charinfo file.`,
+              message: `The filename of the package mod's charinfo file`,
               initial: "charinfo.xmlb"
             }).run()
             ).trim().replace(/['"]+/g, '');
-		  }
-		} else {
-	      // PC without package mods uses the standard file names. 
-		  options.herostatName = "herostat.engb"
-		  options.newGamePyName = "new_game.py"
-		  if (!xml2) {
-			// Only MUA1 uses charinfo
-			options.charinfoName = "charinfo.xmlb"
-		  }
-	    }
-	  } else {
-		// Consoles always use the standard file names.
-		options.herostatName = "herostat.engb"
-		options.newGamePyName = "new_game.py"
-		if (!xml2) {
-		  // only MUA1 uses charinfo
-		  options.charinfoName = "charinfo.xmlb"
-		}
-	  }
+          }
+        }
+      }
+
       // Ask about unlocking characters
       options.unlocker = await new enquirer.Confirm({
         name: 'unlocker',
         message: `Update character unlocks?`,
-        initial: xml2 ? true : false
+        initial: xml2
       }).run();
       // XML2-specific new_game.py choices
       if (options.unlocker && xml2) {
-		// ask if the user wants to unlock skins
+        // Ask if the user wants to unlock skins
         options.unlockSkins = await new enquirer.Confirm({
           name: 'unlockSkins',
           message: `Unlock skins?`,
           initial: false
         }).run();
-      }		 
-      // Ask if the user wants to be able to pick their team from the start
-      if (options.unlocker) {
-        options.chooseTeam = await new enquirer.Confirm({
-          name: 'chooseTeam',
-          message: `Choose team before first level?`,
-          initial: xml2 ? true : false
-        }).run();
-      }		  
-	  // Ask if the user wants to start the game (PC direct method only)
-	  if (options.platform == "Direct") {
+      }
+      // Ask if the user wants to start the game (PC direct method only)
+      if (platform === "Direct") {
         options.launchGame = await new enquirer.Confirm({
           name: 'launchgame',
-          message: 'Launch the game when done?',
+          message: `Launch the game when done?`,
           initial: false
         }).run();
-	  } else {
-		// MO2 and consoles can't run the game from OHS
-		options.launchGame = false
-	  }
+      }
       options.saveTempFiles = await new enquirer.Confirm({
         name: 'savetemp',
-        message: 'Save the intermediate temp files?',
+        message: `Save the intermediate temp files?`,
         initial: false
       }).run();
       options.showProgress = await new enquirer.Confirm({
         name: 'showprogress',
-        message: 'Show progress? (Leaving this disabled provides a performance boost.)',
+        message: `Show progress? (Leaving this disabled provides a performance boost.)`,
         initial: false
       }).run();
       options.debugMode = await new enquirer.Confirm({
         name: 'debugMode',
-        message: 'Test herostats? (Shows more details on errors, but reduces performance.)',
+        message: `Test herostats? (Shows more details on errors, but reduces performance.)`,
         initial: false
       }).run();
       saveOptions = await new enquirer.Confirm({
         name: 'teamcharacterincluded',
-        message: 'Save these options to config.ini file?',
+        message: `Save these options to config.ini file?`,
         initial: true
       }).run();
     }
@@ -699,98 +644,30 @@ const main = async (automatic = false, xml2 = false) => {
 
     //write remaining unlock characters to script file
     const pyPath = path.resolve(options.gameInstallPath, "scripts", "menus", options.newGamePyName);
-	const hardPyPath = path.resolve(options.gameInstallPath, "scripts", "menus", options.newGamePyName.slice(0,-3) + "_hard.py");
-    const unlockScriptFile = path.resolve("temp", options.newGamePyName);
-    const newScriptlines = [];
-    const replaceString = "new_game.py";
-    const regex = new RegExp(replaceString, "g");
-	// the skin categories for XML2
-	const skinCategoryList = ["astonishing", "aoa", "60s", "70s", "weaponx", "future", "winter", "civilian"];
-	// Write to new_game.py
-    if (fs.existsSync(pyPath)) {
-      const scriptFile = fs.readFileSync(pyPath, "utf8");
-      const scriptlines = scriptFile.split(NEWLINE_REGEX);
-	  // Copy other script lines that are not unlocks
-      for (const scriptline of scriptlines) {
-        let newLine = scriptline;
-        if (!scriptline.includes("unlockCharacter(")) {
-          // XML2's script lines for choosing the team in the first map
-          if (xml2 && (scriptline.includes("loadMapChooseTeam") || scriptline.includes("loadMapKeepTeam"))) {
-            if (options.chooseTeam) {
-              newLine = scriptline.replace("loadMapKeepTeam", "loadMapChooseTeam");
-              newScriptlines.push(newLine.replace(regex, options.newGamePyName));
-            } else {
-              newLine = scriptline.replace("loadMapChooseTeam", "loadMapKeepTeam");
-              newScriptlines.push(newLine.replace(regex, options.newGamePyName));
-            }
-          // MUA1's script lines for choosing the team in the first map
-          } else if (!xml2 && scriptline.includes("loadMapStartGame()")) {
-            if (options.chooseTeam) {
-              newLine = `loadZoneAddTeam("act1/heli/heli1", "link_heli1" )\r`
-              newScriptlines.push(newLine.replace(regex, options.newGamePyName));
-            }
-          } else if (!xml2 && scriptline.includes("loadZoneAddTeam")) {
-            if (!options.chooseTeam) {
-              newLine = "loadMapStartGame()"
-              newScriptlines.push(newLine.replace(regex, options.newGamePyName));
-            } else {
-              newScriptlines.push(scriptline.replace(regex, options.newGamePyName));
-            }
-          // all other lines
-          } else {
-            newScriptlines.push(scriptline.replace(regex, options.newGamePyName));
-          }
-        }
-      }
-	  // Add the character unlocks
-      for (const CharName of scriptunlock) {
-        const scriptline = `unlockCharacter("` + CharName + `", "" )\r`;
-        newScriptlines.push(scriptline);
-      }
-	  // XML2 only: add the skin unlocks if selected
-	  if (options.unlockSkins && xml2) {
-		for (const skinCategory of skinCategoryList) {
-		  const scriptline = `unlockCharacter("", "` + skinCategory + `" )\r`;
-		  newScriptlines.push(scriptline);
-		}
-	  }
-      fs.writeFileSync(unlockScriptFile, newScriptlines.join("\n"));
-      fs.copyFileSync(unlockScriptFile, pyPath);
+    const hardPyPath = pyPath.slice(0, -3) + "_hard.py";
+    const unlockScriptlines = [];
+    //write the character unlocks
+    for (const CharName of scriptunlock) {
+      const scriptline = `unlockCharacter("` + CharName + `", "" )`;
+      unlockScriptlines.push(scriptline);
     }
-	// XML2 uses a new_game_hard.py script in addition to new_game.py. Duplicate changes are added to this file. 
+    //XML2 only: add the skin unlocks if selected
+    if (options.unlockSkins && xml2) {
+      //the skin categories for XML2
+      const skinCategoryList = ["astonishing", "aoa", "60s", "70s", "weaponx", "future", "winter", "civilian"];
+      for (const skinCategory of skinCategoryList) {
+        const scriptline = `unlockCharacter("", "` + skinCategory + `" )`;
+        unlockScriptlines.push(scriptline);
+      }
+    }
+    //write to new_game.py
+    if (fs.existsSync(pyPath)) {
+      writeUnlockScripts(pyPath, unlockScriptlines);
+    }
+    //XML2 uses a new_game_hard.py script in addition to new_game.py. Duplicate changes are added to this file.
     if (xml2 && fs.existsSync(hardPyPath)) {
-      const scriptFile = fs.readFileSync(hardPyPath, "utf8");
-      const scriptlines = scriptFile.split(NEWLINE_REGEX);
-      const newScriptlines = [];
-      for (const scriptline of scriptlines) {
-        let newLine = scriptline;
-        if (!scriptline.includes("unlockCharacter(")) {// XML2's script lines for choosing the team in the first map
-          if (scriptline.includes("loadMapChooseTeam") || scriptline.includes("loadMapKeepTeam")) {
-            if (options.chooseTeam) {
-              newLine = scriptline.replace("loadMapKeepTeam", "loadMapChooseTeam");
-              newScriptlines.push(newLine.replace(regex, options.newGamePyName));
-            } else {
-              newLine = scriptline.replace("loadMapChooseTeam", "loadMapKeepTeam");
-              newScriptlines.push(newLine.replace(regex, options.newGamePyName));
-            }
-          // all other lines
-          } else {
-		    newScriptlines.push(scriptline.replace(regex, options.newGamePyName));
-          }
-		}
-	  }
-	  for (const CharName of scriptunlock) {
-		const scriptline = `unlockCharacter("` + CharName + `", "" )\r`;
-		newScriptlines.push(scriptline);
-	  }
-	  if (options.unlockSkins) {
-		for (const skinCategory of skinCategoryList) {
-		  const scriptline = `unlockCharacter("", "` + skinCategory + `" )\r`;
-		  newScriptlines.push(scriptline);
-		}
-	  }
-	  fs.writeFileSync(hardPyPath, newScriptlines.join("\n"));
-	}
+      writeUnlockScripts(hardPyPath, unlockScriptlines);
+    }
   }
 
   writeProgress(((++progressPoints) / operations) * 100);
@@ -833,6 +710,22 @@ function compileRavenFormats(data, filename, ext) {
   if (child.stderr.length !== 0) {
     throw new Error(`${dPath}:\n${child.stderr.toString("utf8").split("\n").slice(-3).join("\n")}`);
   }
+}
+
+function writeUnlockScripts(filename, unlocks) {
+  const newScriptlines = [];
+  const unlockScriptFile = path.resolve("temp", "new_game.py");
+  const scriptFile = fs.readFileSync(filename, "utf8");
+  const scriptlines = scriptFile.split(NEWLINE_REGEX);
+  //copy other script lines that are not unlocks
+  for (const scriptline of scriptlines) {
+    if (!scriptline.includes("unlockCharacter(")) {
+      newScriptlines.push(scriptline);
+    }
+  }
+  newScriptlines.push(unlocks);
+  fs.writeFileSync(unlockScriptFile, newScriptlines.join("\r\n"));
+  fs.copyFileSync(unlockScriptFile, filename);
 }
 
 // JSON TO XML CONVERTER WITH FAST-XML-PARSER (ALL ATTRIBUTES VERSION)
