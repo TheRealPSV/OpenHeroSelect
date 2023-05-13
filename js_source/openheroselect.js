@@ -716,14 +716,14 @@ function writeUnlockScripts(filename, unlocks) {
   const newScriptlines = [];
   const unlockScriptFile = path.resolve("temp", "new_game.py");
   const scriptFile = fs.readFileSync(filename, "utf8");
-  const scriptlines = scriptFile.split(NEWLINE_REGEX);
+  const scriptlines = scriptFile.split(/\r?\n/m);
   //copy other script lines that are not unlocks
   for (const scriptline of scriptlines) {
     if (!scriptline.includes("unlockCharacter(")) {
       newScriptlines.push(scriptline);
     }
   }
-  newScriptlines.push(unlocks);
+  Array.prototype.push.apply(newScriptlines, unlocks);
   fs.writeFileSync(unlockScriptFile, newScriptlines.join("\r\n"));
   fs.copyFileSync(unlockScriptFile, filename);
 }
