@@ -135,12 +135,12 @@ if (xml2) {
         "model": {
             "filename": "ui/models/characters/9999"
         },`;
-  const CHARACTERS_HEADS_END_JSON = `        
+  const CHARACTERS_HEADS_END_JSON = `
         "model": {
             "filename": "ui/models/m_team_roster_screen"
         }
     }
-}`
+}`;
 } else {
   const CHARACTERS_HEADS_START_JSON = `{
     "packagedef": {
@@ -156,7 +156,7 @@ if (xml2) {
             "filename": "ui/models/m_team_stage"
         }
     }
-}`
+}`;
 }
 
 // Constant characters_heads pieces (console cfg file)
