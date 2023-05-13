@@ -162,7 +162,7 @@ const main = async (automatic = false, xml2 = false) => {
 	packageMod: null,
     exeName: null,
     herostatName: null,
-	newGameName: null,
+	newGamePyName: null,
     unlocker: null,
     launchGame: null,
     saveTempFiles: null,
@@ -359,8 +359,8 @@ const main = async (automatic = false, xml2 = false) => {
           }).run()
           ).trim().replace(/['"]+/g, '');
 		  // the new_game.py file will only have a different name if a package mod is used
-          options.newGameName = (await new enquirer.Input({
-            name: 'newGameName',
+          options.newGamePyName = (await new enquirer.Input({
+            name: 'newGamePyName',
             message: `The filename of the package mod's new_game file.`,
             initial: "new_game.py"
           }).run()
@@ -377,7 +377,7 @@ const main = async (automatic = false, xml2 = false) => {
 		} else {
 	      // PC without package mods uses the standard file names. 
 		  options.herostatName = "herostat.engb"
-		  options.newGameName = "new_game.py"
+		  options.newGamePyName = "new_game.py"
 		  if (!xml2) {
 			// Only MUA1 uses charinfo
 			options.charinfoName = "charinfo.xmlb"
@@ -386,7 +386,7 @@ const main = async (automatic = false, xml2 = false) => {
 	  } else {
 		// Consoles always use the standard file names.
 		options.herostatName = "herostat.engb"
-		options.newGameName = "new_game.py"
+		options.newGamePyName = "new_game.py"
 		if (!xml2) {
 		  // only MUA1 uses charinfo
 		  options.charinfoName = "charinfo.xmlb"
@@ -688,9 +688,9 @@ const main = async (automatic = false, xml2 = false) => {
     }
 
     //write remaining unlock characters to script file
-    const pyPath = path.resolve(options.gameInstallPath, "scripts", "menus", options.newGameName);
-	const hardPyPath = path.resolve(options.gameInstallPath, "scripts", "menus", options.newGameName.slice(0,-3) + "_hard.py");
-    const unlockScriptFile = path.resolve("temp", options.newGameName);
+    const pyPath = path.resolve(options.gameInstallPath, "scripts", "menus", options.newGamePyName);
+	const hardPyPath = path.resolve(options.gameInstallPath, "scripts", "menus", options.newGamePyName.slice(0,-3) + "_hard.py");
+    const unlockScriptFile = path.resolve("temp", options.newGamePyName);
     const newScriptlines = [];
     const replaceString = "new_game.py";
     const regex = new RegExp(replaceString, "g");
@@ -703,7 +703,7 @@ const main = async (automatic = false, xml2 = false) => {
 	  // Copy other script lines that are not unlocks
       for (const scriptline of scriptlines) {
         if (!scriptline.includes("unlockCharacter(")) {
-          newScriptlines.push(scriptline.replace(regex, options.newGameName));
+          newScriptlines.push(scriptline.replace(regex, options.newGamePyName));
         }
       }
 	  // Add the character unlocks
@@ -728,7 +728,7 @@ const main = async (automatic = false, xml2 = false) => {
 	  const newScriptlines = [];
 	  for (const scriptline of scriptlines) {
 		if (!scriptline.includes("unlockCharacter(")) {
-		  newScriptlines.push(scriptline.replace(regex, options.newGameName));
+		  newScriptlines.push(scriptline.replace(regex, options.newGamePyName));
 		}
 	  }
 	  for (const CharName of scriptunlock) {
