@@ -327,7 +327,7 @@ const main = async (automatic = false, xml2 = false) => {
 	  // Ask about the name of the exe
 	  if (options.platform == "Direct") {
 		// Direct method is the only option that might have a different exe (if a package mod is used)
-		if (options.packageMod == true) {
+		if (options.packageMod) {
 		  // Only package mods have a unique exe
           options.exeName = (await new enquirer.Input({
             name: 'exename',
@@ -350,7 +350,7 @@ const main = async (automatic = false, xml2 = false) => {
 	  // Ask about the name of other files (only different if a package mod is used)
 	  if (options.platform != "Console") {
 		// Only the PC supports package mods
-		if (options.packageMod == true) {
+		if (options.packageMod) {
 	      // The herostat will only have a different name if a package mod is used
           options.herostatName = (await new enquirer.Input({
             name: 'herostatname',
@@ -398,15 +398,13 @@ const main = async (automatic = false, xml2 = false) => {
         initial: false
       }).run();
       // XML2-specific new_game.py choices
-      if (options.unlocker == true) {
-        if (xml2) {
-		  // ask if the user wants to unlock skins
-          options.unlockSkins = await new enquirer.Confirm({
-            name: 'unlockSkins',
-            message: `Unlock skins?`,
-            initial: false
-          }).run();
-        }
+      if (options.unlocker && xml2) {
+		// ask if the user wants to unlock skins
+        options.unlockSkins = await new enquirer.Confirm({
+          name: 'unlockSkins',
+          message: `Unlock skins?`,
+          initial: false
+        }).run();
       }		  
 	  // Ask if the user wants to start the game (PC direct method only)
 	  if (options.platform == "Direct") {
