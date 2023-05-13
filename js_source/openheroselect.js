@@ -127,6 +127,48 @@ const START_GAME = `,
 const UNLOCKED = `,
           "unlocked": "normal"`;
 
+// constant characters_heads pieces (json)
+if (xml2) {
+  const CHARACTERS_HEADS_START_JSON = `{
+    "packagedef": {`;
+  const CHARACTERS_HEADS_ENTRY_JSON = `
+        "model": {
+            "filename": "ui/models/characters/9999"
+        },`;
+  const CHARACTERS_HEADS_END_JSON = `        
+        "model": {
+            "filename": "ui/models/m_team_roster_screen"
+        }
+    }
+}`
+} else {
+  const CHARACTERS_HEADS_START_JSON = `{
+    "packagedef": {
+        "shared_powerups": {
+            "filename": "data/shared_powerups"
+        },`;
+  const CHARACTERS_HEADS_ENTRY_JSON = `
+        "model": {
+            "filename": "ui/models/mannequin/0000"
+        },`;
+  const CHARACTERS_HEADS_END_JSON = `
+        "model": {
+            "filename": "ui/models/m_team_stage"
+        }
+    }
+}`
+}
+
+// Constant characters_heads pieces (console cfg file)
+if (xml2) {
+  const CHARACTERS_HEADS_ENTRY_CFG = `ui/models/characters/9999.igb ui/models/characters/9999.igb model`;
+  const CHARACTERS_HEADS_END_CFG = `ui/models/m_team_roster_screen.igb ui/models/m_team_roster_screen.igb model`;
+} else {
+  const CHARACTERS_HEADS_ENTRY_CFG = `ui/models/mannequin/0000.igb ui/models/mannequin/0000.igb model`;
+  const CHARACTERS_HEADS_END_CFG = `ui/models/m_team_stage.igb ui/models/m_team_stage.igb model
+data/shared_powerups.xmlb data/shared_powerups.xmlb shared_powerups`;
+}
+
 // OPTIONS
 const PLATFORM_OPTIONS = new Map([["PC - MO2 Method", "MO2"], ["PC - Direct Method", "Direct"], ["Consoles", "Console"]]);
 const XML2_ROSTER_SIZES = new Map([["19 (GameCube, PS2, or Xbox)", 19], ["23 (PSP)", 23]]);
