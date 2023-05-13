@@ -395,7 +395,7 @@ const main = async (automatic = false, xml2 = false) => {
       options.unlocker = await new enquirer.Confirm({
         name: 'unlocker',
         message: `Update character unlocks?`,
-        initial: false
+        initial: xml2 ? true : false
       }).run();
       // XML2-specific new_game.py choices
       if (options.unlocker && xml2) {
