@@ -688,41 +688,37 @@ const main = async (automatic = false, xml2 = false) => {
   writeProgress(((++progressPoints) / operations) * 100);
 
   //constant characters_heads pieces
-  const CHARACTERS_HEADS_START = (
-    xml2 && platform === "Console"
-      ? `` :
-    platform === "Console"
-      ? `ui/models/m_team_stage.igb ui/models/m_team_stage.igb model` :
-    xml2
-      ? `{
+  const CHARACTERS_HEADS_START = (xml2 && platform === "Console")
+    ? ``
+    : (platform === "Console")
+      ? `ui/models/m_team_stage.igb ui/models/m_team_stage.igb model`
+      : (xml2)
+        ? `{
     "packagedef": {`
-      : `{
+        : `{
     "packagedef": {
         "shared_powerups": {
             "filename": "data/shared_powerups"
         },
         "model": {
             "filename": "ui/models/m_team_stage"
-        },`
-  );
-  const CHARACTERS_HEADS_END = (
-    xml2 && platform === "Console"
+        },`;
+  const CHARACTERS_HEADS_END = (xml2 && platform === "Console")
+    ? `
+ui/models/m_team_roster_screen.igb ui/models/m_team_roster_screen.igb model`
+    : (platform === "Console")
       ? `
-ui/models/m_team_roster_screen.igb ui/models/m_team_roster_screen.igb model` :
-    platform === "Console"
-      ? `
-data/shared_powerups.xmlb data/shared_powerups.xmlb shared_powerups` :
-    xml2
-      ? `
+data/shared_powerups.xmlb data/shared_powerups.xmlb shared_powerups`
+      : (xml2)
+        ? `
         "model": {
             "filename": "ui/models/m_team_roster_screen"
         }
     }
 }`
-      : `
+        : `
     }
-}`
-  );
+}`;
 
   //begin writing characters_heads package
   const CHFolder = xml2 ? "characters" : "mannequin";
