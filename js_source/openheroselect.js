@@ -683,6 +683,10 @@ const main = async (automatic = false, xml2 = false) => {
   
   // Begin writing characters_heads package
   // constant characters_heads pieces
+  let CHARACTERS_HEADS_START;
+  let CHARACTERS_HEADS_ENTRY;
+  let CHARACTERS_HEADS_END;
+  
   if ((xml2) && (platform !== "Console")) {
     // XML2 PC
     const CHARACTERS_HEADS_START = `{
@@ -729,6 +733,30 @@ ui/models/mannequin/0000.igb ui/models/mannequin/0000.igb model`;
     const CHARACTERS_HEADS_END = `
 data/shared_powerups.xmlb data/shared_powerups.xmlb shared_powerups`;
   }
+  // Prepare to write the file
+  let charactersHeads = CHARACTERS_HEADS_START
+  // The unmodified CHARACTERS_HEADS_ENTRY is the version for locked characters
+  charactersHeads += CHARACTERS_HEADS_ENTRY
+  for (const skinNum in skinNumbers) {
+    if (xml2) {
+      // In XML2, if the main skin number ends in 00-09, the portrait should end in 01
+      if ((skinNum.slice(-2,-1)) == `0`) {
+        useNum = skinNum.slice(0,-1) + `01`
+      } else {
+      // Otherwise, the portrait will have the same name as the primary skin number
+        useNum = skinNum
+      }
+      charactersHeads += CHARACTERS_HEADS_ENTRY.replace("9999", useNum)
+    } else {
+      // In MUA1, mannequins always end in 01
+      useNum = skinNum.slice(0,-1) + `01`
+      charactersHeads += CHARACTERS_HEADS_ENTRY.replace("0000", useNum)
+    }
+  }
+  charactersHeads += CHARACTERS_HEADS_END
+  
+  // Remaining code: if the platform is consoles, write the contents of the charactersHeads variable to characters_heads.fb.cfg, which will go in the main folder of the destination. Otherwise, the contents of charactersHeads will be written to a json file and compiled to characters_heads.pkgb, which will go in packages/generated/maps/package/menus of the destination.
+  
 
   //clear temp folder if not saving temp files
   if (!options.saveTempFiles) {
