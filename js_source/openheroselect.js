@@ -440,7 +440,7 @@ const main = async (automatic = false, xml2 = false) => {
   const unlockchars = [];
   const lockchars = [];
   const characters = [];
-  const skinNumbers = [];
+  const CharHeadNumbers = [];
   let FORMAT = "";
   let First = "";
   let PrevItem = "";
@@ -448,6 +448,7 @@ const main = async (automatic = false, xml2 = false) => {
     let statsData = "";
     let statsXML = "";
     let CharName = "";
+    let CharNumber = "";
     let NoHsError = "ERROR: No herostat found.";
 
     //define the base path, without extension and find all extensions, sorted by priority
@@ -473,7 +474,7 @@ const main = async (automatic = false, xml2 = false) => {
           FORMAT = "JSON";
           if (First && First !== "JSON") throw new Error(`XML format detected from ${First} to ${PrevItem} -- JSON expected.`);
           CharName = herostatJSON.stats.name;
-          skinNum = herostatJSON.stats.skin;
+          CharNumber = herostatJSON.stats.skin;
           break;
         } catch (ej) {
           try {
@@ -488,7 +489,7 @@ const main = async (automatic = false, xml2 = false) => {
             const xmlData = xmlAttr.parse(statsData);
             FORMAT = "XML";
             CharName = xmlData.stats["@_name"];
-            skinNum = xmlData.stats["@_skin"];
+            CharNumber = xmlData.stats["@_skin"];
             if (First) {
               break;
             } else {
@@ -535,11 +536,16 @@ const main = async (automatic = false, xml2 = false) => {
       }
     }
 
-    // prepare the skin list
-	if (!skinNum) {
+    //prepare the number list
+    if (!CharNumber) {
       throw new Error(`ERROR: no skin found in ${item}`);
     }
-	skinNumbers.push(skinNum)
+    let N_END = CharNumber.toString().slice(-2);
+    if (!xml2 || N_END < 10) {
+      N_END = "01";
+    }
+    const useNum = CharNumber.toString().slice(0, -2) + N_END;
+    CharHeadNumbers.push(useNum);
 
     //push to list of loaded character stats
     characters.push(statsData);
@@ -680,83 +686,76 @@ const main = async (automatic = false, xml2 = false) => {
   }
 
   writeProgress(((++progressPoints) / operations) * 100);
-  
-  // Begin writing characters_heads package
-  // constant characters_heads pieces
-  let CHARACTERS_HEADS_START;
-  let CHARACTERS_HEADS_ENTRY;
-  let CHARACTERS_HEADS_END;
-  
-  if ((xml2) && (platform !== "Console")) {
-    // XML2 PC
-    const CHARACTERS_HEADS_START = `{
-    "packagedef": {`;
-    const CHARACTERS_HEADS_ENTRY = `
+
+  //constant characters_heads pieces
+  const CHARACTERS_HEADS_START = (
+    xml2 && platform === "Console"
+      ? `` :
+    platform === "Console"
+      ? `ui/models/m_team_stage.igb ui/models/m_team_stage.igb model` :
+    xml2
+      ? `{
+    "packagedef": {`
+      : `{
+    "packagedef": {
+        "shared_powerups": {
+            "filename": "data/shared_powerups"
+        },
         "model": {
-            "filename": "ui/models/characters/9999"
-        },`;
-    const CHARACTERS_HEADS_END = `
+            "filename": "ui/models/m_team_stage"
+        },`
+  );
+  const CHARACTERS_HEADS_END = (
+    xml2 && platform === "Console"
+      ? `
+ui/models/m_team_roster_screen.igb ui/models/m_team_roster_screen.igb model` :
+    platform === "Console"
+      ? `
+data/shared_powerups.xmlb data/shared_powerups.xmlb shared_powerups` :
+    xml2
+      ? `
         "model": {
             "filename": "ui/models/m_team_roster_screen"
         }
     }
-}`;
-  } else if ((xml2) && (platform == "Console")) {
-  // XML2 Consoles
-    const CHARACTERS_HEADS_START = "";
-    const CHARACTERS_HEADS_ENTRY = `
-ui/models/characters/9999.igb ui/models/characters/9999.igb model`;
-    const CHARACTERS_HEADS_END = `
-ui/models/m_team_roster_screen.igb ui/models/m_team_roster_screen.igb model`;
-  } else if ((!xml2) && (platform !== "Console")) {
-    // MUA1 PC
-    const CHARACTERS_HEADS_START = `{
-    "packagedef": {
-        "shared_powerups": {
-            "filename": "data/shared_powerups"
-        },`;
-    const CHARACTERS_HEADS_ENTRY = `
-        "model": {
-            "filename": "ui/models/mannequin/0000"
-        },`;
-    const CHARACTERS_HEADS_END = `
-        "model": {
-            "filename": "ui/models/m_team_stage"
-        }
+}`
+      : `
     }
-}`;
+}`
+  );
+
+  //begin writing characters_heads package
+  const CHFolder = xml2 ? "characters" : "mannequin";
+  CharHeadNumbers.unshift(xml2 ? "9999" : "0000");
+
+  let charactersHeads = CHARACTERS_HEADS_START;
+  CharHeadNumbers.forEach((item) => {
+    const CHARACTERS_HEADS_ENTRY = (platform === "Console")
+      ? `
+ui/models/${CHFolder}/${item}.igb ui/models/${CHFolder}/${item}.igb model`
+      : `
+        "model": {
+            "filename": "ui/models/${CHFolder}/${item}"
+        },`;
+    charactersHeads += CHARACTERS_HEADS_ENTRY;
+  });
+  //remove the last comma for MUA1, because it has no more entries
+  if (!xml2 && platform !== "Console") {
+    charactersHeads = charactersHeads.slice(0, -1);
+  }
+  charactersHeads += CHARACTERS_HEADS_END;
+
+  //write characters_heads to disk and copy to final location
+  const CharHeadTemp = path.resolve("temp", "characters_heads.xmlb");
+  let CharHead = null;
+  if (platform === "Console") {
+    CharHead = path.resolve(options.gameInstallPath, "characters_heads.fb.cfg");
+    fs.writeFileSync(CharHeadTemp, charactersHeads);
   } else {
-    // MUA1 consoles
-    const CHARACTERS_HEADS_START = `ui/models/m_team_stage.igb ui/models/m_team_stage.igb model`;
-    const CHARACTERS_HEADS_ENTRY = `
-ui/models/mannequin/0000.igb ui/models/mannequin/0000.igb model`;
-    const CHARACTERS_HEADS_END = `
-data/shared_powerups.xmlb data/shared_powerups.xmlb shared_powerups`;
+    CharHead = path.resolve(options.gameInstallPath, "packages", "generated", "maps", "package", "menus", "characters_heads.pkgb");
+    compileRavenFormats(charactersHeads, "characters_heads", "json");
   }
-  // Prepare to write the file
-  let charactersHeads = CHARACTERS_HEADS_START
-  // The unmodified CHARACTERS_HEADS_ENTRY is the version for locked characters
-  charactersHeads += CHARACTERS_HEADS_ENTRY
-  for (const skinNum in skinNumbers) {
-    if (xml2) {
-      // In XML2, if the main skin number ends in 00-09, the portrait should end in 01
-      if ((skinNum.slice(-2,-1)) == `0`) {
-        useNum = skinNum.slice(0,-1) + `01`
-      } else {
-      // Otherwise, the portrait will have the same name as the primary skin number
-        useNum = skinNum
-      }
-      charactersHeads += CHARACTERS_HEADS_ENTRY.replace("9999", useNum)
-    } else {
-      // In MUA1, mannequins always end in 01
-      useNum = skinNum.slice(0,-1) + `01`
-      charactersHeads += CHARACTERS_HEADS_ENTRY.replace("0000", useNum)
-    }
-  }
-  charactersHeads += CHARACTERS_HEADS_END
-  
-  // Remaining code: if the platform is consoles, write the contents of the charactersHeads variable to characters_heads.fb.cfg, which will go in the main folder of the destination. Otherwise, the contents of charactersHeads will be written to a json file and compiled to characters_heads.pkgb, which will go in packages/generated/maps/package/menus of the destination.
-  
+  fs.copyFileSync(CharHeadTemp, CharHead);
 
   //clear temp folder if not saving temp files
   if (!options.saveTempFiles) {
