@@ -691,7 +691,8 @@ const main = async (automatic = false, xml2 = false) => {
   const CHARACTERS_HEADS_START = (xml2 && platform === "Console")
     ? ``
     : (platform === "Console")
-      ? `ui/models/m_team_stage.igb ui/models/m_team_stage.igb model`
+      ? `ui/models/m_team_stage.igb ui/models/m_team_stage.igb model
+`
       : (xml2)
         ? `{
     "packagedef": {`
@@ -704,11 +705,11 @@ const main = async (automatic = false, xml2 = false) => {
             "filename": "ui/models/m_team_stage"
         },`;
   const CHARACTERS_HEADS_END = (xml2 && platform === "Console")
-    ? `
-ui/models/m_team_roster_screen.igb ui/models/m_team_roster_screen.igb model`
+    ? `ui/models/m_team_roster_screen.igb ui/models/m_team_roster_screen.igb model
+`
     : (platform === "Console")
-      ? `
-data/shared_powerups.xmlb data/shared_powerups.xmlb shared_powerups`
+      ? `data/shared_powerups.xmlb data/shared_powerups.xmlb shared_powerups
+`
       : (xml2)
         ? `
         "model": {
@@ -727,8 +728,8 @@ data/shared_powerups.xmlb data/shared_powerups.xmlb shared_powerups`
   let charactersHeads = CHARACTERS_HEADS_START;
   CharHeadNumbers.forEach((item) => {
     const CHARACTERS_HEADS_ENTRY = (platform === "Console")
-      ? `
-ui/models/${CHFolder}/${item}.igb ui/models/${CHFolder}/${item}.igb model`
+      ? `ui/models/${CHFolder}/${item}.igb ui/models/${CHFolder}/${item}.igb model
+`
       : `
         "model": {
             "filename": "ui/models/${CHFolder}/${item}"
