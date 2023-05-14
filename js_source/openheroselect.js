@@ -748,7 +748,11 @@ ui/models/${CHFolder}/${item}.igb ui/models/${CHFolder}/${item}.igb model`
     CharHead = path.resolve(options.gameInstallPath, "characters_heads.fb.cfg");
     fs.writeFileSync(CharHeadTemp, charactersHeads);
   } else {
-    CharHead = path.resolve(options.gameInstallPath, "packages", "generated", "maps", "package", "menus", "characters_heads.pkgb");
+    CharHeadFolder = path.resolve(options.gameInstallPath, "packages", "generated", "maps", "package", "menus");
+	if (!fs.existsSync(CharHeadFolder)) {
+      fs.mkdirSync(CharHeadFolder, { recursive: true });
+    }
+    CharHead = path.resolve(CharHeadFolder, "characters_heads.pkgb");
     compileRavenFormats(charactersHeads, "characters_heads", "json");
   }
   fs.copyFileSync(CharHeadTemp, CharHead);
