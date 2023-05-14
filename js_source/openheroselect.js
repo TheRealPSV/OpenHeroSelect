@@ -152,6 +152,7 @@ const main = async (automatic = false, xml2 = false) => {
     options = {
       menulocationsValue: null,
       rosterHack: null,
+      mannequinFolder: "mannequin",
       charinfoName: "charinfo.xmlb"
     };
   }
@@ -161,6 +162,7 @@ const main = async (automatic = false, xml2 = false) => {
     exeName: xml2 ? "XMen2.exe" : "Game.exe",
     herostatName: "herostat.engb",
     newGamePyName: "new_game.py",
+    charactersHeadsPackageName: "characters_heads.pkgb",
     unlocker: null,
     launchGame: false,
     saveTempFiles: null,
@@ -337,8 +339,21 @@ const main = async (automatic = false, xml2 = false) => {
             initial: "new_game.py"
           }).run()
           ).trim().replace(/['"]+/g, '');
-          // Ask about the name of charinfo for MUA1 only
+		  // Ask about the name of the characters_heads file
+          options.charactersHeadsPackageName = (await new enquirer.Input({
+            name: 'charactersHeadsPackageName',
+            message: `The filename of the package mod's characters_heads file`,
+            initial: "characters_heads.pkgb"
+          }).run()
+          ).trim().replace(/['"]+/g, '');
+          // Ask about the name of the mannequin folder and charinfo for MUA1 only
           if (!xml2) {
+            options.mannequinFolder = (await new enquirer.Input({
+              name: 'mannequinFolder',
+              message: `The mannequin folder used by the package mod`,
+              initial: "mannequin"
+            }).run()
+            ).trim().replace(/['"]+/g, '');
             options.charinfoName = (await new enquirer.Input({
               name: 'charinfoName',
               message: `The filename of the package mod's charinfo file`,
@@ -722,7 +737,7 @@ const main = async (automatic = false, xml2 = false) => {
 }`;
 
   //begin writing characters_heads package
-  const CHFolder = xml2 ? "characters" : "mannequin";
+  const CHFolder = xml2 ? "characters" : options.mannequinFolder;
   CharHeadNumbers.unshift(xml2 ? "9999" : "0000");
 
   let charactersHeads = CHARACTERS_HEADS_START;
@@ -753,7 +768,7 @@ const main = async (automatic = false, xml2 = false) => {
 	if (!fs.existsSync(CharHeadFolder)) {
       fs.mkdirSync(CharHeadFolder, { recursive: true });
     }
-    CharHead = path.resolve(CharHeadFolder, "characters_heads.pkgb");
+    CharHead = path.resolve(CharHeadFolder, options.charactersHeadsPackageName);
     compileRavenFormats(charactersHeads, "characters_heads", "json");
   }
   fs.copyFileSync(CharHeadTemp, CharHead);
