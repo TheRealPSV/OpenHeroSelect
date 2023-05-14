@@ -339,7 +339,7 @@ const main = async (automatic = false, xml2 = false) => {
             initial: "new_game.py"
           }).run()
           ).trim().replace(/['"]+/g, '');
-		  // Ask about the name of the characters_heads file
+          // Ask about the name of the characters_heads file
           options.charactersHeadsPackageName = (await new enquirer.Input({
             name: 'charactersHeadsPackageName',
             message: `The filename of the package mod's characters_heads file`,
@@ -764,8 +764,8 @@ const main = async (automatic = false, xml2 = false) => {
     CharHead = path.resolve(options.gameInstallPath, "characters_heads.fb.cfg");
     fs.writeFileSync(CharHeadTemp, charactersHeads);
   } else {
-    CharHeadFolder = path.resolve(options.gameInstallPath, "packages", "generated", "maps", "package", "menus");
-	if (!fs.existsSync(CharHeadFolder)) {
+    const CharHeadFolder = path.resolve(options.gameInstallPath, "packages", "generated", "maps", "package", "menus");
+    if (!fs.existsSync(CharHeadFolder)) {
       fs.mkdirSync(CharHeadFolder, { recursive: true });
     }
     CharHead = path.resolve(CharHeadFolder, options.charactersHeadsPackageName);
