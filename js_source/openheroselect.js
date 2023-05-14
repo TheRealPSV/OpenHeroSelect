@@ -440,6 +440,7 @@ const main = async (automatic = false, xml2 = false) => {
   const unlockchars = [];
   const lockchars = [];
   const characters = [];
+  const skinNumbers = [];
   let FORMAT = "";
   let First = "";
   let PrevItem = "";
@@ -472,6 +473,7 @@ const main = async (automatic = false, xml2 = false) => {
           FORMAT = "JSON";
           if (First && First !== "JSON") throw new Error(`XML format detected from ${First} to ${PrevItem} -- JSON expected.`);
           CharName = herostatJSON.stats.name;
+          skinNum = herostatJSON.stats.skin;
           break;
         } catch (ej) {
           try {
@@ -486,6 +488,7 @@ const main = async (automatic = false, xml2 = false) => {
             const xmlData = xmlAttr.parse(statsData);
             FORMAT = "XML";
             CharName = xmlData.stats["@_name"];
+            skinNum = xmlData.stats["@_skin"];
             if (First) {
               break;
             } else {
@@ -531,6 +534,12 @@ const main = async (automatic = false, xml2 = false) => {
         lockchars.push(CharName);
       }
     }
+
+    // prepare the skin list
+	if (!skinNum) {
+      throw new Error(`ERROR: no skin found in ${item}`);
+    }
+	skinNumbers.push(skinNum)
 
     //push to list of loaded character stats
     characters.push(statsData);
