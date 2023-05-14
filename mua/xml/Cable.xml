@@ -5,7 +5,7 @@
    characteranims = 210_cable ;
    charactername = Cable ;
    level = 1 ;
-   menulocation = XX ;
+   menulocation = 56 ;
    mind = 7 ;
    name = Cable ;
    playable = true ;

@@ -24,6 +24,7 @@
    team = hero ;
       Multipart {
       health = 0 ;
+      nonmenuonly = true ;
       hideskin = 1201_sai_left_segment ;
       hideskin2 = 1201_sai_right_segment ;
       }
@@ -47,13 +48,6 @@
       talent {
       level = 1 ;
       name = melee_moves ;
-      }
-
-      Multipart {
-      health = 0 ;
-      menuonly = true ;
-      showskin = 1201_sai_left_segment ;
-      showskin2 = 1201_sai_right_segment ;
       }
 
    }
