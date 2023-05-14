@@ -5,7 +5,7 @@
    characteranims = 205_scarletwitch ;
    charactername = Scarlet Witch ;
    level = 1 ;
-   menulocation = 56 ;
+   menulocation = 57 ;
    mind = 12 ;
    moveset1 = moveset_flying ;
    name = ScarletWitch ;
