@@ -673,45 +673,51 @@ const main = async (automatic = false, xml2 = false) => {
   writeProgress(((++progressPoints) / operations) * 100);
   
 // Begin writing characters_heads package
-// constant characters_heads pieces (json)
-if (xml2) {
-  const CHARACTERS_HEADS_START_JSON = `{
+// constant characters_heads pieces
+if ((xml2) && (platform !== "Console")) {
+  // XML2 PC
+  const CHARACTERS_HEADS_START = `{
     "packagedef": {`;
-  const CHARACTERS_HEADS_ENTRY_JSON = `
+  const CHARACTERS_HEADS_ENTRY = `
         "model": {
             "filename": "ui/models/characters/9999"
         },`;
-  const CHARACTERS_HEADS_END_JSON = `
+  const CHARACTERS_HEADS_END = `
         "model": {
             "filename": "ui/models/m_team_roster_screen"
         }
     }
 }`;
-} else {
-  const CHARACTERS_HEADS_START_JSON = `{
+} else if ((xml2) && (platform == "Console")) {
+  // XML2 Consoles
+  const CHARACTERS_HEADS_START = "";
+  const CHARACTERS_HEADS_ENTRY = `
+ui/models/characters/9999.igb ui/models/characters/9999.igb model`;
+  const CHARACTERS_HEADS_END = `
+ui/models/m_team_roster_screen.igb ui/models/m_team_roster_screen.igb model`;
+} else if ((!xml2) && (platform !== "Console")) {
+  // MUA1 PC
+  const CHARACTERS_HEADS_START = `{
     "packagedef": {
         "shared_powerups": {
             "filename": "data/shared_powerups"
         },`;
-  const CHARACTERS_HEADS_ENTRY_JSON = `
+  const CHARACTERS_HEADS_ENTRY = `
         "model": {
             "filename": "ui/models/mannequin/0000"
         },`;
-  const CHARACTERS_HEADS_END_JSON = `
+  const CHARACTERS_HEADS_END = `
         "model": {
             "filename": "ui/models/m_team_stage"
         }
     }
 }`;
-}
-
-// Constant characters_heads pieces (console cfg file)
-if (xml2) {
-  const CHARACTERS_HEADS_ENTRY_CFG = `ui/models/characters/9999.igb ui/models/characters/9999.igb model`;
-  const CHARACTERS_HEADS_END_CFG = `ui/models/m_team_roster_screen.igb ui/models/m_team_roster_screen.igb model`;
 } else {
-  const CHARACTERS_HEADS_ENTRY_CFG = `ui/models/mannequin/0000.igb ui/models/mannequin/0000.igb model`;
-  const CHARACTERS_HEADS_END_CFG = `ui/models/m_team_stage.igb ui/models/m_team_stage.igb model
+  // MUA1 consoles
+  const CHARACTERS_HEADS_START = `ui/models/m_team_stage.igb ui/models/m_team_stage.igb model`;
+  const CHARACTERS_HEADS_ENTRY = `
+ui/models/mannequin/0000.igb ui/models/mannequin/0000.igb model`;
+  const CHARACTERS_HEADS_END = `
 data/shared_powerups.xmlb data/shared_powerups.xmlb shared_powerups`;
 }
 
