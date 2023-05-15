@@ -5,7 +5,7 @@
    characteranims = 209_toad ;
    charactername = Toad ;
    level = 1 ;
-   menulocation = 57 ;
+   menulocation = XX ;
    mind = 8 ;
    name = Toad_Hero ;
    playable = true ;

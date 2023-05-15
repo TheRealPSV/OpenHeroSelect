@@ -26,7 +26,7 @@ https://marvelmods.com/forum/index.php/topic,10597.0.html
 
 ## Special Thanks
 * [@sgprinc](https://github.com/sgprinc)/Sagap @ MarvelMods - Various improvements in v2
-* [@EthanReed517](https://github.com/EthanReed517)/BaconWizard17 @ MarvelMods - xml to json conversion Python script, testing and rosters for X-Men Legends II support
+* [@EthanReed517](https://github.com/EthanReed517)/BaconWizard17 @ MarvelMods - xml to json conversion Python script, testing and rosters for X-Men Legends II support, additional testing and improvements
 * [@nikita488](https://github.com/nikita488)/nikita488 @ MarvelMods - json to xmlb conversion Python script
-* [@ak2yny](https://github.com/ak2yny)/ak2yny @ MarvelMods - OCP v2.4 character stats and roster, additional testing and improvements
+* [@ak2yny](https://github.com/ak2yny)/ak2yny @ MarvelMods - OCP v2.4 character stats and roster, xml to json conversion Python script, additional testing and improvements
 * [@JordanLeich](https://github.com/JordanLeich) - Additional menulocations

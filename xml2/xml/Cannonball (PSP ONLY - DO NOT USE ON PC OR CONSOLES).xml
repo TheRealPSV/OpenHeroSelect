@@ -14,8 +14,8 @@
    powerstyle = ps_cannonball ;
    scriptlevel = 3 ;
    skin = 15101 ;
-   skin_future = 03 ;
    skin_weaponx = 02 ;
+   skin_future = 03 ;
    sounddir = cball_m ;
    speed = 16 ;
    strength = 16 ;

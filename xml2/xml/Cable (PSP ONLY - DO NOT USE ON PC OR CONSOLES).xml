@@ -22,8 +22,8 @@
    scale_factor = 1.1 ;
    scriptlevel = 3 ;
    skin = 15001 ;
-   skin_future = 03 ;
    skin_weaponx = 02 ;
+   skin_future = 03 ;
    sounddir = cable_m ;
    speed = 16 ;
    strength = 16 ;

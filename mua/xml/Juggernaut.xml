@@ -24,7 +24,7 @@
    skin_04 = 04 ;
    skin_04_name = Astonishing ;
    sounddir = njugg_m ;
-   strength = 10 ;
+   strength = 12 ;
    team = hero ;
       talent {
       level = 1 ;

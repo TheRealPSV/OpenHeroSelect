@@ -1,0 +1,25 @@
+MUA1
+- MK on MUA Content
+  - exe:                        Game_MK.exe
+  - herostat:                   heros_mk.engb
+  - new_game:                   new_g_mk.py
+  - characters_heads package:   characters_he_mk.pkgb
+  - mannequin folder:           mkwarrior
+  - charinfo:                   charinmk.xmlb
+
+XML2
+- All X-Men Edition (AXE)
+  - exe:                        Xmen2_AXE.exe
+  - herostat:                   hero_axe.engb
+  - new_game:                   new_axe_.py
+  - characters_heads package:   characters_h_axe.pkgb
+- Brotherhood Edition (BHE)
+  - exe:                        Xmen2_BHE.exe
+  - herostat:                   hero_bhe.engb
+  - new_game:                   new_bhe_.py
+  - characters_heads package:   characters_h_bhe.pkgb
+- Marvel Universe Edition (MUE)
+  - exe:                        Xmen2_MUE.exe
+  - herostat:                   hero_mue.engb
+  - new_game:                   new_mue_.py
+  - characters_heads package:   characters_h_mue.pkgb
