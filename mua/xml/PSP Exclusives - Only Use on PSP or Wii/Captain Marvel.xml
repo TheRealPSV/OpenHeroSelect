@@ -1,0 +1,90 @@
+   stats {
+   ailevel = 2 ;
+   autospend = support ;
+   body = 5 ;
+   characteranims = 202_captainmarvel ;
+   charactername = Captain Marvel ;
+   level = 1 ;
+   menulocation = 26 ;
+   mind = 12 ;
+   moveset1 = moveset_flying ;
+   name = CaptainMarvel ;
+   platform = psp ;
+   playable = true ;
+   power1 = power1 ;
+   power2 = power2 ;
+   power3 = power3 ;
+   power4 = team_xtreme ;
+   powerstyle = ps_captainmarvel ;
+   scriptlevel = 3 ;
+   skin = 20201 ;
+   skin_01_name = Genis-Vell ;
+   skin_02 = 02 ;
+   skin_02_name = Genis ;
+   skin_03 = 03 ;
+   skin_03_name = Captain Mar-Vell ;
+   skin_04 = 04 ;
+   skin_04_name = Ultimate ;
+   sounddir = capmvl_m ;
+   strength = 4 ;
+   team = hero ;
+   textureicon = 4 ;
+      Race {
+      name = Mutant ;
+      }
+
+      Race {
+      name = XMen ;
+      }
+
+      talent {
+      level = 1 ;
+      name = captma_p1 ;
+      }
+
+      talent {
+      level = 1 ;
+      name = fightstyle_default ;
+      }
+
+      talent {
+      level = 1 ;
+      name = grab ;
+      }
+
+      talent {
+      level = 1 ;
+      name = flight ;
+      }
+
+      talent {
+      level = 1 ;
+      name = block ;
+      }
+
+      talent {
+      level = 1 ;
+      name = might ;
+      }
+
+      talent {
+      level = 1 ;
+      name = melee_moves ;
+      }
+
+      StatEffect {
+      bolt = Bip01 Spine2 ;
+      effect = char/captmarvel/special_aura ;
+      }
+
+      StatEffect {
+      bolt = Bip01 L Hand ;
+      effect = char/captmarvel/special_aura_hand ;
+      }
+
+      StatEffect {
+      bolt = Bip01 R Hand ;
+      effect = char/captmarvel/special_aura_hand ;
+      }
+
+   }

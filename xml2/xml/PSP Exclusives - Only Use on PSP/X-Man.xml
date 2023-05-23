@@ -20,8 +20,8 @@
    powerstyle = ps_xman ;
    scriptlevel = 3 ;
    skin = 15201 ;
-   skin_future = 03 ;
    skin_weaponx = 02 ;
+   skin_future = 03 ;
    skirmish_boost = -9 ;
    sounddir = xman_m ;
    speed = 16 ;
