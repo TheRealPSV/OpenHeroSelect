@@ -432,9 +432,9 @@ const main = async (automatic = false, xml2 = false) => {
       fs.writeFileSync(configPath, JSON.stringify(options, null, 2));
     }
   }
-    
+
   //check if data folder exists
-  const dataPath = path.resolve(options.gameInstallPath, "data")
+  const dataPath = path.resolve(options.gameInstallPath, "data");
   if (!fs.existsSync(options.gameInstallPath)) {
     throw new Error(`ERROR: folder not found\n${options.gameInstallPath}`);
   }
