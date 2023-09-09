@@ -21,6 +21,8 @@ const STATS_REGEX = {
 
 // CONSTANT VALUES
 const DEFAULT_HEROLIMIT = 27;
+const CONSOLES_HEROLIMIT = 34;
+const ROSTERHACK_HEROLIMIT = 50;
 const STARTERS = 4;
 const CHARINFO_LIMIT = 31;
 
@@ -238,8 +240,14 @@ const main = async (automatic = false, xml2 = false) => {
         }
 
         // Ask about menulocations for MUA
+        const menulocationLimit = options.rosterHack
+          ? ROSTERHACK_HEROLIMIT
+          : platform === "Console"
+            ? CONSOLES_HEROLIMIT
+            : DEFAULT_HEROLIMIT;
         const menulocationOptions = fs.readdirSync(path.resolve(resourcePath, "menulocations"))
           .filter((item) => item.toLowerCase().endsWith(".cfg"))
+          .filter((item) => item.slice(0, 2) <= menulocationLimit)
           .map((item) => item.slice(0, item.length - 4));
         options.menulocationsValue = await new enquirer.Select({
           name: 'menulocations',
@@ -313,55 +321,62 @@ const main = async (automatic = false, xml2 = false) => {
           message: `Are you editing the herostat of a package mod (such as the ${xml2 ? "AXE, BHE, or MUE" : "MK on MUA Content"})?`,
           initial: false
         }).run();
+      }
 
-        // Ask about the file names if a package mod is used
-        if (packageMod) {
-          // Ask about the name of the exe for the Direct method only
-          if (platform === "Direct") {
-            options.exeName = (await new enquirer.Input({
-              name: 'exename',
-              message: `The filename of the package mod's exe.`,
-              initial: xml2 ? "XMen2.exe" : "Game.exe"
-            }).run()
-            ).trim().replace(/['"]+/g, '');
-          }
-          // Ask about the name of the herostat
-          options.herostatName = (await new enquirer.Input({
-            name: 'herostatname',
-            message: `The filename of the package mod's herostat`,
-            initial: "herostat.engb"
+      // Ask about the file names if a package mod is used
+      if (packageMod) {
+        // Ask about the name of the exe for the Direct method only
+        if (platform === "Direct") {
+          options.exeName = (await new enquirer.Input({
+            name: 'exename',
+            message: `The filename of the package mod's exe.`,
+            initial: xml2 ? "XMen2.exe" : "Game.exe"
           }).run()
           ).trim().replace(/['"]+/g, '');
-          // Ask about the name of the new_game script
-          options.newGamePyName = (await new enquirer.Input({
-            name: 'newGamePyName',
-            message: `The filename of the package mod's new_game file`,
-            initial: "new_game.py"
-          }).run()
-          ).trim().replace(/['"]+/g, '');
-          // Ask about the name of the characters_heads file
-          options.charactersHeadsPackageName = (await new enquirer.Input({
-            name: 'charactersHeadsPackageName',
-            message: `The filename of the package mod's characters_heads file`,
-            initial: "characters_heads.pkgb"
-          }).run()
-          ).trim().replace(/['"]+/g, '');
-          // Ask about the name of the mannequin folder and charinfo for MUA1 only
-          if (!xml2) {
-            options.mannequinFolder = (await new enquirer.Input({
-              name: 'mannequinFolder',
-              message: `The mannequin folder used by the package mod`,
-              initial: "mannequin"
-            }).run()
-            ).trim().replace(/['"]+/g, '');
-            options.charinfoName = (await new enquirer.Input({
-              name: 'charinfoName',
-              message: `The filename of the package mod's charinfo file`,
-              initial: "charinfo.xmlb"
-            }).run()
-            ).trim().replace(/['"]+/g, '');
-          }
         }
+        // Ask about the name of the herostat
+        options.herostatName = (await new enquirer.Input({
+          name: 'herostatname',
+          message: `The filename of the package mod's herostat`,
+          initial: "herostat.engb"
+        }).run()
+        ).trim().replace(/['"]+/g, '');
+        // Ask about the name of the new_game script
+        options.newGamePyName = (await new enquirer.Input({
+          name: 'newGamePyName',
+          message: `The filename of the package mod's new_game file`,
+          initial: "new_game.py"
+        }).run()
+        ).trim().replace(/['"]+/g, '');
+        // Ask about the name of the characters_heads file
+        options.charactersHeadsPackageName = (await new enquirer.Input({
+          name: 'charactersHeadsPackageName',
+          message: `The filename of the package mod's characters_heads file`,
+          initial: "characters_heads.pkgb"
+        }).run()
+        ).trim().replace(/['"]+/g, '');
+        // Ask about the name of the mannequin folder and charinfo for MUA1 only
+        if (!xml2) {
+          options.mannequinFolder = (await new enquirer.Input({
+            name: 'mannequinFolder',
+            message: `The mannequin folder used by the package mod`,
+            initial: "mannequin"
+          }).run()
+          ).trim().replace(/['"]+/g, '');
+          options.charinfoName = (await new enquirer.Input({
+            name: 'charinfoName',
+            message: `The filename of the package mod's charinfo file`,
+            initial: "charinfo.xmlb"
+          }).run()
+          ).trim().replace(/['"]+/g, '');
+        }
+      } else {
+        options.exeName = xml2 ? "XMen2.exe" : "Game.exe";
+        options.herostatName = "herostat.engb";
+        options.newGamePyName = "new_game.py";
+        options.charactersHeadsPackageName = "characters_heads.pkgb";
+        options.mannequinFolder = "mannequin";
+        options.charinfoName = "charinfo.xmlb";
       }
 
       // Ask about unlocking characters
@@ -416,6 +431,15 @@ const main = async (automatic = false, xml2 = false) => {
     if (saveOptions) {
       fs.writeFileSync(configPath, JSON.stringify(options, null, 2));
     }
+  }
+
+  //check if data folder exists
+  const dataPath = path.resolve(options.gameInstallPath, "data");
+  if (!fs.existsSync(options.gameInstallPath)) {
+    throw new Error(`ERROR: folder not found\n${options.gameInstallPath}`);
+  }
+  if (!fs.existsSync(dataPath)) {
+    throw new Error(`ERROR: data folder not found\n${dataPath}`);
   }
 
   //load chosen roster and menulocations
@@ -627,7 +651,7 @@ const main = async (automatic = false, xml2 = false) => {
   //copy converted herostat to game data directory
   fs.copyFileSync(
     herostatOutputPath,
-    path.resolve(options.gameInstallPath, "data", options.herostatName)
+    path.resolve(dataPath, options.herostatName)
   );
   writeProgress(((++progressPoints) / operations) * 100);
 
@@ -666,7 +690,7 @@ const main = async (automatic = false, xml2 = false) => {
       compileRavenFormats(charinfo, "charinfo", "json");
       fs.copyFileSync(
         path.resolve("temp", "charinfo.xmlb"),
-        path.resolve(options.gameInstallPath, "data", options.charinfoName)
+        path.resolve(dataPath, options.charinfoName)
       );
     } else {
       Array.prototype.push.apply(scriptunlock, startchars.concat(unlockchars));
