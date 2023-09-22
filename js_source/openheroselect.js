@@ -801,7 +801,11 @@ const main = async (automatic = false, xml2 = false) => {
   if (!options.saveTempFiles) {
     fs.removeSync("temp");
   }
-  writeProgress(((++progressPoints) / operations) * 100);
+  if (options.showProgress) {
+    writeProgress(((++progressPoints) / operations) * 100);
+  } else {
+    console.log("Done");
+  }
 
   //launch game if desired
   const gamePath = path.resolve(options.gameInstallPath, options.exeName);
