@@ -259,7 +259,7 @@ const main = async (automatic = false, xml2 = false) => {
           options.menulocationsValue = "27 (Official Characters Pack)";
         } else if (!menulocationOptions.includes(options.menulocationsValue)) {
           console.error("ERROR: Invalid roster layout");
-          throw new Error("ERROR: Invalid roster layout");
+          throw new Error("Invalid roster layout");
         }
       } else {
         // XML2 PC is locked at 21 characters, while the consoles have different roster sizes.
@@ -287,7 +287,7 @@ const main = async (automatic = false, xml2 = false) => {
       }).run();
       if (!rosterOptions.includes(options.rosterValue)) {
         console.error("ERROR: Invalid roster");
-        throw new Error("ERROR: Invalid roster");
+        throw new Error("Invalid roster");
       }
 
       // PLATFORM SPECIFIC DEFAULT LOCATIONS
@@ -436,10 +436,10 @@ const main = async (automatic = false, xml2 = false) => {
   //check if data folder exists
   const dataPath = path.resolve(options.gameInstallPath, "data");
   if (!fs.existsSync(options.gameInstallPath)) {
-    throw new Error(`ERROR: folder not found\n${options.gameInstallPath}`);
+    throw new Error(`Folder not found\n${options.gameInstallPath}`);
   }
   if (!fs.existsSync(dataPath)) {
-    throw new Error(`ERROR: data folder not found\n${dataPath}`);
+    throw new Error(`Data folder not found\n${dataPath}`);
   }
 
   //load chosen roster and menulocations
@@ -488,7 +488,7 @@ const main = async (automatic = false, xml2 = false) => {
     let statsXML = "";
     let CharName = "";
     let CharNumber = "";
-    let NoHsError = "ERROR: No herostat found.";
+    let NoHsError = "No herostat found.";
 
     //define the base path, without extension and find all extensions, sorted by priority
     const ChrPth = item.replace(/^[/\\]+/, '').replace(/[/\\]+$/, '');
@@ -556,13 +556,13 @@ const main = async (automatic = false, xml2 = false) => {
 
     //check if menulocation exists
     if (!xml2 && (statsData.match(/menulocation/gi) || []).length !== 1) {
-      throw new Error(`ERROR: more or less than 1 occurrence of 'menulocation' found in ${item}`);
+      throw new Error(`More or less than 1 occurrence of 'menulocation' found in ${item}`);
     }
 
     //prepare the characters to unlock
     if (options.unlocker) {
       if (!CharName) {
-        throw new Error(`ERROR: no name found in ${item}`);
+        throw new Error(`No name found in ${item}`);
       }
       const c = rosterRaw[index];
       if (starterindex && c.indexOf("*") + 1) {
@@ -577,10 +577,10 @@ const main = async (automatic = false, xml2 = false) => {
 
     //prepare the number list
     if (!CharNumber) {
-      throw new Error(`ERROR: no skin found in ${item}`);
+      throw new Error(`No skin found in ${item}`);
     }
     let N_END = CharNumber.toString().slice(-2);
-    if (!xml2 || N_END < 10) {
+    if (!xml2 || N_END < 11) {
       N_END = "01";
     }
     const useNum = CharNumber.toString().slice(0, -2) + N_END;
@@ -668,8 +668,8 @@ const main = async (automatic = false, xml2 = false) => {
       const charinfoNum = Math.min(CHARINFO_LIMIT, rosterSz);
       let charinfo = CHARINFO_START;
       for (const [i, CharName] of allchars.entries()) {
-        let hero = HERO_START + `\n` + `            "name": "` + CharName + `"`;
-        if (i < STARTERS) {
+        let hero = HERO_START + `\n            "name": "${CharName}"`;
+        if (i < 1 || i < Math.min(startchars.length, STARTERS)) {
           hero += START_GAME;
         }
         if (i < unlockNum) {
@@ -702,16 +702,14 @@ const main = async (automatic = false, xml2 = false) => {
     const unlockScriptlines = [];
     //write the character unlocks
     for (const CharName of scriptunlock) {
-      const scriptline = `unlockCharacter("` + CharName + `", "" )`;
-      unlockScriptlines.push(scriptline);
+      unlockScriptlines.push(`unlockCharacter("${CharName}", "" )`);
     }
     //XML2 only: add the skin unlocks if selected
     if (options.unlockSkins && xml2) {
       //the skin categories for XML2
       const skinCategoryList = ["astonishing", "aoa", "60s", "70s", "weaponx", "future", "winter", "civilian"];
       for (const skinCategory of skinCategoryList) {
-        const scriptline = `unlockCharacter("", "` + skinCategory + `" )`;
-        unlockScriptlines.push(scriptline);
+        unlockScriptlines.push(`unlockCharacter("", "${skinCategory}" )`);
       }
     }
     //write to new_game.py
