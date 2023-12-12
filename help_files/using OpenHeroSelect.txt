@@ -20,6 +20,11 @@ Basic usage:
         You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
         Use the debug mode, if you get an error, which you can't solve right away. Debug mode will try to pinpoint the problematic herostat file.
     
+    Alternative Way to Generate a Herostat:
+        Each game has a roster_from_herostats.bat file to generate a herostat differently. Open the "mua" or "xml2" folder to find roster_from_herostats.bat next to config.ini. A config.ini must exist. If it doesn't run OpenHeroSelect and enter the configurations using the instructions above. If a config.ini exists, you can open the herostat folder ("xml" by default) and rename the files (herostats) as follows:
+        At the beginning of the filename enter the menulocation that you want this character at. For XML2 you can enter any number you want. If the herostat is called "Juggernaut", you can rename it to "12 Juggernaut" to place Juggernaut at location "12". You can also rename it to "12 Juggernaut Alt", if you want. You can also make a copy of the herosta first. Use the stage previews for menulocaton information. Important: Any files that start with a number will be added to the roster. In MUA, filenames with identical numbers will cause problems.
+        When you're done renaming the files (herostats), go back to the "mua" or "xml2" folder and run roster_from_herostats.bat (double-click on it). Let OHS finish its job before running the game.
+    
     Splitter for Old OHS Config Files:
         See the "converting from old versions" file, you only need this if you're converting a roster from OHS v1/v2 to the current format
 
