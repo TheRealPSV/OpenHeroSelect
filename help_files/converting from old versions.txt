@@ -13,8 +13,8 @@ Converting your old herostat.cfg from OpenHeroSelect v1/v2 into a roster cfg fil
     8. Run OpenHeroSelect with your new roster and make sure it works. Then you can delete your old herostat.cfg.
 
 Converting the original HeroSelect's herostat.cfg file into the old OpenHeroSelect v1/v2 version:
-	- data folder path is exactly the same (but you can put anything there, since it's no longer used)
-	- name list is slightly different: defaultman, team_character, and endoffile should be removed, OpenHeroSelect takes care of them.
-	- The old HeroSelect left a blank line between the list of names and the list of stats, replace this blank line with a line that just has 5 hyphens (-----). This is the divider OpenHeroSelect used to understand where the names end and stats begin.
-	- stat list is slightly different: defaultman, team_character, and endofffile stats should be removed. OpenHeroSelect takes care of them.
-	- Remove the "EOF" from the end of the file. This is no longer necessary and could cause issues.
+    - data folder path is exactly the same (but you can put anything there, since it's no longer used)
+    - name list is slightly different: defaultman, team_character, and endoffile should be removed, OpenHeroSelect takes care of them.
+    - The old HeroSelect left a blank line between the list of names and the list of stats, replace this blank line with a line that just has 5 hyphens (-----). This is the divider OpenHeroSelect used to understand where the names end and stats begin.
+    - stat list is slightly different: defaultman, team_character, and endofffile stats should be removed. OpenHeroSelect takes care of them.
+    - Remove the "EOF" from the end of the file. This is no longer necessary and could cause issues.

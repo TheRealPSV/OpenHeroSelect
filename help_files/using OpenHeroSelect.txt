@@ -1,12 +1,13 @@
 Basic usage:
     Usage is very simple, just run OpenHeroSelect.exe, select the function you need, and answer the questions it asks.
-    OpenHeroSelect does require Admin permissions so it can put your herostat in the right place when it's done.
+    OpenHeroSelect requires Admin permissions so it can put your herostat in the right place when it's done, including program files.
     
     Generate Herostat for Marvel: Ultimate Alliance:
         defaultman and team_character are handled for you
         When pasting in your path to MUA, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
             For example, if your game is at "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance\Game.exe", then you would just paste in "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance" without the quotes.
-        You'll be asked for the filename of your game's exe and herostat file, but the default should be fine unless you're using a special modpack with a different exe/herostat. You can define unlocked characters with a question mark (?) in the roster cfg file (simply add it to the character's line). The four starter characters are defined with an asterisk (*) in the same way. To use this configuration, you must answer 'yes' when asked.
+        You'll be asked whether you're using a modpack, such as the "MK on MUA Content". Only answer "yes" if you know that you're using one. This allows to set a different name for your game's exe and herostat file, as well as other files. See the "Package Mod File Names" help file for details.
+        If you answer "yes" at the "Update character unlocks?" question, characters are automatically unlocked when using default rosters (excl. Roster.cfg) or custom rosters with asterisks (*) and question marks (?). Answering "no" doesn't change unlocks and previous or vanilla configurations apply. See the "rosters, stats, menulocations" help file for details.
         OpenHeroSelect will ask you to save temp files, but you don't need to unless you're experiencing issues and need to save them for debugging purposes.
         You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
         Use the debug mode, if you get an error, which you can't solve right away. Debug mode will try to pinpoint the problematic herostat file.
@@ -15,7 +16,8 @@ Basic usage:
         defaultman is handled for you, and XML2 doesn't have a team_character
         When pasting in your path to XML2, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
             For example, if your game is at "D:\Program Files (x86)\Activision\X-Men Legends 2\XMen2.exe", then you would just paste in "D:\Program Files (x86)\Activision\X-Men Legends 2" without the quotes.
-        You'll be asked for the filename of your game's exe and herostat file, but the default should be fine unless you're using a special modpack with a different exe/herostat. You can define unlocked characters with a question mark (?) in the roster cfg file (simply add it to the character's line). To use this configuration, you must answer 'yes' when asked.
+        You'll be asked whether you're using a modpack, such as the "All X-Men Edition (AXE)". Only answer "yes" if you know that you're using one. This allows to set a different name for your game's exe and herostat file, as well as other files. See the "Package Mod File Names" help file for details.
+        If you answer "yes" at the "Update character unlocks?" question, characters are automatically unlocked when using default rosters (excl. Roster.cfg) or custom rosters with question marks (?). Answering "no" doesn't change unlocks and previous or vanilla configurations apply. See the "rosters, stats, menulocations" help file for details.
         OpenHeroSelect will ask you to save temp files, but you don't need to unless you're experiencing issues and need to save them for debugging purposes.
         You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
         Use the debug mode, if you get an error, which you can't solve right away. Debug mode will try to pinpoint the problematic herostat file.
@@ -35,6 +37,7 @@ Advanced usage:
     You can automate the OpenHeroSelect process.
     If you pass the -a flag to OpenHeroSelect, it will automatically run the MUA generator and look for and attempt to use the options from the saved config (If the saved config is not found or is malformed, it will exit with an error.)
     If you pass both the -a and -x flags, it will do the same but for XML2.
+
     You can create that JSON file, called "config.ini", inside the mua folder with your preferred options (create it inside the xml2 folder for the XML2 version). You can also run OpenHeroSelect normally once and opt to save the config for it to generate it for you. There is one secret setting, which you can't define with the dialogue: "herostatFolder". Use it to define a custom folder name or location, where you want ot keep the herostat files.
     Note that unlike in the interactive prompt, you do have to escape the special characters in config.ini.
     Example config.ini for MUA:
@@ -45,6 +48,10 @@ Advanced usage:
             "gameInstallPath": "C:\\Program Files (x86)\\Activision\\Marvel - Ultimate Alliance",
             "exeName": "Game.exe",
             "herostatName": "herostat.engb",
+            "newGamePyName": "new_game.py",
+            "charactersHeadsPackageName": "characters_heads.pkgb",
+            "mannequinFolder": "mannequin",
+            "charinfoName": "charinfo.xmlb",
             "unlocker": false,
             "launchGame": false,
             "saveTempFiles": false
@@ -59,13 +66,17 @@ Advanced usage:
             "gameInstallPath": "C:\\Program Files (x86)\\Activision\\X-Men Legends 2",
             "exeName": "XMen2.exe",
             "herostatName": "herostat.engb",
+            "newGamePyName": "new_game.py",
+            "charactersHeadsPackageName": "characters_heads.pkgb",
             "unlocker": false,
+            "unlockSkins": false,
             "launchGame": false,
             "saveTempFiles": false
             "showProgress": true,
             "debugMode": false,
             "herostatFolder": "xml"
         }
+
     It's possible to access BaconWizard17's converter, which is included in OpenHeroSelect.exe, with the -c flag. Optionally, provide a file after the -c argument. This converts to a json file with the same name. To convert to engb, include json2xmlb.exe like this (from a console):
       > OpenHeroSelect -c "D:\MUA 1\data\herostat.txt"
       > json2xmlb "D:\MUA 1\data\herostat.json" "D:\MUA 1\data\herostat.engb"

@@ -1,42 +1,46 @@
 File Types for both games:
     In the menulocations folder and rosters folder, all files need to end with the .cfg extension for OHS to find them.
 
+    Warning: you cannot have extra data in any of these files. Comments or extra lines outside the stats/menulocations/rosters data inside their files are not supported.
+
+Herostats for both games ("xml" folder inside in the "mua" and "xml2" folders):
     Put all herostats in the xml folder. You can put in .txt files or any file you like, for example, if a downloaded character came with a .txt file containing the stats, you don't have to rename the file to end in .xml or .json.
     One important thing to note, if 2 files exist in the same folder with different extensions (like if you have spiderman.xml and spiderman.txt both in the xml folder) OHS may end up using the wrong stat.
-    You can use sub-folders for the files, such as a booster sub-folder, a json sub-folder (if you use the JSON format, for example), or an Avengers sub-folder. When you do that, you need to specify that sub-folder in the roster CFG file, like so: "Avengers/Black Panther" (without double-quotes). You can make sub-folders in the sub-folders as well (eg. "xml/Avengers/Black Panther").
-    You can change the name of the xml folder of each game (i.e. "[OHSfolder]/mua/xml"). Check "using OpenHeroSelect.txt" for that.
+    You can use sub-folders for the files, such as a booster sub-folder, a json sub-folder (if you use the JSON format, for example), or an Avengers sub-folder. When you do that, you need to specify that sub-folder in the roster CFG file, like so: "Avengers/Black Panther" (without double-quotes). You can make sub-folders in the sub-folders as well (eg. "json/Avengers/Black Panther").
+    Stats can be in either "xml" files (not real xml files, but the format the game uses), json files or true xml files. Each stat entry should be in its own file.
+    If a json file and xml file are found with the same name, OHS will use the json file. The priority by extension is: json > txt > xml. They are tested for content and used if valid. An error will be thrown if no format is detected in the corresponding files (for the first such file). To use the true XML format, only use herostats with this format (don't mix) and make sure that no other herostat file with the same name exists in the same folder, as both other formats take priority.
+    You can change the name of the xml folder of each game (default for mua is "[OHSfolder]/mua/xml"). Check "using OpenHeroSelect.txt" for that.
 
-    Warning: you cannot have extra data in any of these files. Comments or extra lines outside the stats/menulocations/rosters data inside their files are not supported.
+Rosters for both games ("rosters" folder inside in the "mua" and "xml2" folders):
+    Individual rosters can be placed in the rosters folder, and should end with ".cfg". (roster.cfg, bigroster.cfg, etc.)
+    Each name in the roster file should match a stats file in the herostats folder (xml) exactly, without extension. It's highly recommended to use rename in file explorer, which selects the file name automatically, then copy this selection to paste it on a new line in the roster file.
 
 Marvel: Ultimate Alliance:
     All these folders and files are found in the mua folder.
 
-    Menulocations (roster layout) files should be placed in the menulocations folder, and should end with ".cfg".
-    You shouldn't need to modify these files unless new roster hacks become available (though OHS will be updated to include a new menulocations file for them anyway). The included ones should cover existing roster hacks/sizes.
-    Menulocation files are named based on the size of the roster and version of the roster hack, if applicable.
-    The provided menulocations are ordered left-to-right, ignoring whether the character is in the front or back. This means you should order your roster in the order you want your characters, left to right.
+    Menulocations:
+        Menulocations (roster layout) files should be placed in the menulocations folder, and should end with ".cfg".
+        You shouldn't need to modify these files unless new roster hacks become available (though OHS will be updated to include a new menulocations file for them anyway). The included ones should cover existing roster hacks/sizes.
+        Menulocation files are named based on the size of the roster and version of the roster hack, if applicable.
 
-    Individual rosters can be placed in the rosters folder, and should end with ".cfg". (roster.cfg, bigroster.cfg, etc.)
-    Each name in the roster file should match a stats file in either the json or xml folder.
-    It's completely fine to have more characters in your roster file than in the menulocations file that you pick. OHS will only include the first n number of characters.
-        For example, if your roster has 55 characters, but you're only using the default 27 size roster/menulocations file, your generated herostat will only include the first 27 characters from your roster.
+    Rosters:
+        The provided menulocations are ordered left-to-right, ignoring whether the character is in the front or back. This means you should order your roster in the order you want your characters, left to right.
+        It's completely fine to have more characters in your roster file than in the menulocations file that you pick. OHS will only include the first n number of characters.
+            For example, if your roster has 55 characters, but you're only using the default 27 size roster/menulocations file, your generated herostat will only include the first 27 characters from your roster.
 
-    Stats can be in either "xml" files (not real xml files, but the format the game uses), json files or true xml files. Each stat entry should be in its own file.
-    If a json file and xml file are found with the same name, OHS will use the json file. The priority by extension is: json > txt > xml. They are tested for content and used if valid. An error will be thrown if no format is detected in the corresponding files (usually just one). If someone wants to use the true XML format, he needs to make sure that no other herostat files with the same name exists, as both other formats take priority.
+        To define a character to be unlocked, add a question mark (?) to the character's line. The four starter characters are defined with an asterisk (*) in the same way (starters are always unlocked).
 
     The default distribution includes a roster file, stats, and menulocations that will work for all roster hacks, including the default 27, as long as you have the latest Official Characters Pack installed.
 
 X-Men Legends II:
     All these folders and files are found in the xml2 folder.
 
-    The game has a fixed roster layout, so there are no menulocations. You will be asked to select a roster size, which is based on the platform you're compiling for.
+    The game doesn't have mannequins, so there are no menulocations. You will be asked to select a roster size instead, which is based on the platform you're compiling for.
 
-    Individual rosters can be placed in the rosters folder, and should end with ".cfg". (roster.cfg, bigroster.cfg, etc.)
-    Each name in the roster file should match a stats file in either the json or xml folder.
-    It's completely fine to have more characters in your roster file than the default 20. OHS will only include the first n number of characters.
-        For example, if your roster has 55 characters, your generated herostat will only include the first 20 characters from your roster.
+    Rosters:
+        It's completely fine to have more characters in your roster file than the roster size that you pick. OHS will only include the first n number of characters.
+            For example, if your roster has 55 characters and you picked PC as the platform (roster size of 21), your generated herostat will only include the first 21 characters from your roster.
 
-    Stats can be in either "xml" files (not real xml files, but the format the game uses), json files or true xml files. Each stat entry should be in its own file.
-    If a json file and xml file are found with the same name, OHS will use the json file. The priority by extension is: json > txt > xml. They are tested for content and used if valid. An error will be thrown if no format is detected in the corresponding files (usually just one). If someone wants to use the true XML format, he needs to make sure that no other herostat files with the same name exists, as both other formats take priority.
+        To define a character to be unlocked, add a question mark (?) to the character's line.
 
     The default distribution includes a roster file and stats that should generate the default herostat.
