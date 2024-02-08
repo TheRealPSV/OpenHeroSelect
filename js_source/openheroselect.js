@@ -375,8 +375,10 @@ const main = async (automatic = false, xml2 = false) => {
         options.herostatName = "herostat.engb";
         options.newGamePyName = "new_game.py";
         options.charactersHeadsPackageName = "characters_heads.pkgb";
-        options.mannequinFolder = "mannequin";
-        options.charinfoName = "charinfo.xmlb";
+        if (!xml2) {
+          options.mannequinFolder = "mannequin";
+          options.charinfoName = "charinfo.xmlb";
+        }
       }
 
       // Ask about unlocking characters

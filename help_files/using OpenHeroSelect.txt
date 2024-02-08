@@ -6,21 +6,23 @@ Basic usage:
         defaultman and team_character are handled for you
         When pasting in your path to MUA, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
             For example, if your game is at "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance\Game.exe", then you would just paste in "D:\Program Files (x86)\Activision\Marvel - Ultimate Alliance" without the quotes.
-        You'll be asked whether you're using a modpack, such as the "MK on MUA Content". Only answer "yes" if you know that you're using one. This allows to set a different name for your game's exe and herostat file, as well as other files. See the "Package Mod File Names" help file for details.
-        If you answer "yes" at the "Update character unlocks?" question, characters are automatically unlocked when using default rosters (excl. Roster.cfg) or custom rosters with asterisks (*) and question marks (?). Answering "no" doesn't change unlocks and previous or vanilla configurations apply. See the "rosters, stats, menulocations" help file for details.
+        You'll be asked whether you're using a package mod, such as the "MK on MUA Content". Only answer "yes" if you know that you're using one. This allows to set a different name for your game's exe and herostat file, as well as other files. See the "Package Mod File Names" help file for details.
+        If you answer "yes" at the "Update character unlocks?" question, characters marked with asterisks (*) or question marks (?) are automatically unlocked. *
         OpenHeroSelect will ask you to save temp files, but you don't need to unless you're experiencing issues and need to save them for debugging purposes.
         You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
-        Use the debug mode, if you get an error, which you can't solve right away. Debug mode will try to pinpoint the problematic herostat file.
+        Use the debug mode ("Test herostats?"), if you get an error, which you can't solve right away. Debug mode will try to pinpoint the problematic herostat file.
     
     Generate Herostat for X-Men Legends II:
         defaultman is handled for you, and XML2 doesn't have a team_character
         When pasting in your path to XML2, you should paste in the path of the folder that contains the game, but don't include Game.exe itself. Also you shouldn't need to escape any characters.
             For example, if your game is at "D:\Program Files (x86)\Activision\X-Men Legends 2\XMen2.exe", then you would just paste in "D:\Program Files (x86)\Activision\X-Men Legends 2" without the quotes.
-        You'll be asked whether you're using a modpack, such as the "All X-Men Edition (AXE)". Only answer "yes" if you know that you're using one. This allows to set a different name for your game's exe and herostat file, as well as other files. See the "Package Mod File Names" help file for details.
-        If you answer "yes" at the "Update character unlocks?" question, characters are automatically unlocked when using default rosters (excl. Roster.cfg) or custom rosters with question marks (?). Answering "no" doesn't change unlocks and previous or vanilla configurations apply. See the "rosters, stats, menulocations" help file for details.
+        You'll be asked whether you're using a package mod, such as the "All X-Men Edition (AXE)". Only answer "yes" if you know that you're using one. This allows to set a different name for your game's exe and herostat file, as well as other files. See the "Package Mod File Names" help file for details.
+        If you answer "yes" at the "Update character unlocks?" question, characters marked with question marks (?) are automatically unlocked. *
         OpenHeroSelect will ask you to save temp files, but you don't need to unless you're experiencing issues and need to save them for debugging purposes.
         You will be asked if you want to save your config to a file. If you say yes, then the next time you run OpenHeroSelect, it will ask you if you want to reuse your existing configuration so you can quickly regenerate your herostat.
-        Use the debug mode, if you get an error, which you can't solve right away. Debug mode will try to pinpoint the problematic herostat file.
+        Use the debug mode ("Test herostats?"), if you get an error, which you can't solve right away. Debug mode will try to pinpoint the problematic herostat file.
+
+    * See the "rosters, stats, menulocations" help file for details. Answering "no" doesn't change unlocks and previous or vanilla configurations apply. MO2 Method: Unlocks only update correctly, if a new_game.py (name may differ if using a package mod) is present in the mod folder > scripts > menus.
     
     Splitter for Old OHS Config Files:
         See the "converting from old versions" file, you only need this if you're converting a roster from OHS v1/v2 to the current format
