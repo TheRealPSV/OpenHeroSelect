@@ -375,8 +375,10 @@ const main = async (automatic = false, xml2 = false) => {
         options.herostatName = "herostat.engb";
         options.newGamePyName = "new_game.py";
         options.charactersHeadsPackageName = "characters_heads.pkgb";
-        options.mannequinFolder = "mannequin";
-        options.charinfoName = "charinfo.xmlb";
+        if (!xml2) {
+          options.mannequinFolder = "mannequin";
+          options.charinfoName = "charinfo.xmlb";
+        }
       }
 
       // Ask about unlocking characters
@@ -841,16 +843,23 @@ function compileRavenFormats(data, filename, ext) {
 
 function writeUnlockScripts(filename, unlocks) {
   const newScriptlines = [];
+  const lastScriptlines = [];
   const unlockScriptFile = path.resolve("temp", "new_game.py");
   const scriptFile = fs.readFileSync(filename, "utf8");
   const scriptlines = scriptFile.split(/\r?\n/m);
   //copy other script lines that are not unlocks
+  let last = false;
   for (const scriptline of scriptlines) {
-    if (!scriptline.includes("unlockCharacter(")) {
-      newScriptlines.push(scriptline);
+    if (!scriptline.match(/unlockCharacter\(/i)) {
+      if (scriptline.match(/^\s*(loadZoneAddTeam|loadMapStartGame)/i) || last) {
+        lastScriptlines.push(scriptline);
+        last = true;
+      } else {
+        newScriptlines.push(scriptline);
+      }
     }
   }
-  Array.prototype.push.apply(newScriptlines, unlocks);
+  Array.prototype.push.apply(newScriptlines, unlocks.concat(lastScriptlines));
   fs.writeFileSync(unlockScriptFile, newScriptlines.join("\r\n"));
   fs.copyFileSync(unlockScriptFile, filename);
 }
