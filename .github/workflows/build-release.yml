@@ -86,13 +86,17 @@ jobs:
     runs-on: windows-latest
     permissions:
       contents: write
-    needs: check-tag
+    needs: 
+      - check-tag
+      - build-release
     if: ${{ needs.check-tag.outputs.newbuild == 'true' }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v3.1.0
     - name: Set up NASM
       uses: ilammy/setup-nasm@v1.5.1
+    - name: Install patch
+      run: choco install patch
     - name: Setup Node.js
       uses: actions/setup-node@v4.0.2
       with:

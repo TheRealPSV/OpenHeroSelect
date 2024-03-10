@@ -11,7 +11,7 @@
     "build": "npm run envsetup && node ./_build.js",
     "build32": "npm run envsetup && node ./_build.js --compat32",
     "distpackage": "npm run fullclean && npm run build && node ./_build.js -p",
-    "distpackage32": "npm run fullclean && npm run build && node ./_build.js -p",
+    "distpackage32": "npm run fullclean && npm run build32 && node ./_build.js -p --compat32",
     "buildohs": "npm run envsetup && node ./_build.js -t ohs",
     "buildohs32": "npm run envsetup && node ./_build.js -t ohs --compat32",
     "buildjson2xmlb": "node ./_build.js -t json2xmlb",
