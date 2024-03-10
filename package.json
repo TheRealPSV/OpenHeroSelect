@@ -1,6 +1,6 @@
 {
   "name": "openheroselect",
-  "version": "4.8.5",
+  "version": "4.9.0",
   "description": "Open Source HeroSelect for Marvel Ultimate Alliance (2006)",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,13 @@
     "clean": "npm i && npm run envsetup && node ./_build.js -c",
     "fullclean": "npm i && npm run envsetup && node ./_build.js -f",
     "build": "npm run envsetup && node ./_build.js",
+    "build32": "npm run envsetup && node ./_build.js --compat32",
     "distpackage": "npm run fullclean && npm run build && node ./_build.js -p",
+    "distpackage32": "npm run fullclean && npm run build && node ./_build.js -p",
     "buildohs": "npm run envsetup && node ./_build.js -t ohs",
+    "buildohs32": "npm run envsetup && node ./_build.js -t ohs --compat32",
     "buildjson2xmlb": "node ./_build.js -t json2xmlb",
+    "buildjson2xmlb32": "node ./_build.js -t json2xmlb --compat32",
     "buildcopyfiles": "node ./_build.js -t copyfiles"
   },
   "bin": {
@@ -29,6 +33,7 @@
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
+    "@yao-pkg/pkg": "^5.11.4",
     "7zip-bin": "^5.1.1",
     "eslint": "^8.21.0",
     "eslint-config-standard": "^17.0.0",
@@ -37,10 +42,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "node-7z": "^3.0.0",
-    "pkg": "^5.5.2",
     "rcedit": "^3.0.1"
-  },
-  "volta": {
-    "node": "16.18.0"
   }
 }

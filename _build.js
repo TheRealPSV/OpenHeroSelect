@@ -12,8 +12,8 @@ const { exit } = require("process");
 
 //must be before importing pkg/pkgFetch for rcedit cache replacement to work
 process.env.PKG_CACHE_PATH = path.resolve('.pkg-cache');
-const pkg = require("pkg");
-const pkgFetch = require("pkg-fetch");
+const pkg = require("@yao-pkg/pkg");
+const pkgFetch = require("@yao-pkg/pkg-fetch");
 const rcedit = require("rcedit");
 
 const PATH_TO_7ZIP = sevenBin.path7za;
@@ -51,13 +51,17 @@ const main = async () => {
 
   //package existing build folder
   if (args.p) {
+    let compatString = '';
+    if (args.compat32) {
+      compatString = "-32";
+    }
     fs.mkdirSync(path.resolve("temp"));
-    const packageFolder = `OpenHeroSelect-v${packageinfo.version}`;
+    const packageFolder = `OpenHeroSelect${compatString}-v${packageinfo.version}`;
     fs.copySync(path.resolve("build"), path.resolve("temp", packageFolder), { recursive: true });
     fs.mkdirSync("dist");
     fs.copyFileSync(path.resolve("LICENSE"), path.resolve("temp", packageFolder, "LICENSE.txt"));
     fs.writeFile(path.resolve("temp", packageFolder, "Source Code.txt"), "Source code available at https://github.com/TheRealPSV/OpenHeroSelect");
-    const zipStream = node7z.add(path.resolve("dist", "OpenHeroSelect.7z"), path.resolve("temp", packageFolder),
+    const zipStream = node7z.add(path.resolve("dist", `OpenHeroSelect${compatString}.7z`), path.resolve("temp", packageFolder),
       {
         recursive: true,
         $bin: PATH_TO_7ZIP
@@ -77,7 +81,12 @@ const main = async () => {
   if (!args.t || args.t.includes("ohs")) {
     console.log("building ohs");
     const description = "The main OpenHeroSelect program.";
-    await runPkg("index.js", MAIN_ICON_FILE_NAME, description, MAIN_AUTHOR_STRING, "OpenHeroSelect.exe", true);
+    let compat32 = false;
+    if (args.compat32) {
+      compat32 = true;
+      console.log("attempting 32-bit compatibility mode");
+    }
+    await runPkg("index.js", MAIN_ICON_FILE_NAME, description, MAIN_AUTHOR_STRING, "OpenHeroSelect.exe", true, compat32);
   }
 
   //json2xmlb
@@ -113,9 +122,20 @@ function streamToPromise(stream) {
   });
 }
 
-async function runPkg(SourceJSFileName, iconFileName, fileDescription, author, exeOutputFileName, requireAdmin) {
-  const pkgTarget = 'latest-win-x64';
-  const cacheExe = await downloadCache(pkgTarget);
+async function runPkg(SourceJSFileName, iconFileName, fileDescription, author, exeOutputFileName, requireAdmin, compat32) {
+  let pkgTarget;
+  let cacheExe;
+  const pkgCachePath = path.resolve(".pkg-cache");
+  fs.ensureDirSync(pkgCachePath);
+  if (compat32) {
+    pkgTarget = 'latest-win-x86';
+    cacheExe = await downloadCache(pkgTarget);
+    // cacheExe = path.resolve(`${pkgCachePath}\\${pkgTarget}`);
+    // fs.copySync(path.resolve(`node-${pkgTarget}`), cacheExe);
+  } else {
+    pkgTarget = 'latest-win-x64';
+    cacheExe = await downloadCache(pkgTarget);
+  }
   await editNodeJSExeData(cacheExe, iconFileName, fileDescription, author, requireAdmin);
   const commands = [path.resolve("js_source", SourceJSFileName), "--public",
     "--targets", pkgTarget, "--compress", "Brotli",
