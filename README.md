@@ -1,6 +1,13 @@
 # OpenHeroSelect
 Extendable HeroSelect script for Marvel Ultimate Alliance and X-Men Legends II
 
+## Download
+* Download the latest 64-bit version here (you probably want this one): [Latest Release (64-bit)](https://github.com/TheRealPSV/OpenHeroSelect/releases/latest/download/OpenHeroSelect.7z)
+* Download the latest 32-bit version here (this is only for very old computers): [Latest Release (32-bit)](https://github.com/TheRealPSV/OpenHeroSelect/releases/latest/download/OpenHeroSelect-32.7z)
+* View latest version release info here: [Latest Release info](https://github.com/TheRealPSV/OpenHeroSelect/releases/latest)
+
+Please note that 32-bit versions take longer to generate, so the latest release of the 32-bit version may not be available for a while after the 64-bit version is created.
+
 ## Usage instructions
 [Instructions](help_files/)
 
@@ -21,9 +28,9 @@ Extendable HeroSelect script for Marvel Ultimate Alliance and X-Men Legends II
 * `npm run distpackage`: Cleans out the build/cache files, rebuilds the project, and packages it for distribution inside the `dist/` folder.
 * `npm run distpackage32`: Cleans out the build/cache files, rebuilds the project, and packages it for distribution inside the `dist/` folder, attempts to create a 32-bit compatible version.
 * `npm run buildohs`: Build only OpenHeroSelect.exe
-* `npm run buildohs`: Build only OpenHeroSelect.exe, attempts to create a 32-bit compatible version
+* `npm run buildohs32`: Build only OpenHeroSelect.exe, attempts to create a 32-bit compatible version
 * `npm run buildjson2xmlb`: Build only json2xmlb.exe
-* `npm run buildjson2xmlb`: Build only json2xmlb.exe, attempts to create a 32-bit compatible version
+* `npm run buildjson2xmlb32`: Build only json2xmlb.exe, attempts to create a 32-bit compatible version
 * `npm run buildcopyfiles`: Copy supporting files to build/ directory
 
 

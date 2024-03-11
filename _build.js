@@ -124,18 +124,12 @@ function streamToPromise(stream) {
 
 async function runPkg(SourceJSFileName, iconFileName, fileDescription, author, exeOutputFileName, requireAdmin, compat32) {
   let pkgTarget;
-  let cacheExe;
-  const pkgCachePath = path.resolve(".pkg-cache");
-  fs.ensureDirSync(pkgCachePath);
   if (compat32) {
     pkgTarget = 'latest-win-x86';
-    cacheExe = await downloadCache(pkgTarget);
-    // cacheExe = path.resolve(`${pkgCachePath}\\${pkgTarget}`);
-    // fs.copySync(path.resolve(`node-${pkgTarget}`), cacheExe);
   } else {
     pkgTarget = 'latest-win-x64';
-    cacheExe = await downloadCache(pkgTarget);
   }
+  const cacheExe = await downloadCache(pkgTarget);
   await editNodeJSExeData(cacheExe, iconFileName, fileDescription, author, requireAdmin);
   const commands = [path.resolve("js_source", SourceJSFileName), "--public",
     "--targets", pkgTarget, "--compress", "Brotli",
