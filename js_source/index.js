@@ -28,9 +28,12 @@ const main = async () => {
   console.log(` VERSION ${process.env.PACKAGE_VERSION}`);
   console.log(" https://marvelmods.com/forum/index.php/topic,10597.0.html\n");
 
+  //define args variable for local access (catch and finally)
+  let args = {};
+
   try {
     //grab args
-    const args = minimist(process.argv.slice(2));
+    args = minimist(process.argv.slice(2));
 
     //remove old error log
     fs.removeSync(path.resolve("error.log"));
@@ -53,7 +56,7 @@ const main = async () => {
           message: `File to convert with extension (right-click to paste)`,
           initial: "herostat.txt"
         }).run()
-        ).trim().replace(/['"]+/g, '');
+        ).trim().replaceAll('"', '');
       }
       glob.sync(infiles).forEach(infile => {
         outfile = infile.replace(/\.[^.]+$/, "") + ".json";
@@ -101,19 +104,18 @@ const main = async () => {
       default:
         console.error("ERROR: Invalid input");
     }
-
-    await new enquirer.Invisible({
-      name: 'close',
-      message: 'Press Enter to close'
-    }).run();
   } catch (e) {
     fs.writeFileSync("error.log", e.stack);
     console.error("Program hit an error, wrote error to error.log");
     process.exitCode = 1;
-    await new enquirer.Invisible({
-      name: 'close',
-      message: 'Press Enter to close'
-    }).run();
+  } finally {
+    //don't display message on quiet mode
+    if (!args.q) {
+      await new enquirer.Invisible({
+        name: 'close',
+        message: 'Press Enter to close'
+      }).run();
+    }
   }
 };
 
