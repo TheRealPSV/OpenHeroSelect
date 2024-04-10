@@ -16,6 +16,7 @@ module.exports = [
       "linebreak-style": "off",
       "max-len": "off",
       "no-unused-vars": ["error", { caughtErrors: "none" }],
+      "no-var": "error",
       "operator-linebreak": ["error", "before", { overrides: { "=": "after" } }],
       "prefer-const": "error",
       quotes: "off",
