@@ -13,7 +13,7 @@ jobs:
       newtag: ${{ steps.check-result.outputs.newtag }}
     steps:
     - name: Wait on check
-      uses: lewagon/wait-on-check-action@v1.3.1
+      uses: lewagon/wait-on-check-action@v1.3.4
       with:
         ref: ${{ github.ref }}
         check-name: 'ESLint Check'
@@ -25,10 +25,10 @@ jobs:
         fetch-depth: 0
     - name: Get latest tag
       id: previous-tag
-      uses: WyriHaximus/github-action-get-previous-tag@v1.2.2
+      uses: WyriHaximus/github-action-get-previous-tag@v1.4.0
     - name: Get project version
       id: project-version
-      uses: euberdeveloper/ga-project-version@v2.1.0
+      uses: euberdeveloper/ga-project-version@v3.0.0
       with:
         package-manager: npm
     - name: Get versions
@@ -72,7 +72,7 @@ jobs:
     - name: Build release artifact
       run: npm run distpackage
     - name: Create release
-      uses: softprops/action-gh-release@v2.0.2
+      uses: softprops/action-gh-release@v2.0.4
       with: 
         token: "${{ secrets.GITHUB_TOKEN }}"
         tag_name: ${{ needs.check-tag.outputs.newtag }}
@@ -115,7 +115,7 @@ jobs:
     - name: Build release artifact
       run: npm run distpackage32
     - name: Add file to release
-      uses: softprops/action-gh-release@v2.0.2
+      uses: softprops/action-gh-release@v2.0.4
       with: 
         token: "${{ secrets.GITHUB_TOKEN }}"
         tag_name: ${{ needs.check-tag.outputs.newtag }}
