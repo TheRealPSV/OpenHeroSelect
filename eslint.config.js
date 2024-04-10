@@ -17,6 +17,7 @@ module.exports = [
       "max-len": "off",
       "no-unused-vars": ["error", { caughtErrors: "none" }],
       "operator-linebreak": ["error", "before", { overrides: { "=": "after" } }],
+      "prefer-const": "error",
       quotes: "off",
       semi: ["error", "always"],
       "space-before-function-paren": ["error", {
