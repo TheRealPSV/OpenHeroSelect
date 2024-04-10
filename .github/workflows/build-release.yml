@@ -20,7 +20,7 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         wait-interval: 30
     - name: Checkout code
-      uses: actions/checkout@v3.1.0
+      uses: actions/checkout@v4.1.1
       with:
         fetch-depth: 0
     - name: Get latest tag
@@ -56,15 +56,15 @@ jobs:
     if: ${{ needs.check-tag.outputs.newbuild == 'true' }}
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3.1.0
+      uses: actions/checkout@v4.1.1
     - name: Setup Node.js
       uses: actions/setup-node@v4.0.2
       with:
-        node-version: '16.18'
+        node-version-file: '.nvmrc'
     - name: Setup Python
-      uses: actions/setup-python@v5.0.0
+      uses: actions/setup-python@v5.1.0
       with:
-        python-version: '3.10'
+        python-version-file: '.python-version'
     - name: Install npm modules
       run: npm ci
     - name: Install pip modules
@@ -92,7 +92,7 @@ jobs:
     if: ${{ needs.check-tag.outputs.newbuild == 'true' }}
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3.1.0
+      uses: actions/checkout@v4.1.1
     - name: Set up NASM
       uses: ilammy/setup-nasm@v1.5.1
     - name: Setup scoop
@@ -102,11 +102,11 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4.0.2
       with:
-        node-version: '16.18'
+        node-version-file: '.nvmrc'
     - name: Setup Python
-      uses: actions/setup-python@v5.0.0
+      uses: actions/setup-python@v5.1.0
       with:
-        python-version: '3.10'
+        python-version-file: '.python-version'
         architecture: 'x86'
     - name: Install npm modules
       run: npm ci

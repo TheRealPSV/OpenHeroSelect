@@ -12,9 +12,9 @@ Please note that 32-bit versions take longer to generate, so the latest release 
 [Instructions](help_files/)
 
 ## Developing/Building instructions
-* Requires python/pip (recommended Python version is 3.10) and nodejs/npm (recommended Node.JS version is 16.18) to be installed
+* Requires python/pip (recommended Python version is 3.12.1) and nodejs/npm (recommended Node.JS version is 20.12.1) to be installed
   * If using a node version management tool like [fnm](https://github.com/Schniz/fnm), you can simply type `fnm use` to use the nodejs version defined in `.nvmrc`.
-  * If using a python version management tool like [pyenv-win](https://github.com/pyenv-win/pyenv-win), you can simply type `pyenv local` to make sure you're using the python version defined in `.python-version`.
+  * If using a python version management tool like [pyenv-win](https://github.com/pyenv-win/pyenv-win), you can simply type `pyenv install $(get-content .python-version)` to make sure you're using the python version defined in `.python-version`.
 * Recommended to use `eslint --fix` with provided `.eslintrc.js` to reformat code
 * The build script should automatically add the icon and version info to the generated exes, version info is based on what's set in `package.json`
 * Don't forget to run `npm i` to bring in the required dependencies, before doing anything else; also run this command after changing the project version in `package.json`, before committing the version number change
