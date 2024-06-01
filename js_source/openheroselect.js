@@ -471,7 +471,7 @@ const main = async (automatic = false, xml2 = false) => {
     .slice(0, Math.min(rosterRaw.length, menulocations.length))
     .map((item) => item.replaceAll("*", "").replaceAll("?", ""));
 
-  let operations = rosterList.length * 2 + 6;
+  const operations = rosterList.length * 2 + 6;
   let progressPoints = 0;
 
   //get the path from the secret option
@@ -491,7 +491,7 @@ const main = async (automatic = false, xml2 = false) => {
   const herostatFiles = [];
 
   //read the available herostats from disk, sorted by extension priority
-  const FnF = fs.readdirSync(herostatPath, { recursive: true })
+  const FnF = fs.readdirSync(herostatPath, { recursive: true });
   for (const e of EXTENSIONS) {
     herostatFiles.push(...FnF.filter(f => path.extname(f).toLowerCase() === `.${e}`));
   }
