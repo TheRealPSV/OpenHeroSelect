@@ -6,7 +6,6 @@ const fs = require("fs-extra");
 const path = require("path");
 const cspawn = require("cross-spawn");
 const minimist = require("minimist");
-const sevenBin = require("7zip-bin");
 const node7z = require("node-7z");
 const { exit } = require("process");
 
@@ -15,8 +14,6 @@ process.env.PKG_CACHE_PATH = path.resolve('.pkg-cache');
 const pkg = require("@yao-pkg/pkg");
 const pkgFetch = require("@yao-pkg/pkg-fetch");
 const rcedit = require("rcedit");
-
-const PATH_TO_7ZIP = sevenBin.path7za;
 
 const PYTHON_EXE_VERSION_CONFIG_TEMPLATE_FILE = "python_exe_version_config_template.py";
 const MAIN_ICON_FILE_NAME = "SHIELD_Logo.ico";
@@ -51,10 +48,7 @@ const main = async () => {
 
   //package existing build folder
   if (args.p) {
-    let compatString = '';
-    if (args.compat32) {
-      compatString = "-32";
-    }
+    const compatString = (args.p === true) ? '' : `-${args.p}`;
     fs.mkdirSync(path.resolve("temp"));
     const packageFolder = `OpenHeroSelect${compatString}-v${packageinfo.version}`;
     fs.copySync(path.resolve("build"), path.resolve("temp", packageFolder), { recursive: true });
@@ -63,8 +57,7 @@ const main = async () => {
     fs.writeFile(path.resolve("temp", packageFolder, "Source Code.txt"), "Source code available at https://github.com/TheRealPSV/OpenHeroSelect");
     const zipStream = node7z.add(path.resolve("dist", `OpenHeroSelect${compatString}.7z`), path.resolve("temp", packageFolder),
       {
-        recursive: true,
-        $bin: PATH_TO_7ZIP
+        recursive: true
       });
     await streamToPromise(zipStream);
     fs.removeSync(path.resolve("temp"));
@@ -81,19 +74,17 @@ const main = async () => {
   if (!args.t || args.t.includes("ohs")) {
     console.log("building ohs");
     const description = "The main OpenHeroSelect program.";
-    let compat32 = false;
-    if (args.compat32) {
-      compat32 = true;
+    if (args.a.slice(-2) == '86') {
       console.log("attempting 32-bit compatibility mode");
     }
-    await runPkg("index.js", MAIN_ICON_FILE_NAME, description, MAIN_AUTHOR_STRING, "OpenHeroSelect.exe", true, compat32);
+    await runPkg("index.js", MAIN_ICON_FILE_NAME, description, MAIN_AUTHOR_STRING, "OpenHeroSelect.exe", true, args.a);
   }
 
   //json2xmlb
   if (!args.t || args.t.includes("json2xmlb")) {
     console.log("building json2xmlb");
     const description = "Converts between json files and xmlb/engb files.";
-    await runPyInstaller("xmlb (raven-formats by nikita488).py", MAIN_ICON_FILE_NAME, description, "nikita488 @ MarvelMods", "json2xmlb.exe");
+    await runPyInstaller("xmlb (raven-formats by nikita488).py", MAIN_ICON_FILE_NAME, description, "nikita488 @ MarvelMods", "json2xmlb.exe", args.a.slice(0, 5) === 'linux');
   }
 
   //copyfiles
@@ -122,35 +113,41 @@ function streamToPromise(stream) {
   });
 }
 
-async function runPkg(SourceJSFileName, iconFileName, fileDescription, author, exeOutputFileName, requireAdmin, compat32) {
-  let pkgTarget;
-  if (compat32) {
-    pkgTarget = 'latest-win-x86';
-  } else {
-    pkgTarget = 'latest-win-x64';
-  }
+async function runPkg(SourceJSFileName, iconFileName, fileDescription, author, exeOutputFileName, requireAdmin, platform) {
+  const pkgTarget = `latest-${platform}`;
   const cacheExe = await downloadCache(pkgTarget);
-  await editNodeJSExeData(cacheExe, iconFileName, fileDescription, author, requireAdmin);
+  if (platform.slice(0, 5) === 'linux') {
+    exeOutputFileName = exeOutputFileName.slice(0, -4);
+  } else {
+    await editNodeJSExeData(cacheExe, iconFileName, fileDescription, author, requireAdmin);
+  }
   const commands = [path.resolve("js_source", SourceJSFileName), "--public",
     "--targets", pkgTarget, "--compress", "Brotli",
     "--output", path.resolve("build", exeOutputFileName)];
   await pkg.exec(commands);
 }
 
-async function runPyInstaller(sourcePyFileName, iconFileName, fileDescription, author, exeOutputFileName) {
-  const noExtOutputName = path.parse(path.resolve(exeOutputFileName)).name;
+async function runPyInstaller(sourcePyFileName, iconFileName, fileDescription, author, exeOutputFileName, linux) {
   fs.mkdirSync("temp", { recursive: true });
-  const versionData = await buildPythonExeVersionData(fileDescription, author);
-  fs.writeFileSync(path.resolve("temp", "versiondata.py"), versionData);
-  cspawn.sync("pyinstaller", ["--noconfirm", "--onefile", "--console",
-    "--distpath", pythonPathResolve("build"), "--specpath", "temp", "--workpath", "temp",
-    "--version-file", pythonPathResolve("temp", "versiondata.py"),
-    "--icon", pythonPathResolve(iconFileName),
-    "-n", pythonPathResolve(exeOutputFileName),
-    pythonPathResolve("python_source", sourcePyFileName)], { stdio: 'inherit' });
+  if (linux) {
+    exeOutputFileName = path.parse(path.resolve(exeOutputFileName)).name;
+    cspawn.sync("pyinstaller", ["--noconfirm", "--onefile",
+      "--distpath", pythonPathResolve("build"), "--specpath", "temp", "--workpath", "temp",
+      "-n", pythonPathResolve(exeOutputFileName),
+      pythonPathResolve("python_source", sourcePyFileName)], { stdio: 'inherit' });
+  } else {
+    const versionData = await buildPythonExeVersionData(fileDescription, author);
+    fs.writeFileSync(path.resolve("temp", "versiondata.py"), versionData);
+    cspawn.sync("pyinstaller", ["--noconfirm", "--onefile", "--console",
+      "--distpath", pythonPathResolve("build"), "--specpath", "temp", "--workpath", "temp",
+      "--version-file", pythonPathResolve("temp", "versiondata.py"),
+      "--icon", pythonPathResolve(iconFileName),
+      "-n", pythonPathResolve(exeOutputFileName),
+      pythonPathResolve("python_source", sourcePyFileName)], { stdio: 'inherit' });
+  }
   fs.removeSync(path.resolve("temp"));
-  console.log(path.resolve(`${noExtOutputName}.exe.spec`));
-  fs.removeSync(path.resolve(`${noExtOutputName}.exe.spec`));
+  console.log(path.resolve(`${exeOutputFileName}.spec`));
+  fs.removeSync(path.resolve(`${exeOutputFileName}.spec`));
 }
 
 //required for compiling the python files, pyinstaller needs slashes to be escaped

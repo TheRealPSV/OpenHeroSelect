@@ -824,11 +824,11 @@ function compileRavenFormats(data, filename, ext) {
   fs.writeFileSync(dPath, data);
   //generate xmlb file
   const child = cspawn.sync(
-    path.resolve("json2xmlb.exe"),
+    "./json2xmlb",
     [dPath, cPath],
     {}
   );
-  if (child.stderr.length !== 0) {
+  if (child.stderr && child.stderr.length !== 0) {
     throw new Error(`${dPath}:\n${child.stderr.toString("utf8").split("\n").slice(-3).join("\n")}`);
   }
 }
