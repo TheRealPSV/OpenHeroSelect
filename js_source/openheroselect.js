@@ -6,7 +6,6 @@ const fs = require("fs-extra");
 const path = require("path");
 const cspawn = require("cross-spawn");
 const enquirer = require("enquirer");
-const glob = require("glob");
 const { XMLParser, XMLBuilder } = require("fast-xml-parser");
 
 const TXT_TO_JSON = require("./xml to json converter");
@@ -140,7 +139,6 @@ const main = async (automatic = false, xml2 = false) => {
   const resourcePath = xml2 ? XML2_RESOURCES : MUA_RESOURCES;
   //clear temp folder
   fs.removeSync("temp");
-  fs.mkdirSync("temp", { recursive: true });
 
   //find config file
   const configPath = path.resolve(resourcePath, INI_PATH);
@@ -444,20 +442,22 @@ const main = async (automatic = false, xml2 = false) => {
     throw new Error(`Data folder not found\n${dataPath}`);
   }
 
-  //load chosen roster and menulocations
-  const rosterFile = path.resolve(resourcePath, "rosters", `${options.rosterValue}.cfg`);
-  const rosterData = fs.readFileSync(path.resolve(rosterFile), "utf8");
+  //check if any characters are in the roster and complete if none
+  const rosterData = fs.readFileSync(path.resolve(resourcePath, "rosters", `${options.rosterValue}.cfg`), "utf8");
   const rosterRaw = rosterData
     .split(NEWLINE_REGEX)
     .filter((item) => item.trim().length)
     .map((item) => item.trim());
-  const rosterList = rosterRaw
-    .map((item) => item.replaceAll("*", "").replaceAll("?", ""));
+  if (rosterRaw.length < 1) {
+    console.log("Roster is empty.");
+    return;
+  }
+  fs.mkdirSync("temp", { recursive: true });
 
+  //load menulocations and prepare roster
   let menulocations = [];
   if (!xml2) {
-    const menulocationsFile = path.resolve(resourcePath, "menulocations", `${options.menulocationsValue}.cfg`);
-    const menulocationsData = fs.readFileSync(menulocationsFile, "utf8");
+    const menulocationsData = fs.readFileSync(path.resolve(resourcePath, "menulocations", `${options.menulocationsValue}.cfg`), "utf8");
     menulocations = menulocationsData
       .split(NEWLINE_REGEX)
       .filter((item) => item.trim().length)
@@ -467,7 +467,11 @@ const main = async (automatic = false, xml2 = false) => {
     menulocations = new Array(options.rosterSize);
   }
 
-  let operations = rosterList.length + menulocations.length + 6;
+  const rosterList = rosterRaw
+    .slice(0, Math.min(rosterRaw.length, menulocations.length))
+    .map((item) => item.replaceAll("*", "").replaceAll("?", ""));
+
+  const operations = rosterList.length * 2 + 6;
   let progressPoints = 0;
 
   //get the path from the secret option
@@ -475,16 +479,25 @@ const main = async (automatic = false, xml2 = false) => {
     ? options.herostatFolder
     : path.resolve(resourcePath, options.herostatFolder);
 
-  //load stat data for each character in roster
-  let starterindex = STARTERS;
+  //prepare variables for stats
+  let FORMAT = "";
+  let First = "";
+  let PrevItem = "";
   const startchars = [];
   const unlockchars = [];
   const lockchars = [];
   const characters = [];
   const CharHeadNumbers = [];
-  let FORMAT = "";
-  let First = "";
-  let PrevItem = "";
+  const herostatFiles = [];
+
+  //read the available herostats from disk, sorted by extension priority
+  const FnF = fs.readdirSync(herostatPath, { recursive: true });
+  for (const e of EXTENSIONS) {
+    herostatFiles.push(...FnF.filter(f => path.extname(f).toLowerCase() === `.${e}`));
+  }
+  herostatFiles.push(...FnF.filter(f => !EXTENSIONS.includes(path.extname(f).slice(1).toLowerCase()) && !fs.statSync(path.resolve(herostatPath, f)).isDirectory()));
+
+  //load stat data for each character in roster
   rosterList.forEach((item, index) => {
     let statsData = "";
     let statsXML = "";
@@ -492,68 +505,57 @@ const main = async (automatic = false, xml2 = false) => {
     let CharNumber = "";
     let NoHsError = "No herostat found.";
 
-    //define the base path, without extension and find all extensions, sorted by priority
-    const ChrPth = item.replace(/^[/\\]+/, '').replace(/[/\\]+$/, '');
-    const fileNE = path.resolve(herostatPath, `${ChrPth}.`);
-    const allext = glob.sync(fileNE + "*([^.])").map(p => {
-      return path.extname(p).slice(1).toLowerCase();
-    });
-    let ext = EXTENSIONS.concat(allext);
-    ext = ext.filter((e, i) => i === ext.indexOf(e));
-
-    //for all extensions sorted by priority, try to parse by priority
-    for (const e of ext) {
-      const filePath = fileNE + e;
-      if (fs.existsSync(filePath)) {
-        const fileData = fs.readFileSync(filePath, "utf8");
+    //find all matching herostats, sorted by priority, and try to parse them by priority
+    const itemFiles = herostatFiles
+      .filter(f => f.localeCompare(path.join(item.replace(/^[/\\]+/, '').replace(/[/\\]+$/, '')) + path.extname(f), undefined, { sensitivity: 'accent' }) === 0)
+      .map(f => path.resolve(herostatPath, f));
+    for (const filePath of itemFiles) {
+      const fileData = fs.readFileSync(filePath, "utf8");
+      try {
+        statsData = fileData.match(STATS_REGEX.TOJ).join();
+        if (statsData.split("\n").at(0).trim() === "stats {") {
+          statsData = TXT_TO_JSON(statsData).replace(/,$/, '');
+        }
+        const herostatJSON = StatsJsonParse(statsData);
+        FORMAT = "JSON";
+        if (index > 0 && First !== "JSON") throw new Error(`XML format detected from ${First} to ${PrevItem} -- JSON expected.`);
+        CharName = herostatJSON.stats.name;
+        CharNumber = herostatJSON.stats.skin;
+        break;
+      } catch (ej) {
         try {
-          statsData = fileData.match(STATS_REGEX.TOJ).join();
-          if (statsData.split("\n").at(0).trim() === "stats {") {
-            statsData = TXT_TO_JSON(statsData).replace(/,$/, '');
+          // If another format detected in the roster, we can't use XML, because we don't convert.
+          // The first item is checked in all existing files, so JSON can take priority. For the rest, priority is based on first match:
+          // - if XML, throws error on JSON match before XML
+          // - if JSON, ignores XML (and throws an error if no JSON match)
+          if (FORMAT === "JSON") throw new Error("XML data not converted.");
+          statsData = fileData.match(STATS_REGEX.XML).join();
+          const xmlAttr = new XMLParser({ ignoreAttributes: false });
+          const xmlData = xmlAttr.parse(statsData);
+          FORMAT = "XML";
+          CharName = xmlData.stats["@_name"];
+          CharNumber = xmlData.stats["@_skin"];
+          if (index > 0) {
+            break;
+          } else {
+            statsXML = statsData;
           }
-          const herostatJSON = StatsJsonParse(statsData);
-          FORMAT = "JSON";
-          if (First && First !== "JSON") throw new Error(`XML format detected from ${First} to ${PrevItem} -- JSON expected.`);
-          CharName = herostatJSON.stats.name;
-          CharNumber = herostatJSON.stats.skin;
-          break;
-        } catch (ej) {
-          try {
-            // If another format detected in the roster, we can't use XML, because we don't convert.
-            // The first item is checked in all existing files, so JSON can take priority. For the rest, priority is based on first match:
-            //   if XML, throwing error on JSON match before XML
-            //   if JSON, ignores XML (and throws an error if no JSON match)
-            // The break and First commands are dirty, maybe it should be updated.
-            if (FORMAT === "JSON") throw new Error("XML data not converted.");
-            statsData = fileData.match(STATS_REGEX.XML).join();
-            const xmlAttr = new XMLParser({ ignoreAttributes: false });
-            const xmlData = xmlAttr.parse(statsData);
-            FORMAT = "XML";
-            CharName = xmlData.stats["@_name"];
-            CharNumber = xmlData.stats["@_skin"];
-            if (First) {
-              break;
-            } else {
-              statsXML = statsData;
-            }
-          } catch (ex) {
-            // XML parse error not processed.
-            // Just continue with the next file extension. Clear statsData.
-            statsData = "";
-            NoHsError = ej;
-          }
+        } catch {
+          // Continue (with next file) on XML parse error, but save JSON error.
+          statsData = "";
+          NoHsError = ej;
         }
       }
     }
 
     //if first char only had true XML among found files, need to throw error on JSON match
-    if (!First) {
+    if (index === 0) {
       First = (FORMAT === "XML") ? item : FORMAT;
       if (FORMAT === "XML") statsData = statsXML;
     }
     PrevItem = item;
 
-    //now throw the saved error if truly no good file exists
+    //now throw the saved error if no (good) file exists
     if (!statsData) { throw new Error(`${item}:\n${NoHsError}`); }
 
     //check if menulocation exists
@@ -567,10 +569,9 @@ const main = async (automatic = false, xml2 = false) => {
         throw new Error(`No name found in ${item}`);
       }
       const c = rosterRaw[index];
-      if (starterindex && c.indexOf("*") + 1) {
+      if (c.indexOf("*") > -1) {
         startchars.push(CharName);
-        starterindex--;
-      } else if (c.indexOf("?") + 1 || c.indexOf("*") + 1) {
+      } else if (c.indexOf("?") > -1) {
         unlockchars.push(CharName);
       } else {
         lockchars.push(CharName);
@@ -585,17 +586,12 @@ const main = async (automatic = false, xml2 = false) => {
     if (!xml2 || N_END < 11) {
       N_END = "01";
     }
-    const useNum = CharNumber.toString().slice(0, -2) + N_END;
-    CharHeadNumbers.push(useNum);
+    CharHeadNumbers.push(CharNumber.toString().slice(0, -2) + N_END);
 
     //push to list of loaded character stats
     characters.push(statsData);
     writeProgress(((++progressPoints) / operations) * 100);
   });
-
-  if (characters.length < menulocations.length) {
-    operations = operations - menulocations.length + characters.length;
-  }
 
   //begin generating herostat
   let herostat = CHAR_START[FORMAT];
@@ -606,22 +602,18 @@ const main = async (automatic = false, xml2 = false) => {
   if (xml2) {
     //xml2 always has defaultman
     herostat += DEFAULTMAN_XML2[FORMAT] + comma[FORMAT] + "\n";
-  } else if (options.rosterHack || characters.length < DEFAULT_HEROLIMIT || menulocations.length < DEFAULT_HEROLIMIT) {
+  } else if (options.rosterHack || characters.length < DEFAULT_HEROLIMIT) {
     //for mua, add defaultman, unless no roster hack is installed and all 27 character slots are filled
     herostat += DEFAULTMAN[FORMAT] + comma[FORMAT] + "\n";
   }
   writeProgress(((++progressPoints) / operations) * 100);
 
   //adapt and add each character's stats to herostat
-  for (let index = 0; index < menulocations.length && index < characters.length; ++index) {
-    let heroValue = characters[index];
-    if (!xml2) {
-      //find and replace menulocation in stat with actual menulocation
-      heroValue = heroValue.replace(
-        MENULOCATION_REGEX,
-        `$1${menulocations[index]}$3`
-      );
-    }
+  characters.forEach((item, index) => {
+    //find and replace menulocation in stat with actual menulocation
+    const heroValue = (!xml2)
+      ? item.replace(MENULOCATION_REGEX, `$1${menulocations[index]}$3`)
+      : item;
     //debug mode
     if (options.debugMode) {
       const dbgStat = CHAR_START[FORMAT] + heroValue + "\n" + CHAR_END[FORMAT];
@@ -635,7 +627,7 @@ const main = async (automatic = false, xml2 = false) => {
     };
     herostat += "\n";
     writeProgress(((++progressPoints) / operations) * 100);
-  }
+  });
 
   //add team_character for mua
   if (!xml2) {
@@ -662,22 +654,22 @@ const main = async (automatic = false, xml2 = false) => {
 
   //start writing charinfo
   if (options.unlocker) {
-    const scriptunlock = [];
+    let scriptunlock = [];
     if (!xml2) {
-      const allchars = startchars.concat(unlockchars, lockchars);
-      const rosterSz = Math.min(menulocations.length, characters.length);
-      const unlockNum = Math.max(STARTERS, Math.min(rosterSz, startchars.length + unlockchars.length));
-      const charinfoNum = Math.min(CHARINFO_LIMIT, rosterSz);
+      const allChars = startchars.concat(unlockchars, lockchars);
+      const unlockNum = Math.max(1, Math.min(characters.length, startchars.length + unlockchars.length));
+      const startrNum = Math.max(1, Math.min(startchars.length, STARTERS));
+      const charinfoNum = Math.min(CHARINFO_LIMIT, characters.length);
       let charinfo = CHARINFO_START;
-      for (const [i, CharName] of allchars.entries()) {
-        let hero = HERO_START + `\n            "name": "${CharName}"`;
-        if (i < 1 || i < Math.min(startchars.length, STARTERS)) {
-          hero += START_GAME;
-        }
-        if (i < unlockNum) {
-          hero += UNLOCKED;
-        }
+      for (const [i, CharName] of allChars.entries()) {
         if (i < charinfoNum) {
+          let hero = HERO_START + `\n            "name": "${CharName}"`;
+          if (i < startrNum) {
+            hero += START_GAME;
+          }
+          if (i < unlockNum) {
+            hero += UNLOCKED;
+          }
           charinfo += hero + HERO_END;
         } else if (i < unlockNum) {
           scriptunlock.push(CharName);
@@ -695,7 +687,7 @@ const main = async (automatic = false, xml2 = false) => {
         path.resolve(dataPath, options.charinfoName)
       );
     } else {
-      Array.prototype.push.apply(scriptunlock, startchars.concat(unlockchars));
+      scriptunlock = startchars.concat(unlockchars);
     }
 
     //write remaining unlock characters to script file
