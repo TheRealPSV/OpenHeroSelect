@@ -48,15 +48,42 @@ jobs:
         echo "newtag=${{ env.newtag_string }}" >> $GITHUB_OUTPUT
 
   build-release:
-    name: Build and Release
-    runs-on: windows-latest
+    name: Build and Release ${{ matrix.os }}-${{ matrix.architecture }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+        architecture: [x86, x64]
+        include:
+          - os: windows-latest
+            architecture: x86
+            is-linux: false
+          - os: windows-latest
+            architecture: x64
+            is-linux: false
+          - os: ubuntu-latest
+            architecture: x64
+            is-linux: true
+
     permissions:
       contents: write
     needs: check-tag
     if: ${{ needs.check-tag.outputs.newbuild == 'true' }}
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4.1.1
+
+    - name: Set up NASM
+      if: ${{ matrix.architecture == 'x86' && ! matrix.is-linux }}
+      uses: ilammy/setup-nasm@v1.5.1
+    - name: Setup scoop
+      if: ${{ matrix.architecture == 'x86' && ! matrix.is-linux }}
+      uses: MinoruSekine/setup-scoop@v3
+    - name: Install patch
+      if: ${{ matrix.architecture == 'x86' && ! matrix.is-linux }}
+      run: scoop install patch
+
     - name: Setup Node.js
       uses: actions/setup-node@v4.0.2
       with:
@@ -65,12 +92,19 @@ jobs:
       uses: actions/setup-python@v5.1.0
       with:
         python-version-file: '.python-version'
+        architecture: ${{ matrix.architecture }}
     - name: Install npm modules
       run: npm ci
     - name: Install pip modules
       run: npm run pipsetup
-    - name: Build release artifact
-      run: npm run distpackage
+
+    - name: Build release artifact ${{ matrix.architecture }}
+      if: ${{ ! matrix.is-linux }}
+      run: npm run distpackage-${{ matrix.architecture }}
+    - name: Build release artifact linux
+      if: ${{ matrix.is-linux }}
+      run: npm run distpackagelinux-${{ matrix.architecture }}
+
     - name: Create release
       uses: softprops/action-gh-release@v2.0.4
       with: 
@@ -78,46 +112,4 @@ jobs:
         tag_name: ${{ needs.check-tag.outputs.newtag }}
         make_latest: true
         generate_release_notes: true
-        files: |
-          dist/OpenHeroSelect.7z
-
-  build-release-32:
-    name: Build and Release 32-bit
-    runs-on: windows-latest
-    permissions:
-      contents: write
-    needs: 
-      - check-tag
-      - build-release
-    if: ${{ needs.check-tag.outputs.newbuild == 'true' }}
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4.1.1
-    - name: Set up NASM
-      uses: ilammy/setup-nasm@v1.5.1
-    - name: Setup scoop
-      uses: MinoruSekine/setup-scoop@v3
-    - name: Install patch
-      run: scoop install patch
-    - name: Setup Node.js
-      uses: actions/setup-node@v4.0.2
-      with:
-        node-version-file: '.nvmrc'
-    - name: Setup Python
-      uses: actions/setup-python@v5.1.0
-      with:
-        python-version-file: '.python-version'
-        architecture: 'x86'
-    - name: Install npm modules
-      run: npm ci
-    - name: Install pip modules
-      run: npm run pipsetup
-    - name: Build release artifact
-      run: npm run distpackage32
-    - name: Add file to release
-      uses: softprops/action-gh-release@v2.0.4
-      with: 
-        token: "${{ secrets.GITHUB_TOKEN }}"
-        tag_name: ${{ needs.check-tag.outputs.newtag }}
-        files: |
-          dist/OpenHeroSelect-32.7z
+        files: dist/*
