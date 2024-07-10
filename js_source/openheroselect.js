@@ -300,7 +300,7 @@ const main = async (automatic = false, xml2 = false) => {
       const GIP_MESSAGE = {
         MO2: `an MO2 mod folder`,
         Direct: `your installation of ${xml2 ? XML2_NAME : MUA_NAME}`,
-        Console: `your extracted console herostat`
+        Console: `a folder with a 'data' folder inside`
       };
 
       // Ask about the installation path. Each platform has a unique message.
