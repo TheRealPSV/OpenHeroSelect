@@ -51,11 +51,6 @@
 
       talent {
       level = 1 ;
-      name = acrobatics ;
-      }
-
-      talent {
-      level = 1 ;
       name = melee_moves ;
       }
 
