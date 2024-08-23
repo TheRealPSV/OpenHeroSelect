@@ -495,7 +495,7 @@ const main = async (automatic = false, xml2 = false) => {
   for (const e of EXTENSIONS) {
     herostatFiles.push(...FnF.filter(f => path.extname(f).toLowerCase() === `.${e}`));
   }
-  herostatFiles.push(...FnF.filter(f => !EXTENSIONS.includes(path.extname(f).slice(1).toLowerCase()) && !fs.statSync(path.resolve(herostatPath, f)).isDirectory()));
+  herostatFiles.push(...FnF.filter(f => !EXTENSIONS.includes(path.extname(f).slice(1).toLowerCase()) && fs.statSync(path.resolve(herostatPath, f)).isFile()));
 
   //load stat data for each character in roster
   rosterList.forEach((item, index) => {
@@ -507,7 +507,7 @@ const main = async (automatic = false, xml2 = false) => {
 
     //find all matching herostats, sorted by priority, and try to parse them by priority
     const itemFiles = herostatFiles
-      .filter(f => f.localeCompare(path.join(item.replace(/^[/\\]+/, '').replace(/[/\\]+$/, '')) + path.extname(f), undefined, { sensitivity: 'accent' }) === 0)
+      .filter(f => path.relative(f, path.join(item.replace(/^[/\\]+|[/\\]+$/g, '')) + path.extname(f)) === '')
       .map(f => path.resolve(herostatPath, f));
     for (const filePath of itemFiles) {
       const fileData = fs.readFileSync(filePath, "utf8");
