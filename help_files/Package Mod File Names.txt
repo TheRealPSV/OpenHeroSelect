@@ -6,6 +6,13 @@ MUA1
   - characters_heads package:   characters_he_mk.pkgb
   - mannequin folder:           mkwarrior
   - charinfo:                   charinmk.xmlb
+- X-Men Edition (MUA Themed)
+  - exe:                        XmenEdition.exe
+  - herostat:                   xmenstat.engb
+  - new_game:                   new_game.py
+  - characters_heads package:   characters_heads.pkgb
+  - mannequin folder:           mannequin
+  - charinfo:                   xmeninfo.xmlb
 
 XML2
 - All X-Men Edition (AXE)
