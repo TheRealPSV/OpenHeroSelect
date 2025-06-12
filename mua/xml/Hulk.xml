@@ -6,6 +6,7 @@
    characteranims = 170_Hulk ;
    characteranimsclass = humanoid_large ;
    charactername = Hulk ;
+   gen_charge_color = 0.2 0.8 0.2 1 ;
    ignoreboundsscaling = true ;
    level = 1 ;
    menulocation = 19 ;
@@ -34,6 +35,11 @@
       talent {
       level = 1 ;
       name = healing_factor ;
+      }
+
+      talent {
+      level = 1 ;
+      name = hulk_rage ;
       }
 
       talent {

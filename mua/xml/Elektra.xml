@@ -24,9 +24,9 @@
    team = hero ;
       Multipart {
       health = 0 ;
-      nonmenuonly = true ;
       hideskin = 1201_sai_left_segment ;
       hideskin2 = 1201_sai_right_segment ;
+      nonmenuonly = true ;
       }
 
       Multipart {
