@@ -11,7 +11,7 @@ const { XMLParser, XMLBuilder } = require("fast-xml-parser");
 const TXT_TO_JSON = require("./xml to json converter");
 
 // REGEXES
-const NEWLINE_REGEX = /\n+/m;
+const NEWLINE_REGEX = /(?:\s*\n\s*)+/m;
 const MENULOCATION_REGEX = /^((\s*"?|\s*<.*)menulocation[\s=":]{2,4}).+?(\s;\s*|".*|"?,)$/im;
 const STATS_REGEX = {
   TOJ: /^[^\S\n]*"?stats"?:?\s*{[\s\S]*}(?![\s\S]*})/im,
@@ -19,9 +19,9 @@ const STATS_REGEX = {
 };
 
 // CONSTANT VALUES
-const DEFAULT_HEROLIMIT = 27;
-const CONSOLES_HEROLIMIT = 34;
-const ROSTERHACK_HEROLIMIT = 50;
+const DEFAULT_HEROLIMIT = 28;
+const CONSOLES_HEROLIMIT = 35;
+const ROSTERHACK_HEROLIMIT = 52;
 const STARTERS = 4;
 const CHARINFO_LIMIT = 31;
 
@@ -29,7 +29,7 @@ const CHARINFO_LIMIT = 31;
 const INI_PATH = "config.ini";
 const MUA_RESOURCES = "mua";
 const XML2_RESOURCES = "xml2";
-const EXTENSIONS = ["json", "txt", "xml"];
+const EXTENSIONS = [".json", ".txt", ".xml"];
 
 const MUA_NAME = "Marvel Ultimate Alliance";
 const XML2_NAME = "X-Men Legends 2";
@@ -192,6 +192,7 @@ const main = async (automatic = false, xml2 = false) => {
       readOptions = null;
     }
   }
+  let menulocationLimit = (options.rosterHack ? ROSTERHACK_HEROLIMIT : DEFAULT_HEROLIMIT) - 1;
 
   if (automatic) {
     //run in automatic mode, bypassing option prompts if available
@@ -238,11 +239,11 @@ const main = async (automatic = false, xml2 = false) => {
         }
 
         // Ask about menulocations for MUA
-        const menulocationLimit = options.rosterHack
+        menulocationLimit = (options.rosterHack
           ? ROSTERHACK_HEROLIMIT
           : platform === "Console"
             ? CONSOLES_HEROLIMIT
-            : DEFAULT_HEROLIMIT;
+            : DEFAULT_HEROLIMIT) - 1; // subtract team character
         const menulocationOptions = fs.readdirSync(path.resolve(resourcePath, "menulocations"))
           .filter((item) => item.toLowerCase().endsWith(".cfg"))
           .filter((item) => item.slice(0, 2) <= menulocationLimit)
@@ -444,10 +445,7 @@ const main = async (automatic = false, xml2 = false) => {
 
   //check if any characters are in the roster and complete if none
   const rosterData = fs.readFileSync(path.resolve(resourcePath, "rosters", `${options.rosterValue}.cfg`), "utf8");
-  const rosterRaw = rosterData
-    .split(NEWLINE_REGEX)
-    .filter((item) => item.trim().length)
-    .map((item) => item.trim());
+  const rosterRaw = rosterData.trim().split(NEWLINE_REGEX);
   if (rosterRaw.length < 1) {
     console.log("Roster is empty.");
     return;
@@ -458,17 +456,14 @@ const main = async (automatic = false, xml2 = false) => {
   let menulocations = [];
   if (!xml2) {
     const menulocationsData = fs.readFileSync(path.resolve(resourcePath, "menulocations", `${options.menulocationsValue}.cfg`), "utf8");
-    menulocations = menulocationsData
-      .split(NEWLINE_REGEX)
-      .filter((item) => item.trim().length)
-      .map((item) => parseInt(item.trim()));
+    menulocations = menulocationsData.trim().split(NEWLINE_REGEX)
+      .map((item) => parseInt(item.trimEnd()));
   } else {
     //workaround for herostat loop since xml2 doesn't use menulocations
     menulocations = new Array(options.rosterSize);
   }
 
-  const rosterList = rosterRaw
-    .slice(0, Math.min(rosterRaw.length, menulocations.length))
+  const rosterList = rosterRaw.slice(0, menulocations.length)
     .map((item) => item.replaceAll("*", "").replaceAll("?", ""));
 
   const operations = rosterList.length * 2 + 6;
@@ -488,14 +483,14 @@ const main = async (automatic = false, xml2 = false) => {
   const lockchars = [];
   const characters = [];
   const CharHeadNumbers = [];
-  const herostatFiles = [];
 
   //read the available herostats from disk, sorted by extension priority
-  const FnF = fs.readdirSync(herostatPath, { recursive: true });
-  for (const e of EXTENSIONS) {
-    herostatFiles.push(...FnF.filter(f => path.extname(f).toLowerCase() === `.${e}`));
-  }
-  herostatFiles.push(...FnF.filter(f => !EXTENSIONS.includes(path.extname(f).slice(1).toLowerCase()) && fs.statSync(path.resolve(herostatPath, f)).isFile()));
+  const herostatFiles = fs.readdirSync(herostatPath, { recursive: true, withFileTypes: true })
+    .filter(f => f.isFile()).map(f => path.join(f.path, f.name)).sort((a, b) => {
+      const ai = EXTENSIONS.indexOf(path.extname(a).toLowerCase());
+      const bi = EXTENSIONS.indexOf(path.extname(b).toLowerCase());
+      return (ai === -1 && bi === -1) ? 0 : (ai === -1) ? 1 : (bi === -1) ? -1 : ai - bi;
+    });
 
   //load stat data for each character in roster
   rosterList.forEach((item, index) => {
@@ -506,14 +501,13 @@ const main = async (automatic = false, xml2 = false) => {
     let NoHsError = "No herostat found.";
 
     //find all matching herostats, sorted by priority, and try to parse them by priority
-    const itemFiles = herostatFiles
-      .filter(f => path.relative(f, path.join(item.replace(/^[/\\]+|[/\\]+$/g, '')) + path.extname(f)) === '')
-      .map(f => path.resolve(herostatPath, f));
+    const itemPath = path.resolve(herostatPath, item);
+    const itemFiles = herostatFiles.filter(f => path.relative(f, itemPath + path.extname(f)) === '');
     for (const filePath of itemFiles) {
       const fileData = fs.readFileSync(filePath, "utf8");
       try {
         statsData = fileData.match(STATS_REGEX.TOJ).join();
-        if (statsData.split("\n").at(0).trim() === "stats {") {
+        if (statsData.split("\n", 1)[0].trim() === "stats {") {
           statsData = TXT_TO_JSON(statsData).replace(/,$/, '');
         }
         const herostatJSON = StatsJsonParse(statsData);
@@ -602,8 +596,8 @@ const main = async (automatic = false, xml2 = false) => {
   if (xml2) {
     //xml2 always has defaultman
     herostat += DEFAULTMAN_XML2[FORMAT] + comma[FORMAT] + "\n";
-  } else if (options.rosterHack || characters.length < DEFAULT_HEROLIMIT) {
-    //for mua, add defaultman, unless no roster hack is installed and all 27 character slots are filled
+  } else if (characters.length < menulocationLimit) {
+    //for mua, add defaultman, unless defaultman slot is used
     herostat += DEFAULTMAN[FORMAT] + comma[FORMAT] + "\n";
   }
   writeProgress(((++progressPoints) / operations) * 100);
