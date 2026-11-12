@@ -1,0 +1,58 @@
+name: Build Check
+on:
+  pull_request:
+
+jobs:
+  build-check:
+    name: Build ${{ matrix.os }}-${{ matrix.architecture }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest]
+        architecture: [x86, x64]
+        include:
+          - os: windows-latest
+            architecture: x86
+            is-linux: false
+          - os: windows-latest
+            architecture: x64
+            is-linux: false
+          - os: ubuntu-latest
+            architecture: x64
+            is-linux: true
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4.1.1
+
+    - name: Set up NASM
+      if: ${{ matrix.architecture == 'x86' && ! matrix.is-linux }}
+      uses: ilammy/setup-nasm@v1.5.1
+    - name: Setup scoop
+      if: ${{ matrix.architecture == 'x86' && ! matrix.is-linux }}
+      uses: MinoruSekine/setup-scoop@v3
+    - name: Install patch
+      if: ${{ matrix.architecture == 'x86' && ! matrix.is-linux }}
+      run: scoop install patch
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4.0.2
+      with:
+        node-version-file: '.nvmrc'
+    - name: Setup Python
+      uses: actions/setup-python@v5.1.0
+      with:
+        python-version-file: '.python-version'
+        architecture: ${{ matrix.architecture }}
+    - name: Install npm modules
+      run: npm ci
+    - name: Install pip modules
+      run: npm run pipsetup
+
+    - name: Build release artifact ${{ matrix.architecture }}
+      if: ${{ ! matrix.is-linux }}
+      run: npm run distpackage-${{ matrix.architecture }}
+    - name: Build release artifact linux
+      if: ${{ matrix.is-linux }}
+      run: npm run distpackagelinux-${{ matrix.architecture }}
