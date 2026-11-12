@@ -6,6 +6,8 @@ Extendable HeroSelect script for Marvel Ultimate Alliance and X-Men Legends II
 * Download the latest 32-bit version here (this is only for very old computers): [Latest Release (32-bit)](https://github.com/TheRealPSV/OpenHeroSelect/releases/latest/download/OpenHeroSelect-32.7z)
 * View latest version release info here: [Latest Release info](https://github.com/TheRealPSV/OpenHeroSelect/releases/latest)
 
+**Deprecated:** 32-bit / x86 support is deprecated and may be removed in a future update. Prefer the 64-bit build unless you specifically need 32-bit.
+
 Please note that 32-bit versions take longer to generate, so the latest release of the 32-bit version may not be available for a while after the 64-bit version is created.
 
 ## Usage instructions
