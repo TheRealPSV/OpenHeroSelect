@@ -9,16 +9,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest]
+        os: [windows-2022]
         architecture: [x86, x64]
         include:
-          - os: windows-latest
+          - os: windows-2022
             architecture: x86
             is-linux: false
-          - os: windows-latest
+          - os: windows-2022
             architecture: x64
             is-linux: false
-          - os: ubuntu-latest
+          - os: ubuntu-24.04
             architecture: x64
             is-linux: true
 
