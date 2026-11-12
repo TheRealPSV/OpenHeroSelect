@@ -52,16 +52,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-2022]
-        architecture: [x86, x64]
         include:
           - os: windows-2022
             architecture: x86
             is-linux: false
-          - os: windows-2022
+          - os: windows-latest
             architecture: x64
             is-linux: false
-          - os: ubuntu-24.04
+          - os: ubuntu-latest
             architecture: x64
             is-linux: true
 
