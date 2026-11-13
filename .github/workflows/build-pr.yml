@@ -1,0 +1,7 @@
+name: Build Check
+on:
+  pull_request:
+
+jobs:
+  build-check:
+    uses: ./.github/workflows/build-variants.yml
