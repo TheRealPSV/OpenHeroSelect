@@ -21,7 +21,6 @@ const STATS_REGEX = {
 // CONSTANT VALUES
 const DEFAULT_HEROLIMIT = 28;
 const CONSOLES_HEROLIMIT = 35;
-const ROSTERHACK_HEROLIMIT = 52;
 const STARTERS = 4;
 const CHARINFO_LIMIT = 31;
 
@@ -192,7 +191,7 @@ const main = async (automatic = false, xml2 = false) => {
       readOptions = null;
     }
   }
-  let menulocationLimit = (options.rosterHack ? ROSTERHACK_HEROLIMIT : DEFAULT_HEROLIMIT) - 1;
+  let menulocationLimit = DEFAULT_HEROLIMIT - 1;
 
   if (automatic) {
     //run in automatic mode, bypassing option prompts if available
@@ -239,15 +238,16 @@ const main = async (automatic = false, xml2 = false) => {
         }
 
         // Ask about menulocations for MUA
-        menulocationLimit = (options.rosterHack
-          ? ROSTERHACK_HEROLIMIT
-          : platform === "Console"
-            ? CONSOLES_HEROLIMIT
-            : DEFAULT_HEROLIMIT) - 1; // subtract team character
-        const menulocationOptions = fs.readdirSync(path.resolve(resourcePath, "menulocations"))
+        menulocationLimit = (platform === "Console"
+          ? CONSOLES_HEROLIMIT
+          : DEFAULT_HEROLIMIT) - 1; // subtract team character
+        let menulocationOptions = fs.readdirSync(path.resolve(resourcePath, "menulocations"))
           .filter((item) => item.toLowerCase().endsWith(".cfg"))
-          .filter((item) => item.slice(0, 2) <= menulocationLimit)
           .map((item) => item.slice(0, item.length - 4));
+        if (!options.rosterHack) {
+          menulocationOptions = menulocationOptions
+            .filter((item) => item.slice(0, 2) <= menulocationLimit);
+        }
         options.menulocationsValue = await new enquirer.Select({
           name: 'menulocations',
           message: 'Select a roster layout',
@@ -596,7 +596,7 @@ const main = async (automatic = false, xml2 = false) => {
   if (xml2) {
     //xml2 always has defaultman
     herostat += DEFAULTMAN_XML2[FORMAT] + comma[FORMAT] + "\n";
-  } else if (characters.length < menulocationLimit) {
+  } else if (!menulocations.includes(0) && (options.rosterHack || characters.length < menulocationLimit)) {
     //for mua, add defaultman, unless defaultman slot is used
     herostat += DEFAULTMAN[FORMAT] + comma[FORMAT] + "\n";
   }
